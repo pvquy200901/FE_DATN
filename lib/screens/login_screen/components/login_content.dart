@@ -7,6 +7,7 @@ import '../../../api/api.dart';
 import '../../../utils/constants.dart';
 import '../../../utils/helper_functions.dart';
 import '../animations/change_screen_animation.dart';
+import '../login_screen.dart';
 import 'bottom_text.dart';
 import 'top_text.dart';
 
@@ -95,7 +96,8 @@ class _LoginContentState extends State<LoginContent>
                 if (value) {
                   Future.delayed(const Duration(seconds: 0))
                       .then(
-                          (value) => Get.offAllNamed('/home'));
+                          (value) => Get.offAll(() => const LoginScreen()));
+
                 }
                 else{
                   print("Chưa được");

@@ -1,11 +1,15 @@
 
  import 'package:dio/dio.dart';
  import 'package:internet_connection_checker/internet_connection_checker.dart';
+import 'package:untitled/api/myAPI/order_api.dart';
+import 'package:untitled/api/myAPI/team_api.dart';
 
  import '../config/app_config.dart';
 import '../controller/app_controller.dart';
 import 'myAPI/login_api.dart';
 import 'myAPI/register_api.dart';
+import 'myAPI/stadium_api.dart';
+import 'myAPI/user_api.dart';
 
 class BaseApi {
   Dio dio = Dio(BaseOptions(
@@ -40,6 +44,6 @@ class BaseApi {
   }
 
 class Api extends BaseApi
-    with LogInApi,RegisterApi{}
+    with LogInApi,RegisterApi,UserApi,TeamApi,StadiumApi,OrderApi{}
 
 final Api api = Api();

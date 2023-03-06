@@ -1,16 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:untitled/screens/user_screen/user_controller.dart';
+import 'package:untitled/screens/user_screen/manager_account/body.dart';
 
-import '../../utils/constants.dart';
-import 'components/body.dart';
+import '../../../utils/constants.dart';
 
-class UserPage extends GetView<UserController> {
+class ManagerAccountPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Hồ sơ", style: TextStyle(fontSize: 20, color: kBackgroundColor, fontFamily: 'Open Sans'),),
+        title: Text("Quản lý tài khoản", style: TextStyle(fontSize: 20, color: kBackgroundColor, fontFamily: 'Open Sans'),),
         centerTitle: true,
         backgroundColor: Colors.transparent,
         toolbarHeight: 70,
@@ -25,7 +23,7 @@ class UserPage extends GetView<UserController> {
           ),
         ),
       ),
-      body: Body(),
+      body: BodyAccount(),
 
     );
   }

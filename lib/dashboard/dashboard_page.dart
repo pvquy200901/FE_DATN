@@ -5,13 +5,18 @@ import 'package:untitled/screens/stadium_screen/stadium_screen.dart';
 
 import '../screens/home_screen/home_screen.dart';
 import '../screens/news_screen/news_screen.dart';
+import '../screens/team_screen/team_screen.dart';
 import '../screens/user_screen/user_screen.dart';
 import 'dashboard_controller.dart';
 
 class DashboardPage extends StatelessWidget {
+  final int index;
+
+  const DashboardPage({super.key, this.index = 0});
   @override
   Widget build(BuildContext context) {
     return GetBuilder<DashboardController>(
+      init: DashboardController(tabIndex: index),
       builder: (controller) {
         return Scaffold(
           body: SafeArea(
@@ -21,8 +26,8 @@ class DashboardPage extends StatelessWidget {
                 HomePage(),
                 StadiumPage(),
                 NewsPage(),
+                TeamPage(),
                 UserPage(),
-                //AccountPage(),
               ],
             ),
           ),
@@ -43,11 +48,15 @@ class DashboardPage extends StatelessWidget {
               ),
               _bottomNavigationBarItem(
                 icon: CupertinoIcons.sportscourt_fill,
-                label: 'News',
+                label: 'Stadium',
               ),
               _bottomNavigationBarItem(
                 icon: CupertinoIcons.news_solid,
-                label: 'Alerts',
+                label: 'News',
+              ),
+              _bottomNavigationBarItem(
+                icon: CupertinoIcons.group_solid ,
+                label: 'Team',
               ),
               _bottomNavigationBarItem(
                 icon: CupertinoIcons.person_solid,

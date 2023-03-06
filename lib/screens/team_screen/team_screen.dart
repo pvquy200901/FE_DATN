@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:untitled/screens/stadium_screen/searchBox.dart';
-import 'package:untitled/screens/stadium_screen/stadium_controller.dart';
-import 'package:untitled/screens/stadium_screen/stadium_item.dart';
+import 'package:untitled/screens/team_screen/team_controller.dart';
 
 import '../../api/api.dart';
 import '../../config/app_config.dart';
 import '../../utils/constants.dart';
+import 'item_team.dart';
 
-class StadiumPage extends GetView<StadiumController> {
+class TeamPage extends GetView<TeamController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -41,38 +40,50 @@ class StadiumPage extends GetView<StadiumController> {
                         ),
                       ),
                       Text(
-                        "Danh sách sân bóng",
+                        "Danh sách các đội bóng",
                         style: TextStyle(
                           fontSize: 22,
                           fontWeight: FontWeight.w500,
                           fontFamily: 'RobotoMono',
                         ),
                       ),
-                      SizedBox(
-                        width: 65,
-                      )
+
+                      Text(
+                        "Lọc",
+                        style: TextStyle(
+                          fontSize: 20,
+                          color: Color.fromARGB(255, 28, 159, 226),
+                          fontFamily: 'RobotoMono',
+                        ),
+                      ),
                     ],
                   ),
                 ),
-                SearchBox(),
+
+                SizedBox(
+                  height: 50,
+                ),
+
+
                 FutureBuilder(
-                    future: api.getListStadiumForCustomer(),
+                    future: api.getListTeam(),
                     builder: (context, snapshot) {
                       if (snapshot.hasData) {
                         return Column(children: [
                           for (int i = 0; i < snapshot.data!.length; i++)
                             Padding(
                               padding: const EdgeInsets.only(bottom: 15),
-                              child: IteamStadium(
-                                  address: snapshot.data![i].address!,
-                                  desc: snapshot.data![i].contact!,
-                                  name: snapshot.data![i].name!,
-                                  money: snapshot.data![i].price!,
-                                  image: snapshot
-                                      .data![i].images!.isEmpty
-                                      ? "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/18/97/5a/2d/discovering-the-state.jpg?w=1200&h=-1&s=1"
-                                      : "http://${AppConfig.IP}:50000/api/File/image/${snapshot.data![i].images![0]}"),
-                            )
+                               child:
+                               ItemTeam(
+                                 address: snapshot.data![i].address!,
+                                 desc: snapshot.data![i].des!,
+                                 name: snapshot.data![i].name!,
+                                 quality: snapshot.data![i].quality!,
+                                 image: snapshot
+                                          .data![i].logo!.isEmpty
+                                          ? "https://img.freepik.com/free-vector/hand-drawn-flat-design-football-logo-template_23-2149373252.jpg"
+                                         : "http://${AppConfig.IP}:50000/api/File/image/${snapshot.data![i].logo!}"),
+                               ),
                         ]);
                       } else {
                         return CircularProgressIndicator();

@@ -6,13 +6,15 @@ import 'package:untitled/screens/splash_screen/splash_screen.dart';
 
 import '../controller/app_controller.dart';
 import '../dashboard/dashboard_binding.dart';
-import '../screens/home_screen/home_screen.dart';
+import '../screens/user_screen/manager_team/body_team.dart';
+import '../screens/user_screen/manager_team/captain_screen.dart';
+import '../screens/user_screen/manager_team/manager_team_screen.dart';
 
 
 class RouteConfig {
   static final List<RouteToPage> _routeToPage = [
 
-   // RouteToPage(name: '/login', page: const LoginScreen(), roles:[] ),
+    //RouteToPage(name: '/login', page: const LoginScreen(), roles:[] ),
    // RouteToPage(name: '/home', page: HomeScreen(),roles: ['admin','operation','manager']),
     // RouteToPage(name: '/cau_hinh', page: Container(),roles: ['admin','operation','manager']),
     // // RouteToPage(name: '/cau_hinh_danh_muc', page: Container(),roles: ['admin','operation','manager']),
@@ -39,7 +41,8 @@ class RouteConfig {
 
     GetPage(name: '/home', page: () => DashboardPage(),binding: DashboardBinding()),
     GetPage(name: '/splash', page: () => SplashPage()),
-
+    GetPage(name: '/login', page: () => const LoginScreen()),
+    GetPage(name: '/team', page: () => ManagerTeamPage()),
   ];
   List<RouteModel> getNavbar() {
     List<RouteModel> list = [];

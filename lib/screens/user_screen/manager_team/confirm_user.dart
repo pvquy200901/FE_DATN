@@ -1,16 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:untitled/screens/user_screen/user_controller.dart';
+import '../../../utils/constants.dart';
+import 'list_member_confirm.dart';
 
-import '../../utils/constants.dart';
-import 'components/body.dart';
-
-class UserPage extends GetView<UserController> {
+class ConfirmUserScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       appBar: AppBar(
-        title: Text("Hồ sơ", style: TextStyle(fontSize: 20, color: kBackgroundColor, fontFamily: 'Open Sans'),),
+        title: Text("Danh sách thành viên đợi duyệt", style: TextStyle(fontSize: 20, color: kBackgroundColor, fontFamily: 'Open Sans'),),
         centerTitle: true,
         backgroundColor: Colors.transparent,
         toolbarHeight: 70,
@@ -25,7 +23,9 @@ class UserPage extends GetView<UserController> {
           ),
         ),
       ),
-      body: Body(),
+
+      body: BodyConfirmUser(),
+
 
     );
   }
