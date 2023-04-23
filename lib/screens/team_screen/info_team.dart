@@ -122,7 +122,7 @@ class InfoTeam extends StatelessWidget {
                                         Text(
                                           snapshot.data!.address!,
                                           style: TextStyle(
-                                            fontSize: 20,
+                                            fontSize: 18,
                                             color: Color.fromARGB(255, 28, 159, 226),
                                             fontFamily: 'RobotoMono',
                                           ),
@@ -138,10 +138,6 @@ class InfoTeam extends StatelessWidget {
                                     children: [
                                       Text(
                                         snapshot.data!.quality.toString(),
-
-                                        // style: AppTextStyle.defaultHeaderOne.copyWith(
-                                        //   fontSize: 24,
-                                        // ),
                                       ),
                                       SizedBox(
                                         width: 4,
@@ -162,9 +158,27 @@ class InfoTeam extends StatelessWidget {
                               height: 18,
                             ),
                             Text(
+                              "Miêu tả",
+                                style:TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                            ),
+                            Text(
                              snapshot.data!.des!,
-                              //   style:
-                              //   AppTextStyle.defaultStyle.copyWith(fontSize: 14),
+                            ),
+                            SizedBox(
+                              height: 20,
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  "Độ uy tín: ${snapshot.data!.reputation}",
+                                  style:TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                                ),
+                                Text(
+                                  "Trình độ: ${snapshot.data!.level}",
+                                  style:TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                                ),
+                              ],
                             ),
                             SizedBox(
                               height: 22,

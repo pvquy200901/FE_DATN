@@ -5,7 +5,7 @@ class Stadium {
   int? price;
   List<String>? images;
 
-  Stadium({this.name, this.address, this.contact, this.price, this.images});
+  Stadium({this.name ="", this.address="", this.contact="", this.price=0, this.images});
 
   Stadium.fromJson(Map<String, dynamic> json) {
     name = json['name'];

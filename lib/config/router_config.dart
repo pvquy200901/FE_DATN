@@ -14,28 +14,13 @@ import '../screens/user_screen/manager_team/manager_team_screen.dart';
 class RouteConfig {
   static final List<RouteToPage> _routeToPage = [
 
-    //RouteToPage(name: '/login', page: const LoginScreen(), roles:[] ),
-   // RouteToPage(name: '/home', page: HomeScreen(),roles: ['admin','operation','manager']),
-    // RouteToPage(name: '/cau_hinh', page: Container(),roles: ['admin','operation','manager']),
-    // // RouteToPage(name: '/cau_hinh_danh_muc', page: Container(),roles: ['admin','operation','manager']),
-    // RouteToPage(name: '/cau_hinh_tai_khoan', page: ConfigAccountScreen(),roles: ['admin']),
-    // RouteToPage(name: '/danh_sach_duong_pho', page: ListStreetsScreen(),roles: ['admin']),
-    // RouteToPage(name: '/danh_sach_khach_hang', page: ListCustomersScreen(),roles: ['admin','operation']),
-    // RouteToPage(name: '/type', page: TypeScreen(),roles: ['admin','operation','manager']),
-    // RouteToPage(name: '/admin_history', page: AdminHistoryView(),roles: ['admin']),
   ];
   final List<GetPage> _route = _routeToPage
       .map((route) => GetPage(name: route.name, page: () => route.page))
       .toList();
 
   final List<RouteModel> _navbar = [
-    // RouteModel(route: '/cau_hinh', label: 'Cấu hình',group: '/cau_hinh',children: [
-    //   RouteModel(route: '/cau_hinh_tai_khoan', label: 'Cấu hình tài khoản',group: '/cau_hinh',children: [],screen: ConfigAccountScreen()),
-    //   RouteModel(route: '/type', label: 'Loại',group: '/cau_hinh',children: [],screen: TypeScreen()),
-    // ],screen: ConfigAccountScreen()),
-    // RouteModel(route: '/danh_sach_duong_pho', label: 'Danh sách đường phố',children: [],group: '/danh_sach_duong_pho',screen: ListStreetsScreen()),
-    // RouteModel(route: '/danh_sach_khach_hang', label: 'Danh sách khách hàng',children: [],group: '/danh_sach_khach_hang',screen: ListCustomersScreen()),
-    // RouteModel(route: '/admin_history', label: 'Lịch sử',group: '/lich_su',children: [],screen: AdminHistoryView()),
+
   ];
   List<GetPage> get getRoute => [
 

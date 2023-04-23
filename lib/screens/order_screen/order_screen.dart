@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:untitled/screens/order_screen/info_order.dart';
+import 'package:untitled/screens/splash_screen/splash_screen.dart';
 import 'package:untitled/screens/stadium_screen/preview_image_widget.dart';
 
 import '../../api/api.dart';
@@ -21,11 +22,10 @@ class _OrderStadiumState extends State<OrderStadium> {
   String name = "";
   String timeStart = "";
   DateTime _selectedDate = DateTime.now();
-  Color _colorContainer = Color.fromARGB(255, 28, 159, 226);
   bool checkDate = false;
   bool checkHour = false;
   bool checkButton = false;
-
+  RxBool isLoading = false.obs;
 
   @override
   void initState(){
@@ -37,7 +37,9 @@ class _OrderStadiumState extends State<OrderStadium> {
   Stadium infoStadium = Stadium();
 
   loadData()async{
+    isLoading.value = true;
     infoStadium = await api.getInfoStadium(name);
+    isLoading.value = false;
     //orders = await api.getListOrderAllTime(DateFormat("MM/dd/yyyy").format(_selectedDate).toString());
     setState(() {
 
@@ -51,7 +53,7 @@ class _OrderStadiumState extends State<OrderStadium> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        body: Stack(
+        body: isLoading.value ? CircularProgressIndicator() : Stack(
           children: [
             Positioned(
               left: 0,

@@ -1,7 +1,8 @@
 class AppConfig{
-  static const IP = '192.168.0.151';
+  static const IP = '192.168.1.76';
   static const APP_NAME  = 'Football Team';
   static const BASE_URL = 'http://${IP}:50000';
+  static const BASE_URLV2 = 'http://${IP}:5000';
 
   static const DATE_FOMAT = 'dd/MM/yyyy HH:mm:ss';
   static const DATE_USER_FOMAT = 'dd/MM/yyyy';

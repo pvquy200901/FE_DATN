@@ -69,6 +69,27 @@ mixin OrderApi on BaseApi{
     }
   }
 
+  Future<List<myOrder>> getListInfoOrderForUser() async{
+    const url = '/api/Order/getListInfoOrderForUser';
+    try {
+      Response response = await dio.get(url, options: Options(
+        headers: {'Content-Type': 'application/json', 'accept': '*/*','token':appController.token},
+      ));
+      if (response.statusCode == 200) {
+        return (response.data as List).map((e) => myOrder.fromJson(e)).toList();
+
+      } else {
+        appController.errorLog = response.data['mess'];
+        return [];
+      }
+    } catch (e) {
+      print(e.toString());
+
+      saveLog(e);
+      return [];
+    }
+  }
+
   Future<bool> cancelOrder(code) async {
     const url = '/api/Order/cancelOrderOfCustomer';
     try {

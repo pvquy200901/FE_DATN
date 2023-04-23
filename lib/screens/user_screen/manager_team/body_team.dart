@@ -15,13 +15,16 @@ class BodyTeam extends StatefulWidget {
 }
 class BodyTeamState extends State<BodyTeam>{
   infoUser user = infoUser();
-
+  bool isLoading = false;
   loadData()async{
-    user = await api.getInfoUserV2();
-
     setState(() {
-
+      isLoading = true;
     });
+    user = await api.getInfoUserV2();
+    setState(() {
+      isLoading = false;
+    });
+
   }
 
   @override
@@ -33,20 +36,30 @@ class BodyTeamState extends State<BodyTeam>{
   @override
   Widget build(BuildContext context) {
 
-    return Visibility(
+    return isLoading? Container(
+      width: 100,
+      height: 100,
+      child: Center(
+        child: CircularProgressIndicator(
+          backgroundColor: Colors.white,
+        ),
+      ),
+    ): Visibility(
       visible: (user.team!.isNotEmpty)?true:false,
       child: Container(
         child: SingleChildScrollView(
           padding: EdgeInsets.symmetric(vertical: 20),
 
           child: Column(
+
             children: [
+              SizedBox(
+                height: 70,
+              ),
               Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  SizedBox(
-                    height: 70,
-                  ),
+
                   Text("Thành viên đội của tôi",style: TextStyle(fontSize: 18, fontFamily: 'RobotoMono')),
                   appController.role == "true"? GestureDetector(
                     child: Text("Quản lý đội",style: TextStyle(fontSize: 18, fontFamily: 'RobotoMono',color: Colors.blueAccent)),

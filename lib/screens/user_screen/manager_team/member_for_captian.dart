@@ -14,7 +14,7 @@ class MemberCaptian extends StatefulWidget {
 class MemberCaptianState extends State<MemberCaptian> {
   Widget itemUser(String avatar, String name, String team, String username) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 50),
+      padding: const EdgeInsets.all(12),
       child: Column(
         children: [
           ClipRRect(

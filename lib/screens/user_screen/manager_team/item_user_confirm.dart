@@ -15,7 +15,6 @@ class ItemMember extends StatefulWidget {
 class ItemMemberState extends State<ItemMember> {
   Widget itemUser(String avatar, String name, String phone, String username) {
     return Padding(
-
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -186,7 +185,6 @@ class ItemMemberState extends State<ItemMember> {
   @override
   Widget build(BuildContext context) {
     return Wrap(
-
         children: users
             .map((e) => itemUser(
             e.avatar!.isEmpty

@@ -103,7 +103,16 @@ class HomePage extends GetView<HomeController> {
                                   ],
                                 );
                               } else {
-                                return CircularProgressIndicator();
+                                return Container(
+
+                                  width: 100,
+                                  height: 100,
+                                  child: Center(
+                                    child: CircularProgressIndicator(
+                                      backgroundColor: Colors.white,
+                                    ),
+                                  ),
+                                );
                               }
                             }),
                       ],
@@ -137,7 +146,16 @@ class HomePage extends GetView<HomeController> {
                             ],
                           );
                         } else {
-                          return CircularProgressIndicator();
+                          return Container(
+
+                            width: 100,
+                            height: 100,
+                            child: Center(
+                              child: CircularProgressIndicator(
+                                backgroundColor: Colors.white,
+                              ),
+                            ),
+                          );
                         }
                       }),
                 ],

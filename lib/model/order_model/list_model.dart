@@ -76,4 +76,49 @@ class infoOrder {
   }
 }
 
+class myOrder {
+  String? code;
+  String? date;
+  String? startTime;
+  String? endTime;
+  String? price;
+  String? state;
+  String? nameStadium;
+  String? address;
+
+  myOrder(
+      {this.code,
+        this.date,
+        this.startTime,
+        this.endTime,
+        this.price,
+        this.state,
+        this.nameStadium,
+        this.address});
+
+  myOrder.fromJson(Map<String, dynamic> json) {
+    code = json['code'];
+    date = json['date'];
+    startTime = json['startTime'];
+    endTime = json['endTime'];
+    price = json['price'];
+    state = json['state'];
+    nameStadium = json['nameStadium'];
+    address = json['address'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['code'] = this.code;
+    data['date'] = this.date;
+    data['startTime'] = this.startTime;
+    data['endTime'] = this.endTime;
+    data['price'] = this.price;
+    data['state'] = this.state;
+    data['nameStadium'] = this.nameStadium;
+    data['address'] = this.address;
+    return data;
+  }
+}
+
 

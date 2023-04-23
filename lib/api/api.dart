@@ -3,17 +3,27 @@
  import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:untitled/api/myAPI/order_api.dart';
 import 'package:untitled/api/myAPI/team_api.dart';
+import 'package:untitled/model/weather_model/weather_model.dart';
 
  import '../config/app_config.dart';
 import '../controller/app_controller.dart';
+import 'myAPI/comment_api.dart';
 import 'myAPI/login_api.dart';
+import 'myAPI/news_api.dart';
+import 'myAPI/recomment_api.dart';
 import 'myAPI/register_api.dart';
 import 'myAPI/stadium_api.dart';
 import 'myAPI/user_api.dart';
+import 'myAPI/weather_api.dart';
 
 class BaseApi {
   Dio dio = Dio(BaseOptions(
     baseUrl: AppConfig.BASE_URL,
+    connectTimeout: 300000,
+    receiveTimeout: 300000,
+  ));
+  Dio dioV2 = Dio(BaseOptions(
+    baseUrl: AppConfig.BASE_URLV2,
     connectTimeout: 300000,
     receiveTimeout: 300000,
   ));
@@ -44,6 +54,6 @@ class BaseApi {
   }
 
 class Api extends BaseApi
-    with LogInApi,RegisterApi,UserApi,TeamApi,StadiumApi,OrderApi{}
+    with LogInApi,RegisterApi,UserApi,TeamApi,StadiumApi,OrderApi,NewsApi,CommentsApi, RecommentApi, WeatherApi{}
 
 final Api api = Api();

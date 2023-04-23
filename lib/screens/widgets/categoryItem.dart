@@ -71,7 +71,7 @@ class CategoryItem extends StatelessWidget {
                         name,
                         style: TextStyle(
                             fontSize: 17,
-                            color: Color.fromARGB(229, 81, 175, 41),
+                            color: Colors.white,
                             fontFamily: 'RobotoMono')),
                     SizedBox(
                       height: 4,
@@ -81,7 +81,7 @@ class CategoryItem extends StatelessWidget {
                         children: [
                           Icon(
                             Icons.location_on,
-                            color: Color.fromARGB(255, 28, 159, 226),
+                            color: Colors.black,
                             size: 20,
                           ),
                            Text(address,
@@ -89,7 +89,7 @@ class CategoryItem extends StatelessWidget {
                                 overflow: TextOverflow.ellipsis,
                                 style: TextStyle(
                                     fontSize: 15,
-                                    color: Color.fromARGB(229, 81, 175, 41),
+                                    color: Colors.white,
                                     fontFamily: 'RobotoMono')),
 
                         ],

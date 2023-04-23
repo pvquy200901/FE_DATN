@@ -4,6 +4,7 @@ import 'package:untitled/screens/user_screen/manager_account/manager_account_scr
 
 import '../../../controller/app_controller.dart';
 import '../../login_screen/login_screen.dart';
+import '../history_order/history_order.dart';
 import '../manager_team/manager_team_screen.dart';
 import 'profile_menu.dart';
 import 'profile_pic.dart';
@@ -39,12 +40,18 @@ class Body extends StatelessWidget {
           ProfileMenu(
             text: "Chat",
             icon: "assets/images/rocketchat.svg",
-            press: () {},
+            press: () {
+
+            },
           ),
           ProfileMenu(
             text: "Lịch sử đặt sân",
             icon: "assets/images/receipt-solid.svg",
-            press: () {},
+            press: () {
+              Navigator.push(context, MaterialPageRoute(builder: (context) {
+                return new HistoryOrderPage();
+              }));
+            },
           ),
           ProfileMenu(
             text: "Log Out",

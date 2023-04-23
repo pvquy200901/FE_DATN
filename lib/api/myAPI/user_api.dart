@@ -25,7 +25,7 @@ mixin UserApi on BaseApi {
         headers: {'Content-Type': 'application/json', 'accept': '*/*','token':appController.token},
       ));
       if (response.statusCode == 200) {
-        print("------------------------------${response.data.toString()}");
+        //print("------------------------------${response.data.toString()}");
         return UserModel.fromJson(response.data);
 
       } else {
@@ -158,5 +158,4 @@ mixin UserApi on BaseApi {
       return infoUser();
     }
   }
-
 }

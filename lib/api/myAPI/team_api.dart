@@ -63,6 +63,28 @@ mixin TeamApi on BaseApi{
     }
   }
 
+  Future<Team> getInfoTeamOfUser(username) async{
+    const url = '/api/User/getInfoTeamOfUser';
+    try {
+      Response response = await dio.get(url, options: Options(
+        headers: {'Content-Type': 'application/json', 'accept': '*/*','token':appController.token},
+      ),
+          queryParameters:{'username':username} );
+      if (response.statusCode == 200) {
+        return Team.fromJson(response.data);
+
+      } else {
+        appController.errorLog = response.data['mess'];
+        return Team();
+      }
+    } catch (e) {
+
+      saveLog(e);
+      print("==================== Lỗi" + e.toString());
+      return Team();
+    }
+  }
+
   Future<bool> createTeam(data) async {
     const url = '/api/User/createTeam';
     try {
