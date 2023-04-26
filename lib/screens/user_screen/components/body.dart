@@ -4,6 +4,7 @@ import 'package:untitled/screens/user_screen/manager_account/manager_account_scr
 
 import '../../../controller/app_controller.dart';
 import '../../login_screen/login_screen.dart';
+import '../chat/groupChat.dart';
 import '../history_order/history_order.dart';
 import '../manager_team/manager_team_screen.dart';
 import 'profile_menu.dart';
@@ -41,7 +42,9 @@ class Body extends StatelessWidget {
             text: "Chat",
             icon: "assets/images/rocketchat.svg",
             press: () {
-
+              Navigator.push(context, MaterialPageRoute(builder: (context) {
+                return new GroupChatPage();
+              }));
             },
           ),
           ProfileMenu(
@@ -57,7 +60,6 @@ class Body extends StatelessWidget {
             text: "Log Out",
             icon: "assets/images/skiing-nordic-solid.svg",
             press: () {
-
                     appController.resetLoginData().then((value){
                       Get.offAll(() => LoginScreen());
                     });

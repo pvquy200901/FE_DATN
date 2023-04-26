@@ -8,29 +8,52 @@ import '../../api/api.dart';
 import '../../config/app_config.dart';
 import '../../model/order_model/list_model.dart';
 import '../../model/stadium_model/stadium_model.dart';
+import 'dialog_payment.dart';
 
 class InfoOrder extends StatefulWidget {
   final String name;
   final String dateOrder;
   final String startTime;
   final String address;
+  final String code;
   final int price;
-  const InfoOrder({Key? key, required this.name, required this.dateOrder, required this.startTime, required this.address, required this.price}): super(key: key);
+  const InfoOrder(
+      {Key? key,
+      required this.name,
+      required this.dateOrder,
+      required this.startTime,
+      required this.address,
+      required this.price,
+      required this.code})
+      : super(key: key);
 
   @override
   _InfoOrderState createState() => _InfoOrderState();
 }
+
 class _InfoOrderState extends State<InfoOrder> {
   String name = "";
   String dateOrder = "";
   String startTime = "";
   String address = "";
   int price = 0;
+  bool isLoading = false;
+  Stadium infoStadium = Stadium();
 
 
 
+  loadData() async {
+    setState(() {
+      isLoading = true;
+    });
+    infoStadium = await api.getInfoStadium(name);
+    //orders = await api.getListOrderAllTime(DateFormat("MM/dd/yyyy").format(_selectedDate).toString());
+    setState(() {
+      isLoading = false;
+    });
+  }
   @override
-  void initState(){
+  void initState() {
     super.initState();
     name = widget.name;
     startTime = widget.startTime;
@@ -40,22 +63,12 @@ class _InfoOrderState extends State<InfoOrder> {
     loadData();
   }
 
-  Stadium infoStadium = Stadium();
-
-  loadData()async{
-    infoStadium = await api.getInfoStadium(name);
-    //orders = await api.getListOrderAllTime(DateFormat("MM/dd/yyyy").format(_selectedDate).toString());
-    setState(() {
-
-    });
-  }
-
 
 
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
+    return (isLoading)? CircularProgressIndicator(): SafeArea(
       child: Scaffold(
         body: Stack(
           children: [
@@ -67,8 +80,9 @@ class _InfoOrderState extends State<InfoOrder> {
                 height: 380,
                 decoration: BoxDecoration(
                   image: DecorationImage(
-                    image: NetworkImage(infoStadium.images!.isEmpty?"https://dynamic-media-cdn.tripadvisor.com/media/photo-o/18/97/5a/2d/discovering-the-state.jpg?w=1200&h=-1&s=1" : "http://${AppConfig.IP}:50000/api/File/image/${infoStadium.images![0]}"
-                    ),
+                    image: NetworkImage(infoStadium.images!.isEmpty
+                        ? "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/18/97/5a/2d/discovering-the-state.jpg?w=1200&h=-1&s=1"
+                        : "http://${AppConfig.IP}:50000/api/File/image/${infoStadium.images![0]}"),
                     fit: BoxFit.cover,
                   ),
                 ),
@@ -128,7 +142,9 @@ class _InfoOrderState extends State<InfoOrder> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      SizedBox(height: 30,),
+                      SizedBox(
+                        height: 30,
+                      ),
                       Center(
                         child: Text(
                           "Chi tiết lịch đặt sân",
@@ -139,7 +155,9 @@ class _InfoOrderState extends State<InfoOrder> {
                           ),
                         ),
                       ),
-                      SizedBox(height: 40,),
+                      SizedBox(
+                        height: 40,
+                      ),
                       Container(
                         child: Column(
                           children: [
@@ -147,9 +165,8 @@ class _InfoOrderState extends State<InfoOrder> {
                             info("Giờ bắt đầu", startTime),
                             info("Số giờ thuê", "01:30:00"),
                             info("Địa chỉ sân", address),
-                            info("Giá sân", price.toString()+"VNĐ"),
-                            info("Tổng tiền", (price * 1.5).toString()+"VNĐ"),
-
+                            info("Giá sân", price.toString() + "VNĐ"),
+                            info("Tổng tiền", (price * 1.5).toString() + "VNĐ"),
                           ],
                         ),
                       ),
@@ -157,11 +174,9 @@ class _InfoOrderState extends State<InfoOrder> {
                         height: 70,
                       ),
                       _buttonOrder(),
-
                     ],
                   ),
-                  padding:
-                  EdgeInsets.only(left: 25, right: 25, top: 37),
+                  padding: EdgeInsets.only(left: 25, right: 25, top: 37),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(26),
                     color: Colors.white,
@@ -175,7 +190,7 @@ class _InfoOrderState extends State<InfoOrder> {
     );
   }
 
-  Widget info(String key, String value){
+  Widget info(String key, String value) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 15),
       child: Row(
@@ -191,7 +206,7 @@ class _InfoOrderState extends State<InfoOrder> {
           Text(
             value,
             style: TextStyle(
-                fontSize: 20,
+              fontSize: 20,
               fontFamily: 'RobotoMono',
             ),
           )
@@ -199,8 +214,9 @@ class _InfoOrderState extends State<InfoOrder> {
       ),
     );
   }
-  _buttonOrder(){
-    return  Visibility(
+
+  _buttonOrder() {
+    return Visibility(
       visible: true,
       child: Container(
         height: 48,
@@ -214,15 +230,16 @@ class _InfoOrderState extends State<InfoOrder> {
           child: InkWell(
             splashColor: Colors.white,
             onTap: () {
-
+              showDialog(context: context, builder: (BuildContext context){
+                return PaymentDialog(code: widget.code,);
+              });
             },
             child: Center(
               child: Text(
                 "Thanh toán",
                 style: TextStyle(
                   fontSize: 20,
-                  color: Color.fromARGB(
-                      255, 255, 255, 255),
+                  color: Color.fromARGB(255, 255, 255, 255),
                   fontFamily: 'RobotoMono',
                 ),
               ),
@@ -232,13 +249,4 @@ class _InfoOrderState extends State<InfoOrder> {
       ),
     );
   }
-
-
-
-
-
-
 }
-
-
-

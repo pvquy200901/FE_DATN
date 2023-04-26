@@ -1,6 +1,7 @@
 
  import 'package:dio/dio.dart';
  import 'package:internet_connection_checker/internet_connection_checker.dart';
+import 'package:untitled/api/myAPI/chat_api.dart';
 import 'package:untitled/api/myAPI/order_api.dart';
 import 'package:untitled/api/myAPI/team_api.dart';
 import 'package:untitled/model/weather_model/weather_model.dart';
@@ -54,6 +55,6 @@ class BaseApi {
   }
 
 class Api extends BaseApi
-    with LogInApi,RegisterApi,UserApi,TeamApi,StadiumApi,OrderApi,NewsApi,CommentsApi, RecommentApi, WeatherApi{}
+    with LogInApi,RegisterApi,UserApi,TeamApi,StadiumApi,OrderApi,NewsApi,CommentsApi, RecommentApi,ChatApi, WeatherApi{}
 
 final Api api = Api();

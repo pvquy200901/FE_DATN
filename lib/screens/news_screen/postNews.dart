@@ -58,10 +58,10 @@ class _PostNewsState extends State<PostNews> {
                  IconButton(onPressed: () async{
                    m_image = await _picker.pickImage(source: ImageSource.gallery);
                    if (m_image != null) {
-                     Uint8List bytes = await m_image!.readAsBytes();
+                     final bytes = await m_image!.readAsBytes();
                      var dataImage = dio.MultipartFile.fromBytes(bytes,
                          filename: m_image!.name,
-                         contentType: MediaType.parse(m_image!.mimeType!));
+                         );
                      dio.FormData data =
                      dio.FormData.fromMap({'image': dataImage});
                      setState(() {

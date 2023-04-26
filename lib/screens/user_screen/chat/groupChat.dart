@@ -1,211 +1,282 @@
-// import 'package:flutter/material.dart';
-// import 'package:google_fonts/google_fonts.dart';
-//
-// class GroupChatPage extends StatefulWidget {
-//   const GroupChatPage({Key? key}) : super(key: key);
-//
-//   @override
-//   State<GroupChatPage> createState() => _GroupChatPageState();
-// }
-//
-// class _GroupChatPageState extends State<GroupChatPage> {
-//   final _messageTextController = TextEditingController();
-//   final _scrollController = ScrollController();
-//   late GroupChatArguments arguments;
-//
-//   @override
-//   void didChangeDependencies() {
-//     arguments =
-//     ModalRoute.of(context)!.settings.arguments as GroupChatArguments;
-//     super.didChangeDependencies();
-//   }
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       body: SafeArea(
-//         child: Column(
-//           children: [
-//             _buildHeader(context),
-//             Expanded(
-//               child: BlocBuilder<GetGroupChatMessagesCubit,
-//                   GetGroupChatMessagesState>(
-//                 builder: (_, state) {
-//                   if (state is GetGroupChatMessagesLoaded) {
-//                     scrollToBottom();
-//                     return _buildListMessage(
-//                       state.chats,
-//                     );
-//                   } else if (state is GetGroupChatMessagesError) {
-//                     return const TextErrorMessage(
-//                         errorMessage: "Terjadi kesalahan coba lagi!");
-//                   } else {
-//                     return const SizedBox();
-//                   }
-//                 },
-//               ),
-//             ),
-//             ..._buildInputChat(context),
-//           ],
-//         ),
-//       ),
-//     );
-//   }
-//
-//   Widget _buildHeader(BuildContext context) {
-//     return Material(
-//       elevation: 1,
-//       shadowColor: AppColors.backgroundOutlineColor.withOpacity(0.35),
-//       color: AppColors.whiteColor,
-//       child: Padding(
-//         padding:
-//         const EdgeInsets.only(left: 24, right: 24, top: 24, bottom: 12),
-//         child: Stack(
-//           alignment: Alignment.centerLeft,
-//           children: [
-//             Align(
-//               alignment: Alignment.centerLeft,
-//               child: CustomNavigatorButton(
-//                 icon: const Icon(Icons.arrow_back_ios, size: 18),
-//                 onTap: () => Navigator.pop(context),
-//               ),
-//             ),
-//             Align(
-//               alignment: Alignment.center,
-//               child: Text(
-//                 arguments.groupName,
-//                 style: GoogleFonts.quicksand(
-//                   fontSize: 16,
-//                   fontWeight: FontWeight.w600,
-//                   color: AppColors.blackColor,
-//                 ),
-//               ),
-//             ),
-//           ],
-//         ),
-//       ),
-//     );
-//   }
-//
-//   Widget _buildListMessage(
-//       List<MessageEntity> chats,
-//       ) =>
-//       ListView.builder(
-//         controller: _scrollController,
-//         physics: const BouncingScrollPhysics(),
-//         padding: const EdgeInsets.only(left: 24, right: 24, top: 18),
-//         itemCount: chats.length,
-//         itemBuilder: (_, index) {
-//           final message = chats[index];
-//           final isMe = message.sendBy == arguments.currentUserId;
-//           final senderMessage = arguments.groupMembersList
-//               .where((member) => member.userId == message.sendBy)
-//               .first;
-//
-//           return ChatBubble(
-//             imgProfile: senderMessage.imageProfile,
-//             message: message.message,
-//             sendAt: message.sendAt,
-//             isMe: isMe,
-//           );
-//         },
-//       );
-//
-//   List<Widget> _buildInputChat(BuildContext context) => [
-//     const SizedBox(height: 8),
-//     Row(
-//       children: [
-//         Expanded(
-//           child: Container(
-//             height: 56,
-//             width: double.infinity,
-//             alignment: Alignment.center,
-//             margin: const EdgeInsets.only(left: 24),
-//             padding:
-//             const EdgeInsets.symmetric(horizontal: 12.0, vertical: 4),
-//             decoration: BoxDecoration(
-//               color: AppColors.backgroundColor,
-//               borderRadius: BorderRadius.circular(16),
-//             ),
-//             child: TextFormField(
-//               controller: _messageTextController,
-//               maxLines: 1,
-//               style: GoogleFonts.quicksand(
-//                 fontSize: 14,
-//                 fontWeight: FontWeight.w500,
-//                 color: AppColors.blackColor,
-//               ),
-//               cursorColor: AppColors.greenColor,
-//               decoration: InputDecoration(
-//                 hintText: 'Ketik Pesan',
-//                 hintStyle: GoogleFonts.quicksand(
-//                   color: AppColors.greyTextColor,
-//                   fontSize: 14,
-//                   fontWeight: FontWeight.w500,
-//                 ),
-//                 border: InputBorder.none,
-//                 contentPadding: const EdgeInsets.symmetric(
-//                     vertical: 8.0, horizontal: 16.0),
-//               ),
-//             ),
-//           ),
-//         ),
-//         const SizedBox(width: 8),
-//         GestureDetector(
-//           onTap: () {
-//             if (arguments.currentUserId.isNotEmpty) {
-//               _sendGroupMessage(context);
-//             } else {
-//               CustomSnackBar.snackBar(context, "Opss.. Terjadi kesalahan");
-//             }
-//           },
-//           child: Container(
-//             height: 56,
-//             width: 56,
-//             alignment: Alignment.center,
-//             margin: const EdgeInsets.only(right: 24),
-//             decoration: BoxDecoration(
-//               color: AppColors.blackColor,
-//               borderRadius: BorderRadius.circular(16),
-//             ),
-//             child: Image.asset(AssetsPath.icSend, width: 26),
-//           ),
-//         ),
-//       ],
-//     ),
-//     const SizedBox(height: 16),
-//   ];
-//
-//   void _sendGroupMessage(BuildContext context) {
-//     if (_messageTextController.text.isNotEmpty) {
-//       final message = MessageEntity(
-//         messageId: '',
-//         message: _messageTextController.text,
-//         sendBy: arguments.currentUserId,
-//         sendAt: Timestamp.now(),
-//       );
-//
-//       context
-//           .read<SendGroupMessageCubit>()
-//           .sendGroupMessage(arguments.groupChatId, message);
-//       _messageTextController.clear();
-//     }
-//   }
-//
-//   void scrollToBottom() {
-//     WidgetsBinding.instance.addPostFrameCallback((_) {
-//       _scrollController.animateTo(
-//         _scrollController.position.maxScrollExtent,
-//         duration: const Duration(milliseconds: 250),
-//         curve: Curves.easeInOut,
-//       );
-//     });
-//   }
-//
-//   @override
-//   void dispose() {
-//     _messageTextController.dispose();
-//     _scrollController.dispose();
-//     super.dispose();
-//   }
-// }
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:image_cropper/image_cropper.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:untitled/model/user_model/user_model.dart';
+import 'package:untitled/screens/user_screen/chat/showMessages.dart';
+
+import '../../../api/api.dart';
+
+class GroupChatPage extends StatefulWidget {
+  const GroupChatPage({Key? key}) : super(key: key);
+
+  @override
+  State<GroupChatPage> createState() => _GroupChatPageState();
+}
+
+class _GroupChatPageState extends State<GroupChatPage> {
+  var _focusNode = FocusNode();
+
+  XFile? imagefile;
+
+  void _reloadWidget() {
+    setState(() {
+    });
+  }
+  focusListener() {
+    setState(() {});
+  }
+  infoUser info = infoUser();
+  bool isLoading = false;
+  loadData() async {
+    setState(() {
+      isLoading = true;
+    });
+    info = await api.getInfoUserV2();
+    setState(() {
+      isLoading = false;
+    });
+  }
+
+  @override
+  void initState() {
+    _focusNode.addListener(focusListener);
+    loadData();
+    super.initState();
+
+  }
+
+  @override
+  void dispose() {
+    _focusNode.removeListener(focusListener);
+    super.dispose();
+  }
+
+  void showPhotoOptions() {
+    showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            backgroundColor: Colors.black,
+            title: Text(
+              "Upload Image",
+              style: GoogleFonts.inter(
+                color: Colors.white,
+                fontSize: 16,
+              ),
+            ),
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                ListTile(
+                  onTap: () {
+                    Navigator.pop(context);
+                    imageSelect(ImageSource.gallery);
+                  },
+                  leading: Icon(
+                    Icons.photo_album,
+                    color: Colors.white,
+                  ),
+                  title: Text(
+                    "Gallery",
+                    style: GoogleFonts.inter(
+                      color: Colors.white,
+                      fontSize: 14,
+                    ),
+                  ),
+                ),
+                const SizedBox(
+                  height: 15,
+                ),
+                ListTile(
+                  onTap: () async {
+                    Navigator.pop(context);
+                  },
+                  leading: Icon(
+                    Icons.camera_alt,
+                    color: Colors.white,
+                  ),
+                  title: Text(
+                    "Camera",
+                    style: GoogleFonts.inter(
+                      color: Colors.white,
+                      fontSize: 14,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          );
+        });
+  }
+
+  void imageSelect(ImageSource source) async {
+    XFile? pickedimage = await ImagePicker().pickImage(source: source);
+    if (pickedimage != null) {
+      cropImage(pickedimage);
+    }
+  }
+
+  void cropImage(XFile file) async {
+    CroppedFile? cropedImage = (await ImageCropper().cropImage(
+      sourcePath: file.path,
+      compressQuality: 20,
+    ));
+
+    if (cropedImage != null) {
+      setState(() {
+        imagefile = XFile(cropedImage.path);
+      });
+     /* Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => PreviewImage(
+                picture: imagefile,
+                chatroom: widget.chatroom,
+                currentuser: widget.currentuser,
+                targetuser: widget.targetuser,
+              )));*/
+    }
+  }
+
+  TextEditingController msgcontroller = TextEditingController();
+
+  void sendmessage() async {
+    String message = msgcontroller.text.trim();
+    msgcontroller.clear();
+    if (message != "") {
+      api.createChat(info.team, message).then((value) => _reloadWidget());
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+      child: Scaffold(
+        backgroundColor: Color(0xffF5F5F5),
+        appBar: AppBar(
+          /*shadowColor: Colors.transparent,
+          toolbarHeight: 100,
+          elevation: 5,
+          scrolledUnderElevation: 5,
+          automaticallyImplyLeading: true,*/
+          backgroundColor: Color(0xffFFFFFF),
+          leading: BackButton(color: Colors.black),
+          title: SizedBox(
+           /* width: 290,
+            height: 59,*/
+            child: Row(
+              children: [
+                SizedBox(
+                  width: 10,
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                     "Nhóm chat đội ${info.team}",
+                      style: GoogleFonts.inter(
+                        fontSize: 20,
+                        fontWeight: FontWeight.w500,
+                        color: Color(0xff222222),
+                      ),
+                    ),
+
+                  ],
+                ),
+              ],
+            ),
+          ),
+
+        ),
+        body: Container(
+          child: Column(
+            children: [
+              Expanded(
+                child: Container(
+                  margin: const EdgeInsets.symmetric(
+                    vertical: 5,
+                    horizontal: 10,
+                  ),
+                  child: ShowMessages(
+                    m_team: info.team!,
+                    m_user: info.name!,
+                  ),
+                ),
+              ),
+              Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.max,
+                  children: [
+                    Container(
+                      margin: EdgeInsets.only(bottom: 20, left: 20),
+                      width: MediaQuery.of(context).size.width - 100,
+                      height: 60,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(30),
+                        color: Color(0xffF3F3F3),
+                        boxShadow: const [
+                          BoxShadow(
+                            color: Color(0xffDBDBDB),
+                            blurRadius: 15,
+                            spreadRadius: 1.5,
+                          ),
+                        ],
+                      ),
+
+                      child: TextFormField(
+                        //textInputAction: TextInputAction.continueAction,
+                        controller: msgcontroller,
+                        decoration: InputDecoration(
+                          hintText: 'Soạn tin nhắn',
+                          hintStyle: GoogleFonts.inter(
+                            fontSize: 16,
+                            color: Colors.black,
+                          ),
+                          border: InputBorder.none,
+                          contentPadding: const EdgeInsets.only(
+                            top: 19,
+                            left: 20,
+                          ),
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(
+                        bottom: 10,
+                        right: 0,
+                        left: 10,
+                      ),
+                      child: FloatingActionButton(
+                        elevation: 15,
+                        onPressed: () {},
+                        child: ElevatedButton(
+                          onPressed: () {
+                            sendmessage();
+                          },
+                          style: ElevatedButton.styleFrom(
+                            foregroundColor: Color(0xffFFFFFF),
+                            backgroundColor: Color(0xff2865DC),
+                            shape: CircleBorder(),
+                            disabledForegroundColor:
+                            Color(0xff2865DC).withOpacity(0.38),
+                            disabledBackgroundColor:
+                            Color(0xff2865DC).withOpacity(0.12),
+                            padding: EdgeInsets.all(10),
+                          ),
+                          child: Icon(Icons.send)
+                        ),
+                      ),
+                    ),
+                  ]),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}

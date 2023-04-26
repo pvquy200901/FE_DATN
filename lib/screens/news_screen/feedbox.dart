@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:untitled/screens/news_screen/driver.dart';
+import '../../config/app_config.dart';
 import '../../utils/constants.dart';
 import 'actionbtn.dart';
 
@@ -56,7 +57,7 @@ Widget feedBox(BuildContext context,String userName, int point, String date,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(8.0),
               image: DecorationImage(
-                image: (contentImg != "")? NetworkImage(contentImg): NetworkImage("https://static.standard.co.uk/2022/03/15/19/2022-03-15T172625Z_1107313512_UP1EI3F1CFY2Q_RTRMADP_3_SOCCER-CHAMPIONS-MUN-ATM-REPORT.JPG?width=1200"),
+                image: (contentImg != "")? NetworkImage("http://${AppConfig.IP}:50000/api/File/image/${contentImg}"): NetworkImage("https://static.standard.co.uk/2022/03/15/19/2022-03-15T172625Z_1107313512_UP1EI3F1CFY2Q_RTRMADP_3_SOCCER-CHAMPIONS-MUN-ATM-REPORT.JPG?width=1200"),
                 fit: BoxFit.cover,
               ),
             ),

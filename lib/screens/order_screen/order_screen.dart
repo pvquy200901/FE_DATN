@@ -208,7 +208,8 @@ class _OrderStadiumState extends State<OrderStadium> {
             splashColor: Colors.white,
             onTap: () {
               Navigator.push(context, MaterialPageRoute(builder: (context) {
-                return new InfoOrder(name: infoStadium.name!, dateOrder:DateFormat('dd/MM/yyyy').format(_selectedDate) , startTime: timeStart, address: infoStadium.address!, price: infoStadium.price!,);
+                String code = _selectedDate.day.toString()+_selectedDate.month.toString()+_selectedDate.year.toString()+infoStadium.name! +timeStart;
+                return new InfoOrder(name: infoStadium.name!, dateOrder:DateFormat('dd/MM/yyyy').format(_selectedDate) , startTime: timeStart, address: infoStadium.address!, price: infoStadium.price!, code: code,);
               }));
             },
             child: Center(
