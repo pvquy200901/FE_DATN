@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
@@ -152,7 +151,7 @@ class _GroupChatPageState extends State<GroupChatPage> {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
+    return (isLoading)? const Center(child: CircularProgressIndicator()):GestureDetector(
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
       child: Scaffold(
         backgroundColor: Color(0xffF5F5F5),
@@ -165,7 +164,7 @@ class _GroupChatPageState extends State<GroupChatPage> {
           backgroundColor: Color(0xffFFFFFF),
           leading: BackButton(color: Colors.black),
           title: SizedBox(
-           /* width: 290,
+            /* width: 290,
             height: 59,*/
             child: Row(
               children: [
@@ -177,7 +176,7 @@ class _GroupChatPageState extends State<GroupChatPage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                     "Nhóm chat đội ${info.team}",
+                      "Nhóm chat đội ${info.team}",
                       style: GoogleFonts.inter(
                         fontSize: 20,
                         fontWeight: FontWeight.w500,
@@ -255,20 +254,20 @@ class _GroupChatPageState extends State<GroupChatPage> {
                         elevation: 15,
                         onPressed: () {},
                         child: ElevatedButton(
-                          onPressed: () {
-                            sendmessage();
-                          },
-                          style: ElevatedButton.styleFrom(
-                            foregroundColor: Color(0xffFFFFFF),
-                            backgroundColor: Color(0xff2865DC),
-                            shape: CircleBorder(),
-                            disabledForegroundColor:
-                            Color(0xff2865DC).withOpacity(0.38),
-                            disabledBackgroundColor:
-                            Color(0xff2865DC).withOpacity(0.12),
-                            padding: EdgeInsets.all(10),
-                          ),
-                          child: Icon(Icons.send)
+                            onPressed: () {
+                              sendmessage();
+                            },
+                            style: ElevatedButton.styleFrom(
+                              foregroundColor: Color(0xffFFFFFF),
+                              backgroundColor: Color(0xff2865DC),
+                              shape: CircleBorder(),
+                              disabledForegroundColor:
+                              Color(0xff2865DC).withOpacity(0.38),
+                              disabledBackgroundColor:
+                              Color(0xff2865DC).withOpacity(0.12),
+                              padding: EdgeInsets.all(10),
+                            ),
+                            child: Icon(Icons.send)
                         ),
                       ),
                     ),

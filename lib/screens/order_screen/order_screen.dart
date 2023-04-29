@@ -26,6 +26,7 @@ class _OrderStadiumState extends State<OrderStadium> {
   bool checkHour = false;
   bool checkButton = false;
   RxBool isLoading = false.obs;
+  Color buttonColor = Colors.blue;
 
   @override
   void initState(){
@@ -455,7 +456,7 @@ class _OrderStadiumState extends State<OrderStadium> {
               Positioned.fill(
                 child: Container(
                   decoration: const BoxDecoration(
-                    color: Color.fromARGB(255, 28, 159, 226),
+                    color:  Color.fromARGB(255, 28, 159, 226),
                   ),
                 ),
               ),

@@ -1,25 +1,38 @@
-import 'package:flutter/material.dart';
+import 'dart:io';
 
+import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../../api/api.dart';
 
 class PaymentDialog extends StatefulWidget {
   final String code;
 
-  PaymentDialog(
-      {required this.code,
-      });
+  PaymentDialog({
+    required this.code,
+  });
 
   @override
   _PaymentDialogState createState() => _PaymentDialogState();
 }
 
 class _PaymentDialogState extends State<PaymentDialog> {
-
   bool check = false;
   bool check1 = false;
   @override
   void initState() {
     super.initState();
+  }
+
+  Future<void> _launchMomo() async {
+    final String scheme = Platform.isAndroid ? 'market://' : 'itms-apps://';
+    final String appId = 'com.mservice.momotransfer';
+    final String url = '$scheme$appId';
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
   }
 
   @override
@@ -41,42 +54,45 @@ class _PaymentDialogState extends State<PaymentDialog> {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-Text("Chọn phương thức thanh toán"),
+                Text("Chọn phương thức thanh toán"),
                 Row(
                   children: [
-                    TextButton(onPressed: () =>{
-
-                    setState(() {
-                      check = true;
-                      check1 = false;
-                    })
-                    }, child: Text("Thanh toán momo")),
-                    TextButton(onPressed: () =>{
-                      setState(() {
-                        check = false;
-                        check1 = true;
-                      })
-                    }, child: Text("Thanh toán banking"))
+                    TextButton(
+                        onPressed: () => {
+                              setState(() {
+                                check = true;
+                                check1 = false;
+                              })
+                            },
+                        child: Text("Thanh toán momo")),
+                    TextButton(
+                        onPressed: () => {
+                              setState(() {
+                                check = false;
+                                check1 = true;
+                              })
+                            },
+                        child: Text("Thanh toán banking"))
                   ],
-
                 ),
                 Visibility(
-                  visible: check,
+                    visible: check,
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         Text("Số tiền: 50000d"),
                         Text("Số điện thoại: 0913136242"),
                         Text("Nội dung: ${widget.code}"),
-                        TextButton(onPressed: () => {
-
-                        }, child: Text("Bấm vào để mở MOMO")),
+                        TextButton(
+                            onPressed: () => {print("đã bấm"), launch("momo://")},
+                            child: Text("Bấm vào để mở MOMO")),
                         Text("Lưu ý"),
-                        Text("Vui lòng nhập chính xác nội dung và số tiền yêu cầu từ hệ thống; Thông tin không chính xác sẽ ảnh hưởng tới việc đặt sân")
+                        Text(
+                            "Vui lòng nhập chính xác nội dung và số tiền yêu cầu từ hệ thống; Thông tin không chính xác sẽ ảnh hưởng tới việc đặt sân")
                       ],
                     )),
                 Visibility(
-                  visible:  check1,
+                    visible: check1,
                     child: Container(
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.start,
@@ -86,11 +102,12 @@ Text("Chọn phương thức thanh toán"),
                           Text("Tên người nhận: Phan Vũ Quý"),
                           Text("Số tài khoản: 0913136242"),
                           Text("Nội dung: ${widget.code}"),
-                          TextButton(onPressed: () => {
-
-                          }, child: Text("Bấm vào để mở MBBank")),
+                          TextButton(
+                              onPressed: () => {},
+                              child: Text("Bấm vào để mở MBBank")),
                           Text("Lưu ý"),
-                          Text("Vui lòng nhập chính xác nội dung và số tiền yêu cầu từ hệ thống; Thông tin không chính xác sẽ ảnh hưởng tới việc đặt sân")
+                          Text(
+                              "Vui lòng nhập chính xác nội dung và số tiền yêu cầu từ hệ thống; Thông tin không chính xác sẽ ảnh hưởng tới việc đặt sân")
                         ],
                       ),
                     ))
@@ -101,6 +118,20 @@ Text("Chọn phương thức thanh toán"),
         actions: [
           TextButton(
             onPressed: () {
+
+              var data = {
+                'starttime': startTime,
+                'endtime': endTime,
+                'm_stadium': name
+              };
+              api.createOrder(data).then((value) {
+                if (value) {
+
+                }
+                else {
+
+                }
+              });
               Navigator.of(context).pop();
             },
             child: Text('OK'),
