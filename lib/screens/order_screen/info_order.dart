@@ -14,6 +14,7 @@ class InfoOrder extends StatefulWidget {
   final String name;
   final String dateOrder;
   final String startTime;
+  final String endTime;
   final String address;
   final String code;
   final int price;
@@ -22,6 +23,7 @@ class InfoOrder extends StatefulWidget {
       required this.name,
       required this.dateOrder,
       required this.startTime,
+      required this.endTime,
       required this.address,
       required this.price,
       required this.code})
@@ -35,6 +37,7 @@ class _InfoOrderState extends State<InfoOrder> {
   String name = "";
   String dateOrder = "";
   String startTime = "";
+  String endTime = "";
   String address = "";
   int price = 0;
   bool isLoading = false;
@@ -231,7 +234,7 @@ class _InfoOrderState extends State<InfoOrder> {
             splashColor: Colors.white,
             onTap: () {
               showDialog(context: context, builder: (BuildContext context){
-                return PaymentDialog(code: widget.code,);
+                return PaymentDialog(code: widget.code,startTime: startTime,endTime: endTime,nameStadium: name,price: (price * 1.5).toString(),);
               });
             },
             child: Center(

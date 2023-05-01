@@ -148,4 +148,25 @@ mixin OrderApi on BaseApi{
     }
   }
 
+  Future<List<itemOrder>> getListOrderUser(date, name) async{
+    const url = '/api/Order/listAllOrderUser';
+    try {
+      Response response = await dio.get(url, options: Options(
+        headers: {'Content-Type': 'application/json', 'accept': '*/*','token':appController.token},
+      ),
+          queryParameters: {'time': date, 'stadium': name}
+      );
+      if (response.statusCode == 200) {
+        return (response.data as List).map((e) => itemOrder.fromJson(e)).toList();
+      } else {
+        appController.errorLog = response.data['mess'];
+        return [];
+      }
+    } catch (e) {
+
+      saveLog(e);
+      return [];
+    }
+  }
+
 }

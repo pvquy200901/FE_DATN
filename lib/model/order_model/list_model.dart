@@ -119,6 +119,35 @@ class myOrder {
     data['address'] = this.address;
     return data;
   }
+
 }
+class itemOrder {
+  String? code;
+  String? user;
+  String? date;
+  String? time;
+  String? nameStadium;
+
+  itemOrder({this.code, this.user, this.date, this.time, this.nameStadium});
+
+  itemOrder.fromJson(Map<String, dynamic> json) {
+    code = json['code'];
+    user = json['user'];
+    date = json['date'];
+    time = json['time'];
+    nameStadium = json['nameStadium'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['code'] = this.code;
+    data['user'] = this.user;
+    data['date'] = this.date;
+    data['time'] = this.time;
+    data['nameStadium'] = this.nameStadium;
+    return data;
+  }
+}
+
 
 

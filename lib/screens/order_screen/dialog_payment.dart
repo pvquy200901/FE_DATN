@@ -2,14 +2,23 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:get/get.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../api/api.dart';
 
 class PaymentDialog extends StatefulWidget {
   final String code;
+  final String startTime;
+  final String endTime;
+  final String nameStadium;
+  final String price;
 
   PaymentDialog({
     required this.code,
+    required this.startTime,
+    required this.endTime,
+    required this.nameStadium,
+    required this.price,
   });
 
   @override
@@ -80,7 +89,7 @@ class _PaymentDialogState extends State<PaymentDialog> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        Text("Số tiền: 50000d"),
+                        Text("Số tiền: ${widget.price}"),
                         Text("Số điện thoại: 0913136242"),
                         Text("Nội dung: ${widget.code}"),
                         TextButton(
@@ -97,13 +106,13 @@ class _PaymentDialogState extends State<PaymentDialog> {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
-                          Text("Số tiền: 50000d"),
+                          Text("Số tiền: ${widget.price}"),
                           Text("Tên ngân hàng: Ngân hàng Quân đội"),
                           Text("Tên người nhận: Phan Vũ Quý"),
                           Text("Số tài khoản: 0913136242"),
                           Text("Nội dung: ${widget.code}"),
                           TextButton(
-                              onPressed: () => {},
+                              onPressed: () => {print("đã bấm"), launch("mbbank://")},
                               child: Text("Bấm vào để mở MBBank")),
                           Text("Lưu ý"),
                           Text(
@@ -120,19 +129,35 @@ class _PaymentDialogState extends State<PaymentDialog> {
             onPressed: () {
 
               var data = {
-                'starttime': startTime,
-                'endtime': endTime,
-                'm_stadium': name
+                'starttime': widget.startTime,
+                'endtime': widget.endTime,
+                'm_stadium': widget.nameStadium
               };
               api.createOrder(data).then((value) {
                 if (value) {
-
+                  Fluttertoast.showToast(
+                      msg: "Đã đặt sân, vui lòng đợi xác nhận",
+                      toastLength: Toast.LENGTH_SHORT,
+                      gravity: ToastGravity.TOP_RIGHT,
+                      timeInSecForIosWeb: 1,
+                      backgroundColor: Colors.green,
+                      textColor: Colors.white,
+                      fontSize: 16.0);
                 }
                 else {
-
+                  Fluttertoast.showToast(
+                      msg: "Không thể đặt sân",
+                      toastLength: Toast.LENGTH_SHORT,
+                      gravity: ToastGravity.TOP_RIGHT,
+                      timeInSecForIosWeb: 1,
+                      backgroundColor: Colors.redAccent,
+                      textColor: Colors.white,
+                      fontSize: 16.0);
                 }
               });
-              Navigator.of(context).pop();
+              Future.delayed(const Duration(seconds: 0)).then((value) async {
+                Get.offAllNamed('/home');
+              });
             },
             child: Text('OK'),
           ),

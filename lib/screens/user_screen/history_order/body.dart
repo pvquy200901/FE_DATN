@@ -90,11 +90,13 @@ class _BodyHistoryState extends State<BodyHistory> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                "Lịch sử đặt sân theo đội",
-                style: GoogleFonts.poppins(
-                  fontWeight: FontWeight.w600,
-                  color: Colors.black,
+              Center(
+                child: Text(
+                  "Lịch sử đặt sân ",
+                  style: GoogleFonts.poppins(
+                    fontWeight: FontWeight.w600,
+                    color: Colors.black,
+                  ),
                 ),
               ),
               SizedBox(

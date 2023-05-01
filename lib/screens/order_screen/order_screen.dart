@@ -3,12 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:untitled/screens/order_screen/info_order.dart';
-import 'package:untitled/screens/splash_screen/splash_screen.dart';
-import 'package:untitled/screens/stadium_screen/preview_image_widget.dart';
 
 import '../../api/api.dart';
 import '../../config/app_config.dart';
-import '../../model/order_model/list_model.dart';
 import '../../model/stadium_model/stadium_model.dart';
 
 class OrderStadium extends StatefulWidget {
@@ -21,12 +18,13 @@ class OrderStadium extends StatefulWidget {
 class _OrderStadiumState extends State<OrderStadium> {
   String name = "";
   String timeStart = "";
+  String timeEnd = "";
   DateTime _selectedDate = DateTime.now();
   bool checkDate = false;
   bool checkHour = false;
   bool checkButton = false;
   RxBool isLoading = false.obs;
-  Color buttonColor = Colors.blue;
+  Color _clipRRectColor = const Color.fromARGB(255, 255, 255, 255);
 
   @override
   void initState(){
@@ -46,9 +44,6 @@ class _OrderStadiumState extends State<OrderStadium> {
 
     });
   }
-
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -210,7 +205,7 @@ class _OrderStadiumState extends State<OrderStadium> {
             onTap: () {
               Navigator.push(context, MaterialPageRoute(builder: (context) {
                 String code = _selectedDate.day.toString()+_selectedDate.month.toString()+_selectedDate.year.toString()+infoStadium.name! +timeStart;
-                return new InfoOrder(name: infoStadium.name!, dateOrder:DateFormat('dd/MM/yyyy').format(_selectedDate) , startTime: timeStart, address: infoStadium.address!, price: infoStadium.price!, code: code,);
+                return new InfoOrder(name: infoStadium.name!, dateOrder:DateFormat('dd/MM/yyyy').format(_selectedDate) , startTime: timeStart,endTime: timeEnd, address: infoStadium.address!, price: infoStadium.price!, code: code,);
               }));
             },
             child: Center(
@@ -240,7 +235,7 @@ class _OrderStadiumState extends State<OrderStadium> {
           children: [
             FutureBuilder(
               future:
-              api.getListOrderAllTime(DateFormat('dd/MM/yyyy').format(_selectedDate).toString()),
+              api.getListOrderUser(DateFormat('dd/MM/yyyy').format(_selectedDate).toString(),name),
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
                   for (int i = 0;
@@ -260,7 +255,7 @@ class _OrderStadiumState extends State<OrderStadium> {
 
             FutureBuilder(
               future:
-              api.getListOrderAllTime(DateFormat('dd/MM/yyyy').format(_selectedDate).toString()),
+              api.getListOrderUser(DateFormat('dd/MM/yyyy').format(_selectedDate).toString(),name),
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
                   for (int i = 0;
@@ -280,7 +275,7 @@ class _OrderStadiumState extends State<OrderStadium> {
 
             FutureBuilder(
               future:
-              api.getListOrderAllTime(DateFormat('dd/MM/yyyy').format(_selectedDate).toString()),
+              api.getListOrderUser(DateFormat('dd/MM/yyyy').format(_selectedDate).toString(),name),
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
                   for (int i = 0;
@@ -300,7 +295,7 @@ class _OrderStadiumState extends State<OrderStadium> {
 
             FutureBuilder(
               future:
-              api.getListOrderAllTime(DateFormat('dd/MM/yyyy').format(_selectedDate).toString()),
+              api.getListOrderUser(DateFormat('dd/MM/yyyy').format(_selectedDate).toString(),name),
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
                   for (int i = 0;
@@ -320,7 +315,7 @@ class _OrderStadiumState extends State<OrderStadium> {
 
             FutureBuilder(
               future:
-              api.getListOrderAllTime(DateFormat('dd/MM/yyyy').format(_selectedDate).toString()),
+              api.getListOrderUser(DateFormat('dd/MM/yyyy').format(_selectedDate).toString(),name),
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
                   for (int i = 0;
@@ -340,7 +335,7 @@ class _OrderStadiumState extends State<OrderStadium> {
 
             FutureBuilder(
               future:
-              api.getListOrderAllTime(DateFormat('dd/MM/yyyy').format(_selectedDate).toString()),
+              api.getListOrderUser(DateFormat('dd/MM/yyyy').format(_selectedDate).toString(),name),
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
                   for (int i = 0;
@@ -359,7 +354,7 @@ class _OrderStadiumState extends State<OrderStadium> {
             ),
             FutureBuilder(
               future:
-              api.getListOrderAllTime(DateFormat('dd/MM/yyyy').format(_selectedDate).toString()),
+              api.getListOrderUser(DateFormat('dd/MM/yyyy').format(_selectedDate).toString(),name),
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
                   for (int i = 0;
@@ -379,7 +374,7 @@ class _OrderStadiumState extends State<OrderStadium> {
 
             FutureBuilder(
               future:
-              api.getListOrderAllTime(DateFormat('dd/MM/yyyy').format(_selectedDate).toString()),
+              api.getListOrderUser(DateFormat('dd/MM/yyyy').format(_selectedDate).toString(),name),
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
                   for (int i = 0;
@@ -399,7 +394,7 @@ class _OrderStadiumState extends State<OrderStadium> {
 
             FutureBuilder(
               future:
-              api.getListOrderAllTime(DateFormat('dd/MM/yyyy').format(_selectedDate).toString()),
+              api.getListOrderUser(DateFormat('dd/MM/yyyy').format(_selectedDate).toString(),name),
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
                   for (int i = 0;
@@ -419,7 +414,7 @@ class _OrderStadiumState extends State<OrderStadium> {
 
             FutureBuilder(
               future:
-              api.getListOrderAllTime(DateFormat('dd/MM/yyyy').format(_selectedDate).toString()),
+              api.getListOrderUser(DateFormat('dd/MM/yyyy').format(_selectedDate).toString(),name),
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
                   for (int i = 0;
@@ -441,8 +436,6 @@ class _OrderStadiumState extends State<OrderStadium> {
       ),
     );
   }
-
-
   Widget itemTime(String startTime, String endTime, bool check){
     return  Visibility(
       visible: check,
@@ -462,16 +455,17 @@ class _OrderStadiumState extends State<OrderStadium> {
               ),
               TextButton(
                 style: TextButton.styleFrom(
-                  foregroundColor: Colors.white,
+                  foregroundColor: _clipRRectColor,
                   padding: const EdgeInsets.all(16.0),
                   textStyle: const TextStyle(fontSize: 20),
                 ),
                 onPressed: () {
                   setState((){
                     timeStart = startTime;
+                    timeEnd = endTime;
                     checkHour = true;
+
                   });
-                  //print(DateFormat("MM/dd/yyyy").format(_selectedDate).toString() + startTime);
                 },
                 child: Row(
                   children: [
@@ -488,7 +482,6 @@ class _OrderStadiumState extends State<OrderStadium> {
     );
 
   }
-
 }
 
 
