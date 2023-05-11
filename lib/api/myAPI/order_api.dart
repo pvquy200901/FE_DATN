@@ -169,4 +169,28 @@ mixin OrderApi on BaseApi{
     }
   }
 
+  Future<List<myOrder>> getListOrderWithTeam(String team) async{
+    const url = '/api/User/getListOrderWithTeam';
+    try {
+      Response response = await dio.get(url, options: Options(
+        headers: {'Content-Type': 'application/json', 'accept': '*/*','token':appController.token},
+
+      ),
+          queryParameters: {'team': team}
+      );
+      if (response.statusCode == 200) {
+        return (response.data as List).map((e) => myOrder.fromJson(e)).toList();
+
+      } else {
+        appController.errorLog = response.data['mess'];
+        return [];
+      }
+    } catch (e) {
+      print(e.toString());
+
+      saveLog(e);
+      return [];
+    }
+  }
+
 }

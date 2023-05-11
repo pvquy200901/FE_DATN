@@ -148,6 +148,51 @@ class itemOrder {
     return data;
   }
 }
+class listSchedule {
+  String? code;
+  String? date;
+  String? startTime;
+  String? endTime;
+  String? price;
+  String? stadium;
+  String? address;
+  String? state;
+
+  listSchedule(
+      {this.code,
+        this.date,
+        this.startTime,
+        this.endTime,
+        this.price,
+        this.stadium,
+        this.address,
+        this.state});
+
+  listSchedule.fromJson(Map<String, dynamic> json) {
+    code = json['code'];
+    date = json['date'];
+    startTime = json['startTime'];
+    endTime = json['endTime'];
+    price = json['price'];
+    stadium = json['stadium'];
+    address = json['address'];
+    state = json['state'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['code'] = this.code;
+    data['date'] = this.date;
+    data['startTime'] = this.startTime;
+    data['endTime'] = this.endTime;
+    data['price'] = this.price;
+    data['stadium'] = this.stadium;
+    data['address'] = this.address;
+    data['state'] = this.state;
+    return data;
+  }
+}
+
 
 
 

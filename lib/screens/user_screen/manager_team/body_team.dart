@@ -4,6 +4,7 @@ import 'package:untitled/controller/app_controller.dart';
 import 'package:untitled/screens/home_screen/home_screen.dart';
 
 import '../../../api/api.dart';
+import '../../../model/order_model/list_model.dart';
 import '../../../model/user_model/user_model.dart';
 import 'captain_screen.dart';
 import 'member.dart';
@@ -15,12 +16,14 @@ class BodyTeam extends StatefulWidget {
 }
 class BodyTeamState extends State<BodyTeam>{
   infoUser user = infoUser();
+  List<myOrder> orders = [];
   bool isLoading = false;
   loadData()async{
     setState(() {
       isLoading = true;
     });
     user = await api.getInfoUserV2();
+    orders = await api.getListOrderWithTeam(user.team!);
     setState(() {
       isLoading = false;
     });
@@ -129,6 +132,41 @@ class BodyTeamState extends State<BodyTeam>{
               Member(),
               const SizedBox(height: 30),
               Text("Lịch thi đấu",style: TextStyle(fontSize: 18, fontFamily: 'RobotoMono')),
+              Center(
+                child: SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: DataTable(columns: [
+
+                    DataColumn(
+                        label: Text('Ngày đá',
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold))),
+                    DataColumn(
+                        label: Text('Thời gian bắt đầu',
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold))),
+                    DataColumn(
+                        label: Text('Tên sân',
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold))),
+                    DataColumn(
+                        label: Text('Địa chỉ',
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold))),
+
+                  ], rows: orders.map((e){
+                    final DataRow dataRow = DataRow(
+                      cells: [
+                        DataCell(Text(e.date!)),
+                        DataCell(Text(e.startTime!)),
+                        DataCell(Text(e.nameStadium!)),
+                        DataCell(Text(e.address!)),
+                      ],
+                    );
+                    return dataRow;
+                  }).toList()),
+                ),
+              )
             ],
           ),
         ),

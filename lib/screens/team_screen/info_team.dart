@@ -288,8 +288,6 @@ class InfoTeam extends StatelessWidget {
                                                             Future.delayed(
                                                                 const Duration(seconds: 0))
                                                                 .then((value) async {
-                                                              // Get.back();
-                                                              // Get.back();
                                                               Navigator.pushReplacement<void, void>(
                                                                 context,
                                                                 MaterialPageRoute<void>(

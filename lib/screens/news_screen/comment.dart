@@ -22,10 +22,10 @@ class Comments extends StatefulWidget {
 class _CommentsState extends State<Comments> {
   final TextEditingController _textEditingController = TextEditingController();
   bool isLoading = false;
-  int outlook = 0;
-  int temperature = 0;
-  int level = 0;
-  int reputation = 0;
+  String outlook = "";
+  String temperature = "";
+  String level ="";
+  String reputation = "";
   String txtOutlook = "";
   bool check = false;
   infoNews news = infoNews();
@@ -49,41 +49,50 @@ class _CommentsState extends State<Comments> {
     team = await api.getInfoTeamOfUser(news.username);
     weather = await api.fetchWeatherData(latitude, longitude);
     if (weather.temperature! >= 27.0) {
-      temperature = 0;
+      temperature = "hot";
     } else if (weather.temperature! > 20 && weather.temperature! < 27) {
-      temperature = 1;
+      temperature = "mild";
     } else {
-      temperature = 2;
+      temperature = "cool";
     }
     if (weather.outlook!.compareTo("Clouds") == 0 ||
         weather.outlook!.compareTo("Mist") == 0) {
-      outlook = 1;
+
       txtOutlook = "Nhiều mây";
     }
-    if (weather.outlook!.compareTo("Clear") == 0) {
-      temperature = 0;
-      txtOutlook = "Nắng, thoáng mát";
+    if (
+        weather.outlook!.compareTo("Mist") == 0) {
+
+      txtOutlook = "Sương mù";
     }
-    if (weather.outlook!.compareTo("Rain") == 0 ||
-        weather.outlook!.compareTo("Thunderstorm") == 0 ||
-        weather.outlook!.compareTo("Snow") == 0) {
-      temperature = 2;
+    if (weather.outlook!.compareTo("Clear") == 0) {
+      txtOutlook = "Nắng";
+    }
+    if (weather.outlook!.compareTo("Rain") == 0) {
       txtOutlook = "Mưa";
+    }
+    if (weather.outlook!.compareTo("Thunderstorm") == 0) {
+      txtOutlook = "Bão";
+    }
+
+    if (
+        weather.outlook!.compareTo("Snow") == 0) {
+      txtOutlook = "có Tuyết";
     }
 
     if (team.reputation! > 100 && team.reputation! <= 80) {
-      reputation = 0;
+      reputation = "high";
     }
     if (team.reputation! > 80 && team.reputation! <= 50) {
-      reputation = 1;
+      reputation = "normal";
     } else {
-      reputation = 2;
+      reputation = "low";
     }
 
     if (team.level!.compareTo("Giỏi") == 0) {
-      level = 0;
+      level = "high";
     } else {
-      level = 1;
+      level = "normal";
     }
 
     setState(() {
@@ -220,8 +229,15 @@ class _CommentsState extends State<Comments> {
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(8.0),
                                     image: DecorationImage(
+                                       /* (news
+                                            .avatar!.isEmpty
+                                            ? "https://static-images.vnncdn.net/files/publish/2022/11/7/world-cup-2022-1-707.jpg"
+                                            : "http://${AppConfig.IP}:50000/api/File/image/${user.avatar!}")*/
                                       image: NetworkImage(
-                                          "https://static-images.vnncdn.net/files/publish/2022/11/7/world-cup-2022-1-707.jpg"),
+                                        (news
+                                            .imagesNews![0].isEmpty
+                                            ? "https://static-images.vnncdn.net/files/publish/2022/11/7/world-cup-2022-1-707.jpg"
+                                            : "http://${AppConfig.IP}:50000/api/File/image/${news.imagesNews![0]}")),
                                       fit: BoxFit.cover,
                                     ),
                                   ),
@@ -365,7 +381,7 @@ class _CommentsState extends State<Comments> {
                         ),
                         FutureBuilder(
                             future: api.postRecomment(
-                                [outlook], [temperature], [1], [1]),
+                                [outlook], [temperature], [level], [reputation]),
                             builder: (context, snapshot) {
                               if (snapshot.hasData) {
                                 return Visibility(
