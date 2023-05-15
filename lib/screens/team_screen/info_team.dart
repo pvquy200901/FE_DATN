@@ -5,7 +5,9 @@ import 'package:untitled/screens/team_screen/avatar_widget.dart';
 
 import '../../api/api.dart';
 import '../../config/app_config.dart';
+import '../order_screen/dialog_payment.dart';
 import '../user_screen/manager_team/manager_team_screen.dart';
+import 'dialog_report.dart';
 
 class InfoTeam extends StatelessWidget {
   final String name;
@@ -72,9 +74,11 @@ class InfoTeam extends StatelessWidget {
                             fontFamily: 'RobotoMono',
                           ),
                         ),
-                        SizedBox(
-                          width: 45,
-                        )
+                        IconButton(onPressed: ()=>{
+                        showDialog(context: context, builder: (BuildContext context){
+                        return ReportDialog(nameStadium: name,);
+                        })
+                        }, icon: Icon(Icons.warning_amber_outlined, color: Colors.redAccent, size: 30,))
                       ],
                     ),
                   ),

@@ -55,7 +55,6 @@ class ItemTeam extends StatelessWidget {
                   // mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-
                     Text(name,
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(
@@ -123,7 +122,9 @@ class ItemTeam extends StatelessWidget {
                       ],
                     ),
                   ],
-                ))
+                )
+            ),
+
           ]),
 
         ),
