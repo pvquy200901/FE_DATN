@@ -235,7 +235,7 @@ class _CommentsState extends State<Comments> {
                                             : "http://${AppConfig.IP}:50000/api/File/image/${user.avatar!}")*/
                                       image: NetworkImage(
                                         (news
-                                            .imagesNews![0].isEmpty
+                                            .imagesNews!.isEmpty
                                             ? "https://static-images.vnncdn.net/files/publish/2022/11/7/world-cup-2022-1-707.jpg"
                                             : "http://${AppConfig.IP}:50000/api/File/image/${news.imagesNews![0]}")),
                                       fit: BoxFit.cover,

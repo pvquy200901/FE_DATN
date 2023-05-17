@@ -16,19 +16,18 @@ class ReportDialog extends StatefulWidget {
 }
 
 class _ReportDialogState extends State<ReportDialog> {
-
+  bool checkboxValue1 = false;
+  bool checkboxValue2 = false;
+  bool checkboxValue3 = false;
+  bool checked = false;
   @override
   void initState() {
     super.initState();
+
   }
-
-
 
   @override
   Widget build(BuildContext context) {
-    bool checkboxValue1 = true;
-    bool checkboxValue2 = true;
-    bool checkboxValue3 = true;
     return SingleChildScrollView(
       scrollDirection: Axis.vertical,
       child: AlertDialog(
@@ -52,10 +51,11 @@ class _ReportDialogState extends State<ReportDialog> {
                   onChanged: (bool? value) {
                     setState(() {
                       checkboxValue1 = value!;
+                      checked = true;
                     });
                   },
-                  title: const Text('Headline'),
-                  subtitle: const Text('Supporting text'),
+                  title: const Text('Cúp kèo'),
+                  subtitle: const Text('Hẹn đấu nhưng không tới'),
                 ),
                 const Divider(height: 0),
                 CheckboxListTile(
@@ -63,11 +63,12 @@ class _ReportDialogState extends State<ReportDialog> {
                   onChanged: (bool? value) {
                     setState(() {
                       checkboxValue2 = value!;
+                      checked = true;
                     });
                   },
-                  title: const Text('Headline'),
+                  title: const Text('Chơi xấu'),
                   subtitle: const Text(
-                      'Longer supporting text to demonstrate how the text wraps and the checkbox is centered vertically with the text.'),
+                      'Thường xuyên vào bóng với ý đồ ác'),
                 ),
                 const Divider(height: 0),
                 CheckboxListTile(
@@ -75,11 +76,12 @@ class _ReportDialogState extends State<ReportDialog> {
                   onChanged: (bool? value) {
                     setState(() {
                       checkboxValue3 = value!;
+                      checked = true;
                     });
                   },
-                  title: const Text('Headline'),
+                  title: const Text('Xúc phạm'),
                   subtitle: const Text(
-                      "Longer supporting text to demonstrate how the text wraps and how setting 'CheckboxListTile.isThreeLine = true' aligns the checkbox to the top vertically with the text."),
+                      "Ngôn từ gây xúc phạm, hiểu nhầm ác ý"),
                   isThreeLine: true,
                 ),
                 const Divider(height: 0),
@@ -90,7 +92,17 @@ class _ReportDialogState extends State<ReportDialog> {
         actions: [
           TextButton(
             onPressed: () {
-             /* api.createOrder(data).then((value) {
+              if(checked == false){
+                Fluttertoast.showToast(
+                    msg: "Vui lòng chọn lý do",
+                    toastLength: Toast.LENGTH_SHORT,
+                    gravity: ToastGravity.TOP_RIGHT,
+                    timeInSecForIosWeb: 1,
+                    backgroundColor: Colors.red,
+                    textColor: Colors.white,
+                    fontSize: 16.0);
+              }
+              api.reportTeam(widget.nameStadium).then((value) {
                 if (value) {
                   Fluttertoast.showToast(
                       msg: "Đã tố cáo thành công",
@@ -112,10 +124,13 @@ class _ReportDialogState extends State<ReportDialog> {
                       fontSize: 16.0);
                 }
               });
-              Future.delayed(const Duration(seconds: 0)).then((value) async {
-                Get.offAllNamed('/home');
-              });*/
 
+              Future.delayed(
+                  const Duration(seconds: 0))
+                  .then((value) async {
+                Get.back();
+                Get.back();
+              });
             },
             child: Text('OK'),
           ),

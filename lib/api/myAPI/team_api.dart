@@ -139,7 +139,26 @@ mixin TeamApi on BaseApi{
       return false;
     }
   }
+  Future<bool> reportTeam(team) async{
+    const url = '/api/User/reportTeam';
+    try {
+      Response response = await dio.put(url, options: Options(
+        headers: {'Content-Type': 'application/json', 'accept': '*/*','token':appController.token},
+      ),
+          queryParameters:{'team':team} );
+      if (response.statusCode == 200) {
+        return true;
 
+      } else {
+        appController.errorLog = response.data['mess'];
+        return false;
+      }
+    } catch (e) {
+
+      saveLog(e);
+      return false;
+    }
+  }
   Future<String> setLogoTeam(team,data) async {
     const url = '/api/User/setLogoTeam';
     try {
