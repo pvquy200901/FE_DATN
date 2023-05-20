@@ -127,7 +127,7 @@ class NewsPage extends GetView<NewsController> {
                         for (int i = 0; i < snapshot.data!.length; i++)
                           Padding(
                             padding: const EdgeInsets.only(bottom: 10),
-                            child: feedBox(context, snapshot.data![i].user!, int.parse(snapshot.data![i].reputation!), snapshot.data![i].createdTime!, snapshot.data![i].title!, snapshot.data![i].image!,snapshot.data![i].code!)
+                            child: feedBox(context, snapshot.data![i].user!, snapshot.data![i].reputation!.isNotEmpty ? int.parse(snapshot.data![i].reputation!) :0, snapshot.data![i].createdTime!, snapshot.data![i].title!, snapshot.data![i].image!,snapshot.data![i].code!)
                           )
                       ]);
                     }

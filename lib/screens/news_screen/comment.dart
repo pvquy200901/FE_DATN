@@ -80,10 +80,10 @@ class _CommentsState extends State<Comments> {
       txtOutlook = "có Tuyết";
     }
 
-    if (team.reputation! > 100 && team.reputation! <= 80) {
+    if (team.reputation! <= 100 && team.reputation! >= 80) {
       reputation = "high";
     }
-    if (team.reputation! > 80 && team.reputation! <= 50) {
+    else if (team.reputation! < 80 && team.reputation! >= 50) {
       reputation = "normal";
     } else {
       reputation = "low";
@@ -398,9 +398,9 @@ class _CommentsState extends State<Comments> {
                                       child: Padding(
                                         padding: const EdgeInsets.all(8.0),
                                         child: Text(
-                                          snapshot.data!.prediction! == "1"
-                                              ? "Hãy thi đấu với đội bóng này hôm nay đi vì hôm nay trời ${txtOutlook} và nhiệt độ hiện tại là ${weather.temperature}°C- độ tin cậy ${double.parse(snapshot.data!.accuracy!) * 100}%"
-                                              : "Không nên thi đấu với đội bóng này hôm nay trời ${txtOutlook} và nhiệt độ hiện tại là ${weather.temperature}°C- độ tin cậy ${double.parse(snapshot.data!.accuracy!) * 100}%",
+                                          snapshot.data!.prediction! == "yes"
+                                              ? "Hãy thi đấu với đội bóng này hôm nay đi vì hôm nay trời ${txtOutlook} và nhiệt độ hiện tại sân là ${weather.temperature}°C - độ tin cậy ${(double.parse(snapshot.data!.accuracy!) * 100).toStringAsFixed(2)}%"
+                                              : "Không nên thi đấu với đội bóng này vì hôm nay trời ${txtOutlook} và nhiệt độ hiện tại sân là ${weather.temperature}°C - độ tin cậy ${(double.parse(snapshot.data!.accuracy!) * 100).toStringAsFixed(2)}%",
                                           style: TextStyle(
                                               color: Colors.black,
                                               fontSize: 17.0),
