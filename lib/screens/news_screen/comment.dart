@@ -381,7 +381,7 @@ class _CommentsState extends State<Comments> {
                         ),
                         FutureBuilder(
                             future: api.postRecomment(
-                                [outlook], [temperature], [level], [reputation]),
+                                [weather.outlook], [temperature], [level], [reputation]),
                             builder: (context, snapshot) {
                               if (snapshot.hasData) {
                                 return Visibility(
