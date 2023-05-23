@@ -98,6 +98,19 @@ mixin TeamApi on BaseApi{
       return false;
     }
   }
+  Future<bool> editTeam(data) async {
+    const url = '/api/User/editTeam';
+    try {
+      Response response = await dio.post(url, data: data, options: Options(
+        headers: {'Content-Type': 'application/json', 'accept': '*/*', 'token' : appController.token},
+      ));
+
+      return true;
+    } catch (e) {
+      saveLog(e);
+      return false;
+    }
+  }
   Future<bool> joinTeam(team) async{
     const url = '/api/User/joinTeam';
     try {

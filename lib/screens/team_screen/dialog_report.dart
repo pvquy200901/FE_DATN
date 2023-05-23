@@ -102,29 +102,30 @@ class _ReportDialogState extends State<ReportDialog> {
                     textColor: Colors.white,
                     fontSize: 16.0);
               }
-              api.reportTeam(widget.nameStadium).then((value) {
-                if (value) {
-                  Fluttertoast.showToast(
-                      msg: "Đã tố cáo thành công",
-                      toastLength: Toast.LENGTH_SHORT,
-                      gravity: ToastGravity.TOP_RIGHT,
-                      timeInSecForIosWeb: 1,
-                      backgroundColor: Colors.green,
-                      textColor: Colors.white,
-                      fontSize: 16.0);
-                }
-                else {
-                  Fluttertoast.showToast(
-                      msg: "Không thể tố cáo",
-                      toastLength: Toast.LENGTH_SHORT,
-                      gravity: ToastGravity.TOP_RIGHT,
-                      timeInSecForIosWeb: 1,
-                      backgroundColor: Colors.redAccent,
-                      textColor: Colors.white,
-                      fontSize: 16.0);
-                }
-              });
-
+              else{
+                api.reportTeam(widget.nameStadium).then((value) {
+                  if (value) {
+                    Fluttertoast.showToast(
+                        msg: "Đã tố cáo thành công",
+                        toastLength: Toast.LENGTH_SHORT,
+                        gravity: ToastGravity.TOP_RIGHT,
+                        timeInSecForIosWeb: 1,
+                        backgroundColor: Colors.green,
+                        textColor: Colors.white,
+                        fontSize: 16.0);
+                  }
+                  else {
+                    Fluttertoast.showToast(
+                        msg: "Không thể tố cáo",
+                        toastLength: Toast.LENGTH_SHORT,
+                        gravity: ToastGravity.TOP_RIGHT,
+                        timeInSecForIosWeb: 1,
+                        backgroundColor: Colors.redAccent,
+                        textColor: Colors.white,
+                        fontSize: 16.0);
+                  }
+                });
+              }
               Future.delayed(
                   const Duration(seconds: 0))
                   .then((value) async {

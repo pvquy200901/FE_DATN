@@ -59,70 +59,73 @@ class BodyTeamState extends State<BodyTeam>{
               SizedBox(
                 height: 70,
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
+              Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
 
-                  Text("Thành viên đội của tôi",style: TextStyle(fontSize: 18, fontFamily: 'RobotoMono')),
-                  appController.role == "true"? GestureDetector(
-                    child: Text("Quản lý đội",style: TextStyle(fontSize: 18, fontFamily: 'RobotoMono',color: Colors.blueAccent)),
-                    onTap: (){
-                      Navigator.push(context, MaterialPageRoute(builder: (context) {
-                        return new CaptainScreen();
-                      }));
-                    },
-                  ):const SizedBox(),
-                  appController.role == "false"? OutlinedButton(
-                    style: OutlinedButton.styleFrom(
-                      side: BorderSide(
-                        color: Colors.transparent,
-                      ),
-                    ),
-                    onPressed: () {
-                      showDialog<String>(
-                        context: context,
-                        builder: (BuildContext context) => AlertDialog(
-                          title: const Text('Xác nhận rời đội'),
-                          content:
-                          Text('Bạn có muốn rời đội'),
-                          actions: <Widget>[
-                            TextButton(
-                              onPressed: () =>
-                                  Navigator.pop(context, 'Cancel'),
-                              child: const Text('Cancel'),
-                            ),
-                            TextButton(
-                              onPressed: () => {
-                                Navigator.pop(context, 'OK'),
-                                api
-                                    .outTeam(user.team!)
-                                    .then((value) {
-                                  if (value) {
-                                    Future.delayed(
-                                        const Duration(seconds: 0))
-                                        .then((value) async {
-                                      Get.back();
-                                      Get.back();
-                                      Navigator.pushReplacement<void, void>(
-                                        context,
-                                        MaterialPageRoute<void>(
-                                          builder: (BuildContext context) =>  HomePage(),
-                                        ),
-                                      );
-                                    });
-                                  }
-                                }),
-                              },
-                              child: const Text('Xác nhận'),
-                            ),
-                          ],
+                    Text("Thành viên đội của tôi",style: TextStyle(fontSize: 18, fontFamily: 'RobotoMono')),
+                    appController.role == "true"? GestureDetector(
+                      child: Text("Quản lý đội",style: TextStyle(fontSize: 18, fontFamily: 'RobotoMono',color: Colors.blueAccent)),
+                      onTap: (){
+                        Navigator.push(context, MaterialPageRoute(builder: (context) {
+                          return new CaptainScreen();
+                        }));
+                      },
+                    ):const SizedBox(),
+                    appController.role == "false"? OutlinedButton(
+                      style: OutlinedButton.styleFrom(
+                        side: BorderSide(
+                          color: Colors.transparent,
                         ),
-                      );
-                    },
-                    child:
-                    Image.asset("assets/images/sign.png"),
-                  ):const SizedBox()
-                ],
+                      ),
+                      onPressed: () {
+                        showDialog<String>(
+                          context: context,
+                          builder: (BuildContext context) => AlertDialog(
+                            title: const Text('Xác nhận rời đội'),
+                            content:
+                            Text('Bạn có muốn rời đội'),
+                            actions: <Widget>[
+                              TextButton(
+                                onPressed: () =>
+                                    Navigator.pop(context, 'Cancel'),
+                                child: const Text('Cancel'),
+                              ),
+                              TextButton(
+                                onPressed: () => {
+                                  Navigator.pop(context, 'OK'),
+                                  api
+                                      .outTeam(user.team!)
+                                      .then((value) {
+                                    if (value) {
+                                      Future.delayed(
+                                          const Duration(seconds: 0))
+                                          .then((value) async {
+                                        Get.back();
+                                        Get.back();
+                                        Navigator.pushReplacement<void, void>(
+                                          context,
+                                          MaterialPageRoute<void>(
+                                            builder: (BuildContext context) =>  HomePage(),
+                                          ),
+                                        );
+                                      });
+                                    }
+                                  }),
+                                },
+                                child: const Text('Xác nhận'),
+                              ),
+                            ],
+                          ),
+                        );
+                      },
+                      child:
+                      Image.asset("assets/images/sign.png"),
+                    ):const SizedBox()
+                  ],
+                ),
               ),
               Visibility(
                   visible:(user.state! == 4)?true:false ,

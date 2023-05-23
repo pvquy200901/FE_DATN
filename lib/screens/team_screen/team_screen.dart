@@ -5,6 +5,7 @@ import 'package:untitled/screens/team_screen/team_controller.dart';
 import '../../api/api.dart';
 import '../../config/app_config.dart';
 import '../../utils/constants.dart';
+import 'createTeam.dart';
 import 'item_team.dart';
 
 class TeamPage extends GetView<TeamController> {
@@ -48,12 +49,19 @@ class TeamPage extends GetView<TeamController> {
                         ),
                       ),
 
-                      Text(
-                        "Lọc",
-                        style: TextStyle(
-                          fontSize: 20,
-                          color: Color.fromARGB(255, 28, 159, 226),
-                          fontFamily: 'RobotoMono',
+                      TextButton(
+                        onPressed: () => {
+                          Navigator.push(context, MaterialPageRoute(builder: (context) {
+                            return new createTeam();
+                          }))
+                        },
+                        child: Text(
+                          "Tạo đội",
+                          style: TextStyle(
+                            fontSize: 20,
+                            color: Color.fromARGB(255, 28, 159, 226),
+                            fontFamily: 'RobotoMono',
+                          ),
                         ),
                       ),
                     ],

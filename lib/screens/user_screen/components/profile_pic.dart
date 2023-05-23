@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 
 import '../../../api/api.dart';
 import '../../../config/app_config.dart';
+import 'package:dio/dio.dart' as dio;
 
 class ProfilePic extends StatelessWidget {
   const ProfilePic({
@@ -11,6 +15,10 @@ class ProfilePic extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    late dio.FormData m_data;
+    final ImagePicker _picker = ImagePicker();
+    Future<PickedFile?> pickedFile = Future.value(null);
+    XFile? m_image;
     return FutureBuilder(
       future: api.getInfoUserV2(),
       builder: (context, snapshot) {
@@ -41,7 +49,41 @@ class ProfilePic extends StatelessWidget {
                             ),
                           ),
                         ),
-                        onPressed: () {},
+                        onPressed: () async{
+                          m_image = await _picker.pickImage(source: ImageSource.gallery);
+                          if (m_image != null) {
+                            final bytes = await m_image!.readAsBytes();
+                            var dataImage = dio.MultipartFile.fromBytes(bytes,
+                              filename: m_image!.name,
+                            );
+                            dio.FormData data =
+                            dio.FormData.fromMap({'image': dataImage});
+                            api.setAvatarUser(data).then((value) =>{
+                              if(value.isNotEmpty){
+                                Fluttertoast.showToast(
+                                    msg:
+                                    "Đã cập nhật ảnh đại diện",
+                                    toastLength: Toast.LENGTH_SHORT,
+                                    gravity: ToastGravity.BOTTOM,
+                                    timeInSecForIosWeb: 5,
+                                    backgroundColor: Colors.blueAccent,
+                                    textColor: Colors.black,
+                                    fontSize: 16.0),
+
+                              }
+                              else{
+                                Fluttertoast.showToast(
+                                    msg: "Cập nhật ảnh đại diện thất bại!",
+                                    toastLength: Toast.LENGTH_SHORT,
+                                    gravity: ToastGravity.BOTTOM,
+                                    timeInSecForIosWeb: 1,
+                                    backgroundColor: Colors.red,
+                                    textColor: Colors.white,
+                                    fontSize: 16.0)
+                              }
+                            });
+                          }
+                        },
                         child:
                             SvgPicture.asset("assets/images/camera-solid.svg"),
                       ),

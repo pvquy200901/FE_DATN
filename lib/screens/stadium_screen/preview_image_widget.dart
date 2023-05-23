@@ -7,8 +7,8 @@ class PreviewImage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 90,
-      width: 90,
+      height: 120,
+      width: 120,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(9),
         image: DecorationImage(
