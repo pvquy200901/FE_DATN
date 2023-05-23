@@ -218,7 +218,7 @@ class _TTVPageState extends State<TTVPage> {
               style: TextStyle(color: Colors.black, fontSize: 16.0),
             ),
             Text(
-              "Vào ngày:" + time,
+              "Thời gian kết thúc duyệt thành viên:" + time,
               style: TextStyle(color: Colors.black, fontSize: 16.0),
             ),
 

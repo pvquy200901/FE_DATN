@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:untitled/api/api.dart';
 import 'package:untitled/screens/news_screen/postNews.dart';
+import 'package:untitled/screens/news_screen/postTTD.dart';
 
 import '../../config/app_config.dart';
 import '../../dashboard/dashboard_controller.dart';
@@ -12,6 +13,7 @@ import '../stadium_screen/stadium_screen.dart';
 import '../team_screen/team_screen.dart';
 import '../user_screen/user_screen.dart';
 import 'actionBtn.dart';
+import 'driver.dart';
 import 'feedbox.dart';
 import 'news_controller.dart';
 import 'news_screen.dart';
@@ -107,7 +109,7 @@ class TTDPage extends GetView<NewsController> {
                                   onPressed: () {
                                     Navigator.push(context,
                                         MaterialPageRoute(builder: (context) {
-                                          return new PostNews();
+                                          return new createTTD();
                                         }));
                                   },
                                   child: Text('Tạo yêu cầu tìm trận đấu',
@@ -141,26 +143,18 @@ class TTDPage extends GetView<NewsController> {
                 height: 10.0,
               ),
               FutureBuilder(
-                  future: api.getListNews(),
-                  builder: (context, snapshot) {
-                    if (snapshot.hasData) {
+                  future: api.getListAction("TTD"),
+                  builder: (context, snapshot){
+                    if(snapshot.hasData){
                       return Column(children: [
                         for (int i = 0; i < snapshot.data!.length; i++)
                           Padding(
                               padding: const EdgeInsets.only(bottom: 10),
-                              child: feedBox(
-                                  context,
-                                  snapshot.data![i].user!,
-                                  snapshot.data![i].reputation!.isNotEmpty ? int
-                                      .parse(snapshot.data![i].reputation!) : 0,
-                                  snapshot.data![i].createdTime!,
-                                  snapshot.data![i].title!,
-                                  snapshot.data![i].image!,
-                                  snapshot.data![i].code!)
+                              child: feedBox(context, snapshot.data![i].user!, snapshot.data![i].des!, snapshot.data![i].time!, snapshot.data![i].createTime!, snapshot.data![i].code!)
                           )
                       ]);
                     }
-                    else {
+                    else{
                       return Container(
 
                         width: 100,
@@ -172,12 +166,77 @@ class TTDPage extends GetView<NewsController> {
                         ),
                       );
                     }
+
                   })
             ],
           ),
         ),
       ),
 
+    );
+  }
+  Widget feedBox(BuildContext context,String userName, String des, String time,
+      String createTime,String code) {
+    return Container(
+      margin: EdgeInsets.only(bottom: 10.0),
+      width: double.infinity,
+      decoration: BoxDecoration(
+        /*border: Border(bottom: BorderSide(
+        color: Colors.black,
+        width: 1
+      )),*/
+        borderRadius: BorderRadius.circular(12.0),
+        color: kBackgroundColor,
+      ),
+      child: Padding(
+        padding: EdgeInsets.all(8.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Center(
+              child: Text(
+                userName,
+                style: TextStyle(
+                  color: mainBlack,
+                  fontSize: 22.0,
+                  fontWeight: FontWeight.w600,
+                ),
+
+
+
+              ),
+            ),
+            SizedBox(height: 10,),
+
+            Text(
+              des,
+              style: TextStyle(color: Colors.black, fontSize: 20),
+            ),
+            SizedBox(height: 10,),
+            Text(
+              "Thời gian có thể đá:" + time,
+              style: TextStyle(color: Colors.black, fontSize: 16.0),
+            ),
+
+            SizedBox(height: 20,),
+            Padding(
+              padding: const EdgeInsets.only(left: 250),
+              child: Text(
+                createTime,
+                style: TextStyle(color: Colors.blueAccent, fontSize: 16.0),
+              ),
+            ),
+            divider(0.5),
+
+            Row(
+              children: [
+                actionButton(context, Icons.add_task, "Xác nhận", Colors.blue, code),
+              ],
+            )
+          ],
+        ),
+      ),
     );
   }
 }

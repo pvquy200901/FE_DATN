@@ -105,6 +105,21 @@ mixin ActionApi on BaseApi{
       return false;
     }
   }
+  Future<bool> confirmAction(code) async {
+    const url = '/api/Action/setConfirmedAction';
+    try {
+      Response response = await dio.put(url, options: Options(
+        headers: {'Content-Type': 'application/json', 'accept': '*/*', 'token' : appController.token},
+      ),
+        queryParameters: {'code': code},
+      );
+
+      return true;
+    } catch (e) {
+      saveLog(e);
+      return false;
+    }
+  }
   //
   // Future<String> addImageNews(news,data) async {
   //   const url = '/api/News/addImageNews';

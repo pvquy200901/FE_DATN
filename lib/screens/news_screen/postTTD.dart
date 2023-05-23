@@ -11,18 +11,20 @@ import 'package:intl/intl.dart';
 import '../user_screen/user_screen.dart';
 import 'news_screen.dart';
 
-class createTTV extends StatefulWidget {
-  const createTTV({Key? key}) : super(key: key);
+class createTTD extends StatefulWidget {
+  const createTTD({Key? key}) : super(key: key);
 
   @override
-  State<createTTV> createState() => _createTTVState();
+  State<createTTD> createState() => _createTTDState();
 
 }
 
-class _createTTVState extends State<createTTV> {
+class _createTTDState extends State<createTTD> {
+  TimeOfDay selectedTime = TimeOfDay.now();
 
   DateTime _selectedDate = DateTime.now();
   String time = "";
+  String lastTime = "";
   final TextEditingController desTxt = TextEditingController();
 
 
@@ -65,10 +67,10 @@ class _createTTVState extends State<createTTV> {
       padding: const EdgeInsets.symmetric(horizontal: 135, vertical: 16),
       child: ElevatedButton(
         onPressed: () {
-          api.createAction(desTxt.text, time,"TTV").then((value) {
+          api.createAction(desTxt.text, '${time} ${selectedTime.format(context)}',"TTD").then((value) {
             if (value) {
               Fluttertoast.showToast(
-                  msg: "Đã tạo bài tuyển thành viên thành công",
+                  msg: "Đã tạo bài tìm trận đấu thành công",
                   toastLength: Toast.LENGTH_SHORT,
                   gravity: ToastGravity.TOP_RIGHT,
                   timeInSecForIosWeb: 1,
@@ -80,7 +82,7 @@ class _createTTVState extends State<createTTV> {
               }));
             } else {
               Fluttertoast.showToast(
-                  msg: "Không thể tạo đội bóng",
+                  msg: "Không thể bài tìm trận đấu",
                   toastLength: Toast.LENGTH_SHORT,
                   gravity: ToastGravity.TOP_RIGHT,
                   timeInSecForIosWeb: 1,
@@ -119,6 +121,19 @@ class _createTTVState extends State<createTTV> {
   }
 
 
+  void _selectTime(BuildContext context) async {
+    final TimeOfDay? pickedTime = await showTimePicker(
+      context: context,
+      initialTime: selectedTime,
+    );
+
+    if (pickedTime != null && pickedTime != selectedTime) {
+      setState(() {
+        selectedTime = pickedTime;
+
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -150,7 +165,7 @@ class _createTTVState extends State<createTTV> {
             SizedBox(
               height: 20,
             ),
-            Text("Thời gian kết thúc duyệt thành viên ", style: TextStyle(fontSize: 16),),
+            Text("Ngày có thể thi đấu ", style: TextStyle(fontSize: 16),),
             SizedBox(
               height: 20,
             ),
@@ -165,13 +180,27 @@ class _createTTVState extends State<createTTV> {
                     255, 28, 159, 226),
                 onDateChange: (date){
                   _selectedDate = date;
-                   setState(() {
-                     time = DateFormat('dd-MM-yyyy HH:mm').format(_selectedDate);
+                  setState(() {
+                    time = DateFormat('dd-MM-yyyy').format(_selectedDate);
                   });
                   //print(time);
                 },
               ),
             ),
+            SizedBox(
+              height: 20,
+            ),
+            Text("Chọn giờ có thể thi đấu ", style: TextStyle(fontSize: 16),),
+            ElevatedButton(
+              onPressed: () {
+                _selectTime(context);
+              },
+              child: Text('Chọn giờ'),
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            Text('Thời gian đã chọn: ${time} ${selectedTime.format(context)}',style: TextStyle(fontSize: 16)),
 
             loginButton('Tạo bài viết'),
           ],
