@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:untitled/screens/stadium_screen/stadium_screen.dart';
 
 import '../screens/home_screen/home_screen.dart';
+import '../screens/news_screen/TTD.dart';
 import '../screens/news_screen/news_screen.dart';
 import '../screens/team_screen/team_screen.dart';
 import '../screens/user_screen/user_screen.dart';

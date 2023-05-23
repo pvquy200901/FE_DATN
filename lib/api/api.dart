@@ -8,6 +8,7 @@ import 'package:untitled/model/weather_model/weather_model.dart';
 
  import '../config/app_config.dart';
 import '../controller/app_controller.dart';
+import 'myAPI/action_api.dart';
 import 'myAPI/comment_api.dart';
 import 'myAPI/login_api.dart';
 import 'myAPI/news_api.dart';
@@ -55,6 +56,6 @@ class BaseApi {
   }
 
 class Api extends BaseApi
-    with LogInApi,RegisterApi,UserApi,TeamApi,StadiumApi,OrderApi,NewsApi,CommentsApi, RecommentApi,ChatApi, WeatherApi{}
+    with LogInApi,RegisterApi,UserApi,TeamApi,StadiumApi,OrderApi,NewsApi,CommentsApi, RecommentApi,ActionApi,ChatApi, WeatherApi{}
 
 final Api api = Api();
