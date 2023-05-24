@@ -4,6 +4,7 @@ import 'package:untitled/controller/app_controller.dart';
 import 'package:untitled/screens/home_screen/home_screen.dart';
 
 import '../../../api/api.dart';
+import '../../../model/action_model/action.dart';
 import '../../../model/order_model/list_model.dart';
 import '../../../model/user_model/user_model.dart';
 import 'captain_screen.dart';
@@ -17,6 +18,7 @@ class BodyTeam extends StatefulWidget {
 class BodyTeamState extends State<BodyTeam>{
   infoUser user = infoUser();
   List<myOrder> orders = [];
+  List<mAction> actions = [];
   bool isLoading = false;
   loadData()async{
     setState(() {
@@ -24,6 +26,7 @@ class BodyTeamState extends State<BodyTeam>{
     });
     user = await api.getInfoUserV2();
     orders = await api.getListOrderWithTeam(user.team!);
+    actions = await api.getListActionForUser();
     setState(() {
       isLoading = false;
     });
@@ -164,6 +167,42 @@ class BodyTeamState extends State<BodyTeam>{
                         DataCell(Text(e.startTime!)),
                         DataCell(Text(e.nameStadium!)),
                         DataCell(Text(e.address!)),
+                      ],
+                    );
+                    return dataRow;
+                  }).toList()),
+                ),
+              ),
+              Text("Danh sách các bài tuyển chọn",style: TextStyle(fontSize: 18, fontFamily: 'RobotoMono')),
+              Center(
+                child: SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: DataTable(columns: [
+
+                    DataColumn(
+                        label: Text('Ngày đăng',
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold))),
+                    DataColumn(
+                        label: Text('Tiêu đề',
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold))),
+                    DataColumn(
+                        label: Text('Loại bài đăng',
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold))),
+                    DataColumn(
+                        label: Text('Trạng thái',
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold))),
+
+                  ], rows: actions.map((e){
+                    final DataRow dataRow = DataRow(
+                      cells: [
+                        DataCell(Text(e.createTime!)),
+                        DataCell(Text(e.des!)),
+                        DataCell(Text(e.type!)),
+                        DataCell(Text(e.state!)),
                       ],
                     );
                     return dataRow;

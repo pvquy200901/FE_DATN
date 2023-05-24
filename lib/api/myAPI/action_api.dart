@@ -7,14 +7,14 @@ import 'package:dio/dio.dart';
 import '../../model/action_model/action.dart';
 
 mixin ActionApi on BaseApi{
-  Future<List<Action>> getListAction(type) async{
+  Future<List<mAction>> getListAction(type) async{
     const url = '/api/Action/getListActionType';
     try {
       Response response = await dio.get(url, options: Options(
         headers: {'Content-Type': 'application/json', 'accept': '*/*','token':appController.token},
       ), queryParameters: {'type': type});
       if (response.statusCode == 200) {
-        return (response.data as List).map((e) => Action.fromJson(e)).toList();
+        return (response.data as List).map((e) => mAction.fromJson(e)).toList();
       } else {
         appController.errorLog = response.data['mess'];
         return [];
@@ -26,71 +26,45 @@ mixin ActionApi on BaseApi{
     }
   }
 
-  // Future<List<News>> getListNewsForUser() async{
-  //   const url = '/api/User/listNews';
-  //   try {
-  //     Response response = await dio.get(url, options: Options(
-  //       headers: {'Content-Type': 'application/json', 'accept': '*/*','token':appController.token},
-  //     ));
-  //     if (response.statusCode == 200) {
-  //       return (response.data as List).map((e) => News.fromJson(e)).toList();
-  //     } else {
-  //       appController.errorLog = response.data['mess'];
-  //       return [];
-  //     }
-  //   } catch (e) {
-  //     print("Loi ${e.toString()}");
-  //     saveLog(e);
-  //     return [];
-  //   }
-  // }
+  Future<List<mAction>> getListActionForUser() async{
+    const url = '/api/Action/getListActionForUser';
+    try {
+      Response response = await dio.get(url, options: Options(
+        headers: {'Content-Type': 'application/json', 'accept': '*/*','token':appController.token},
+      ));
+      if (response.statusCode == 200) {
+        return (response.data as List).map((e) => mAction.fromJson(e)).toList();
+      } else {
+        appController.errorLog = response.data['mess'];
+        return [];
+      }
+    } catch (e) {
+      print("Loi ${e.toString()}");
+      saveLog(e);
+      return [];
+    }
+  }
 
-  // Future<Action> getInfoNewsForCustomer(code) async{
-  //   const url = '/api/News/getInfoNewsForCustomer';
-  //   try {
-  //     Response response = await dio.get(url, options: Options(
-  //       headers: {'Content-Type': 'application/json', 'accept': '*/*','token':appController.token},
-  //     ),
-  //         queryParameters: {'news': code}
-  //     );
-  //     if (response.statusCode == 200) {
-  //       return Action.fromJson(response.data);
-  //
-  //     } else {
-  //       appController.errorLog = response.data['mess'];
-  //       return Action();
-  //     }
-  //   } catch (e) {
-  //
-  //     saveLog(e);
-  //     return Action();
-  //   }
-  // }
-  //
-  // //  Future<infoNews> getInfoNewsForCustomer(code) async{
-  // //   const url = '/api/News/getInfoNewsForCustomer';
-  // //   try {
-  // //     Response response = await dio.get(url, options: Options(
-  // //       headers: {'Content-Type': 'application/json', 'accept': '*/*','token':appController.token},
-  // //     ),
-  // //     queryParameters:{'code':code} );
-  // //     if (response.statusCode == 200) {
-  //
-  // //       print("------------------------------${response.data.toString()}");
-  // //       return infoNews.fromJson(response.data);
-  //
-  // //     } else {
-  // //       appController.errorLog = response.data['mess'];
-  // //        print("------------------------------ LỖI ${appController.errorLog}");
-  // //       return infoNews();
-  // //     }
-  // //   } catch (e) {
-  //
-  // //     saveLog(e);
-  // //     return infoNews();
-  // //   }
-  // // }
-  //
+
+  Future<List<mAction>> getListConfirmActionForUser() async{
+    const url = '/api/Action/getListActionForUser';
+    try {
+      Response response = await dio.get(url, options: Options(
+        headers: {'Content-Type': 'application/json', 'accept': '*/*','token':appController.token},
+      ));
+      if (response.statusCode == 200) {
+        return (response.data as List).map((e) => mAction.fromJson(e)).toList();
+      } else {
+        appController.errorLog = response.data['mess'];
+        return [];
+      }
+    } catch (e) {
+      print("Loi ${e.toString()}");
+      saveLog(e);
+      return [];
+    }
+  }
+
   Future<bool> createAction(des, time, type) async {
     const url = '/api/Action/createAction';
     try {
@@ -120,28 +94,6 @@ mixin ActionApi on BaseApi{
       return false;
     }
   }
-  //
-  // Future<String> addImageNews(news,data) async {
-  //   const url = '/api/News/addImageNews';
-  //   try {
-  //     Response response = await dio.put(url,data: data,options: Options(
-  //       headers: {'Content-Type': 'multipart/form-data', 'accept': '*/*', 'token' : appController.token},
-  //     ),
-  //         queryParameters: {'team': news}
-  //     );
-  //     if(response.statusCode == 200){
-  //       print("ĐÃ CẬP NHẬT ảnh");
-  //       return response.data;
-  //     }
-  //     else{
-  //       return "";
-  //     }
-  //   } catch (e) {
-  //     saveLog(e);
-  //     print(e);
-  //     return "";
-  //   }
-  // }
 
 
 

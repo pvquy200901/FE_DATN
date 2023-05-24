@@ -1,4 +1,4 @@
-class Action {
+class mAction {
   String? code;
   String? des;
   String? time;
@@ -8,7 +8,7 @@ class Action {
   String? user;
   String? team;
 
-  Action(
+  mAction(
       {this.code,
         this.des,
         this.time,
@@ -18,7 +18,7 @@ class Action {
         this.team,
         this.user});
 
-  Action.fromJson(Map<String, dynamic> json) {
+  mAction.fromJson(Map<String, dynamic> json) {
     code = json['code'];
     des = json['des'];
     time = json['time'];
