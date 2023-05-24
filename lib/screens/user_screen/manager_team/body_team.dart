@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:untitled/controller/app_controller.dart';
 import 'package:untitled/screens/home_screen/home_screen.dart';
@@ -19,6 +20,7 @@ class BodyTeamState extends State<BodyTeam>{
   infoUser user = infoUser();
   List<myOrder> orders = [];
   List<mAction> actions = [];
+  List<mAction> confirmActions = [];
   bool isLoading = false;
   loadData()async{
     setState(() {
@@ -27,6 +29,7 @@ class BodyTeamState extends State<BodyTeam>{
     user = await api.getInfoUserV2();
     orders = await api.getListOrderWithTeam(user.team!);
     actions = await api.getListActionForUser();
+    confirmActions = await api.getListConfirmActionForUser();
     setState(() {
       isLoading = false;
     });
@@ -139,7 +142,7 @@ class BodyTeamState extends State<BodyTeam>{
               const SizedBox(height: 30),
               Text("Lịch thi đấu",style: TextStyle(fontSize: 18, fontFamily: 'RobotoMono')),
               Center(
-                child: SingleChildScrollView(
+                child: (orders.length > 0)?SingleChildScrollView(
                   scrollDirection: Axis.horizontal,
                   child: DataTable(columns: [
 
@@ -171,8 +174,9 @@ class BodyTeamState extends State<BodyTeam>{
                     );
                     return dataRow;
                   }).toList()),
-                ),
+                ):Text("Không có trận đấu nào"),
               ),
+              const SizedBox(height: 30),
               Text("Danh sách các bài tuyển chọn",style: TextStyle(fontSize: 18, fontFamily: 'RobotoMono')),
               Center(
                 child: SingleChildScrollView(
@@ -195,6 +199,10 @@ class BodyTeamState extends State<BodyTeam>{
                         label: Text('Trạng thái',
                             style: TextStyle(
                                 fontWeight: FontWeight.bold))),
+                    DataColumn(
+                        label: Text('Tùy chỉnh',
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold))),
 
                   ], rows: actions.map((e){
                     final DataRow dataRow = DataRow(
@@ -203,12 +211,89 @@ class BodyTeamState extends State<BodyTeam>{
                         DataCell(Text(e.des!)),
                         DataCell(Text(e.type!)),
                         DataCell(Text(e.state!)),
+                        DataCell(Row(
+                          children: [
+                            /*IconButton(
+                              icon: const Icon(Icons.article_outlined),
+                              color: Colors.blueAccent,
+                              onPressed: () {
+
+                              },
+                            ),*/
+                            IconButton(
+                              icon: const Icon(Icons.delete),
+                              color: Colors.blueAccent,
+                              onPressed: () {
+                                api.deleteAction(e.code).then((value){
+                                  if (value){
+                                    Fluttertoast.showToast(
+                                        msg: "Đã xóa",
+                                        toastLength: Toast.LENGTH_SHORT,
+                                        gravity: ToastGravity.TOP_RIGHT,
+                                        timeInSecForIosWeb: 1,
+                                        backgroundColor: Colors.green,
+                                        textColor: Colors.white,
+                                        fontSize: 16.0);
+                                    Get.back();
+                                  }
+                                  else{
+                                    Fluttertoast.showToast(
+                                        msg: "Không thể xóa",
+                                        toastLength: Toast.LENGTH_SHORT,
+                                        gravity: ToastGravity.TOP_RIGHT,
+                                        timeInSecForIosWeb: 1,
+                                        backgroundColor: Colors.redAccent,
+                                        textColor: Colors.white,
+                                        fontSize: 16.0);
+                                  }
+                                });
+                              },
+                            ),
+                          ],
+                        ))
                       ],
                     );
                     return dataRow;
                   }).toList()),
                 ),
-              )
+              ),
+              const SizedBox(height: 30),
+              Text("Danh sách các kèo đã xác nhận",style: TextStyle(fontSize: 18, fontFamily: 'RobotoMono')),
+              Center(
+                child: SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: DataTable(columns: [
+
+                    DataColumn(
+                        label: Text('Ngày thi đấu',
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold))),
+                    DataColumn(
+                        label: Text('Tiêu đề',
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold))),
+                    DataColumn(
+                        label: Text('Đội bóng',
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold))),
+                    DataColumn(
+                        label: Text('Người nhận',
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold))),
+
+                  ], rows: confirmActions.map((e){
+                    final DataRow dataRow = DataRow(
+                      cells: [
+                        DataCell(Text(e.time!)),
+                        DataCell(Text(e.des!)),
+                        DataCell(Text(e.team!)),
+                        DataCell(Text(e.user!)),
+                      ],
+                    );
+                    return dataRow;
+                  }).toList()),
+                ),
+              ),
             ],
           ),
         ),

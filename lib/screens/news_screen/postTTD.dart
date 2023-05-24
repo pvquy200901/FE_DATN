@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:get/get.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:untitled/api/api.dart';
 import 'package:date_picker_timeline/date_picker_widget.dart';
@@ -77,9 +78,8 @@ class _createTTDState extends State<createTTD> {
                   backgroundColor: Colors.green,
                   textColor: Colors.white,
                   fontSize: 16.0);
-              Navigator.push(context, MaterialPageRoute(builder: (context) {
-                return NewsPage();
-              }));
+              Get.back();
+              Get.back();
             } else {
               Fluttertoast.showToast(
                   msg: "Không thể bài tìm trận đấu",

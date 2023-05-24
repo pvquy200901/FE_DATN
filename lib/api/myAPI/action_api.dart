@@ -47,7 +47,7 @@ mixin ActionApi on BaseApi{
 
 
   Future<List<mAction>> getListConfirmActionForUser() async{
-    const url = '/api/Action/getListActionForUser';
+    const url = '/api/Action/getListConfirmActionForUser';
     try {
       Response response = await dio.get(url, options: Options(
         headers: {'Content-Type': 'application/json', 'accept': '*/*','token':appController.token},
@@ -83,6 +83,22 @@ mixin ActionApi on BaseApi{
     const url = '/api/Action/setConfirmedAction';
     try {
       Response response = await dio.put(url, options: Options(
+        headers: {'Content-Type': 'application/json', 'accept': '*/*', 'token' : appController.token},
+      ),
+        queryParameters: {'code': code},
+      );
+
+      return true;
+    } catch (e) {
+      saveLog(e);
+      return false;
+    }
+  }
+
+  Future<bool> deleteAction(code) async {
+    const url = '/api/Action/deleteAction';
+    try {
+      Response response = await dio.delete(url, options: Options(
         headers: {'Content-Type': 'application/json', 'accept': '*/*', 'token' : appController.token},
       ),
         queryParameters: {'code': code},

@@ -41,7 +41,7 @@ Widget actionButton(BuildContext context,IconData icon, String actionTitle, Colo
               api.confirmAction(code).then((value) {
                 if (value) {
                   Fluttertoast.showToast(
-                      msg: "Đã tạo bài tìm trận đấu thành công",
+                      msg: "Đã xác nhận",
                       toastLength: Toast.LENGTH_SHORT,
                       gravity: ToastGravity.TOP_RIGHT,
                       timeInSecForIosWeb: 1,
@@ -53,7 +53,7 @@ Widget actionButton(BuildContext context,IconData icon, String actionTitle, Colo
                   }));
                 } else {
                   Fluttertoast.showToast(
-                      msg: "Không thể bài tìm trận đấu",
+                      msg: "Không thể xác nhận",
                       toastLength: Toast.LENGTH_SHORT,
                       gravity: ToastGravity.TOP_RIGHT,
                       timeInSecForIosWeb: 1,

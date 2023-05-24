@@ -150,7 +150,7 @@ class TTDPage extends GetView<NewsController> {
                         for (int i = 0; i < snapshot.data!.length; i++)
                           Padding(
                               padding: const EdgeInsets.only(bottom: 10),
-                              child: feedBox(context, snapshot.data![i].user!, snapshot.data![i].des!, snapshot.data![i].time!, snapshot.data![i].createTime!, snapshot.data![i].code!)
+                              child: feedBox(context, snapshot.data![i].user!, snapshot.data![i].des!, snapshot.data![i].time!, snapshot.data![i].createTime!, snapshot.data![i].code!, snapshot.data![i].team!)
                           )
                       ]);
                     }
@@ -176,7 +176,7 @@ class TTDPage extends GetView<NewsController> {
     );
   }
   Widget feedBox(BuildContext context,String userName, String des, String time,
-      String createTime,String code) {
+      String createTime,String code, String team) {
     return Container(
       margin: EdgeInsets.only(bottom: 10.0),
       width: double.infinity,
@@ -231,6 +231,8 @@ class TTDPage extends GetView<NewsController> {
 
             Row(
               children: [
+                actionButton(context, Icons.group, "Xem đội", Colors.blue, team),
+
                 actionButton(context, Icons.add_task, "Xác nhận", Colors.blue, code),
               ],
             )
