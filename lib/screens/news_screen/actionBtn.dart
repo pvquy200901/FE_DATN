@@ -34,7 +34,7 @@ Widget actionButton(BuildContext context,IconData icon, String actionTitle, Colo
             }
             if(actionTitle.compareTo("Xem đội") == 0){
               Navigator.push(context, MaterialPageRoute(builder: (context) {
-                return new InfoTeam(name: code, time: "",);
+                return new InfoTeam(name: code, time: time,);
               }));
             }
             if(actionTitle.compareTo("Xác nhận") == 0){

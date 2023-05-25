@@ -82,7 +82,7 @@ Widget feedBox(BuildContext context,String userName, int point, String date,
 
           Row(
             children: [
-               actionButton(context, Icons.comment, "Bình Luận", mainBlack, code),
+               actionButton(context, Icons.comment, "Bình Luận", mainBlack, code,""),
             ],
           )
         ],

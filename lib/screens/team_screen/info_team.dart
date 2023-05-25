@@ -423,7 +423,7 @@ class InfoTeam extends StatefulWidget {
                       ),
                     ),
                   ),
-                  AnimatedPositioned(
+                  widget.time.isNotEmpty ?AnimatedPositioned(
                     left: _xPosition,
                     top: _yPosition,
                     duration: Duration(milliseconds: 100),
@@ -473,7 +473,7 @@ class InfoTeam extends StatefulWidget {
                                           padding: const EdgeInsets.all(8.0),
                                           child: Text(
                                             snapshot.data!.prediction! == "yes" && stadiums.length >0
-                                                ? "Hãy thi đấu với đội bóng này hôm nay đi vì hôm nay trời ${txtOutlook} và nhiệt độ hiện tại sân là ${weather.temperature}°C - độ tin cậy ${(double.parse(snapshot.data!.accuracy!) * 100).toStringAsFixed(2)}% - Có các sân trống sau${stadiums}"
+                                                ? "Hãy thi đấu với đội bóng này hôm nay đi vì hôm nay trời ${txtOutlook} và nhiệt độ hiện tại sân là ${weather.temperature}°C - độ tin cậy ${(double.parse(snapshot.data!.accuracy!) * 100).toStringAsFixed(2)}% - Có các sân trống sau: ${stadiums}"
                                                 : "Không nên thi đấu với đội bóng này vì hôm nay trời ${txtOutlook} và nhiệt độ hiện tại sân là ${weather.temperature}°C - độ tin cậy ${(double.parse(snapshot.data!.accuracy!) * 100).toStringAsFixed(2)}%",
                                             style: TextStyle(
                                                 color: Colors.black,
@@ -508,7 +508,7 @@ class InfoTeam extends StatefulWidget {
                         ],
                       ),
                     ),
-                  ),
+                  ):SizedBox(height: 10,),
                 ],
               ),
             ),
