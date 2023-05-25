@@ -11,7 +11,7 @@ import 'TTV.dart';
 import 'comment.dart';
 import 'news_screen.dart';
 
-Widget actionButton(BuildContext context,IconData icon, String actionTitle, Color iconColor,String code) {
+Widget actionButton(BuildContext context,IconData icon, String actionTitle, Color iconColor,String code, String time) {
   return Expanded(
     child: Column(
       children: [
@@ -34,7 +34,7 @@ Widget actionButton(BuildContext context,IconData icon, String actionTitle, Colo
             }
             if(actionTitle.compareTo("Xem đội") == 0){
               Navigator.push(context, MaterialPageRoute(builder: (context) {
-                return new InfoTeam(name: code);
+                return new InfoTeam(name: code, time: "",);
               }));
             }
             if(actionTitle.compareTo("Xác nhận") == 0){

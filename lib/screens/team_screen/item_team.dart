@@ -132,7 +132,7 @@ class ItemTeam extends StatelessWidget {
       ),
       onTap: (){
         Navigator.push(context, MaterialPageRoute(builder: (context) {
-          return new InfoTeam(name: name,);
+          return new InfoTeam(name: name, time: "",);
         }));
       },
     );

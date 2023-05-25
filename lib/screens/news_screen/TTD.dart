@@ -130,9 +130,9 @@ class TTDPage extends GetView<NewsController> {
                       Row(
                         children: [
                           actionButton(context, Icons.people,
-                              "Tuyển thành viên", Color(0xFFF23E5C), ""),
+                              "Tuyển thành viên", Color(0xFFF23E5C), "",""),
                           actionButton(context, Icons.sports_soccer,
-                              "Tìm trận đấu", Color(0xFF58C472), ""),
+                              "Tìm trận đấu", Color(0xFF58C472), "",""),
                         ],
                       )
                     ],
@@ -231,9 +231,9 @@ class TTDPage extends GetView<NewsController> {
 
             Row(
               children: [
-                actionButton(context, Icons.group, "Xem đội", Colors.blue, team),
+                actionButton(context, Icons.group, "Xem đội", Colors.blue, team,time),
 
-                actionButton(context, Icons.add_task, "Xác nhận", Colors.blue, code),
+                actionButton(context, Icons.add_task, "Xác nhận", Colors.blue, code,""),
               ],
             )
           ],

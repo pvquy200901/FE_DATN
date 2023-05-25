@@ -169,6 +169,27 @@ mixin OrderApi on BaseApi{
     }
   }
 
+  Future<List<String>> getListStadiumTime(date) async{
+    const url = '/api/Order/listAllStadiumTime';
+    try {
+      Response response = await dio.get(url, options: Options(
+        headers: {'Content-Type': 'application/json', 'accept': '*/*','token':appController.token},
+      ),
+          queryParameters: {'time': date}
+      );
+      if (response.statusCode == 200) {
+        return response.data;
+      } else {
+        appController.errorLog = response.data['mess'];
+        return [];
+      }
+    } catch (e) {
+
+      saveLog(e);
+      return [];
+    }
+  }
+
   Future<List<myOrder>> getListOrderWithTeam(String team) async{
     const url = '/api/User/getListOrderWithTeam';
     try {

@@ -5,18 +5,106 @@ import 'package:untitled/screens/team_screen/avatar_widget.dart';
 
 import '../../api/api.dart';
 import '../../config/app_config.dart';
+import '../../model/team_model/team_model.dart';
+import '../../model/weather_model/weather_model.dart';
 import '../order_screen/dialog_payment.dart';
 import '../user_screen/manager_team/manager_team_screen.dart';
 import 'dialog_report.dart';
 
-class InfoTeam extends StatelessWidget {
+class InfoTeam extends StatefulWidget {
   final String name;
-
-  const InfoTeam({super.key, required this.name});
+  final String time;
+  InfoTeam({Key? key, required this.name, required this.time}) : super(key: key);
   @override
+  _InfoTeamState createState() => _InfoTeamState();
+}
+  class _InfoTeamState extends State<InfoTeam> {
+    double _xPosition = 280.0;
+    double _yPosition = 80.0;
+    bool isLoading = false;
+    bool check = false;
+    String outlook = "";
+    String temperature = "";
+    String level ="";
+    String reputation = "";
+    String txtOutlook = "";
+    List<String> stadiums = [];
+    Team team = Team();
+    WeatherData weather = WeatherData();
+    double latitude = 10.88283465113124;
+    double longitude = 106.78173797251489;
+    loadData() async {
+
+      setState(() {
+        isLoading = true;
+      });
+      stadiums = await api.getListStadiumTime(widget.time);
+      team = await api.getInfoTeam(widget.name);
+      weather = await api.fetchWeatherData(latitude, longitude);
+      if (weather.temperature! >= 27.0) {
+        temperature = "hot";
+      } else if (weather.temperature! > 20 && weather.temperature! < 27) {
+        temperature = "mild";
+      } else {
+        temperature = "cool";
+      }
+      if (weather.outlook!.compareTo("Clouds") == 0 ||
+          weather.outlook!.compareTo("Mist") == 0) {
+
+        txtOutlook = "Nhiều mây";
+      }
+      if (
+      weather.outlook!.compareTo("Mist") == 0) {
+
+        txtOutlook = "Sương mù";
+      }
+      if (weather.outlook!.compareTo("Clear") == 0) {
+        txtOutlook = "Nắng";
+      }
+      if (weather.outlook!.compareTo("Rain") == 0) {
+        txtOutlook = "Mưa";
+      }
+      if (weather.outlook!.compareTo("Thunderstorm") == 0) {
+        txtOutlook = "Bão";
+      }
+
+      if (
+      weather.outlook!.compareTo("Snow") == 0) {
+        txtOutlook = "có Tuyết";
+      }
+
+      if (team.reputation! <= 100 && team.reputation! >= 80) {
+        reputation = "high";
+      }
+      else if (team.reputation! < 80 && team.reputation! >= 50) {
+        reputation = "normal";
+      } else {
+        reputation = "low";
+      }
+
+      if (team.level!.compareTo("Giỏi") == 0) {
+        level = "high";
+      } else {
+        level = "normal";
+      }
+
+      setState(() {
+        isLoading = false;
+      });
+    }
+
+    @override
+    void initState() {
+      // TODO: implement initState
+      loadData();
+      super.initState();
+    }
+
+    @override
   Widget build(BuildContext context) {
+
    return FutureBuilder(
-       future: api.getInfoTeam(name),
+       future: api.getInfoTeam(widget.name),
        builder: (context, snapshot){
         if(snapshot.hasData){
           return SafeArea(
@@ -76,7 +164,7 @@ class InfoTeam extends StatelessWidget {
                         ),
                         IconButton(onPressed: ()=>{
                         showDialog(context: context, builder: (BuildContext context){
-                        return ReportDialog(nameStadium: name,);
+                        return ReportDialog(nameStadium: widget.name,);
                         })
                         }, icon: Icon(Icons.warning_amber_outlined, color: Colors.redAccent, size: 30,))
                       ],
@@ -227,7 +315,7 @@ class InfoTeam extends StatelessWidget {
                             ),
 
                             FutureBuilder(
-                                future: api.getListUserInTeam(name),
+                                future: api.getListUserInTeam(widget.name),
                                 builder: (context, snapshot){
                                 if(snapshot.hasData){
                                   return Wrap(
@@ -286,7 +374,7 @@ class InfoTeam extends StatelessWidget {
                                                       onPressed: () => {
                                                         Navigator.pop(context, 'OK'),
                                                         api
-                                                            .joinTeam(name)
+                                                            .joinTeam(widget.name)
                                                             .then((value) {
                                                           if (value) {
                                                             Future.delayed(
@@ -332,6 +420,92 @@ class InfoTeam extends StatelessWidget {
                           borderRadius: BorderRadius.circular(26),
                           color: Colors.white,
                         ),
+                      ),
+                    ),
+                  ),
+                  AnimatedPositioned(
+                    left: _xPosition,
+                    top: _yPosition,
+                    duration: Duration(milliseconds: 100),
+                    child: GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          _xPosition = 45.0;
+                          _yPosition = 80.0;
+                          check = true;
+                        });
+                      },
+                      onPanUpdate: (tapInfo) {
+                        setState(() {
+                          _xPosition += tapInfo.delta.dx;
+                          _yPosition += tapInfo.delta.dy;
+                        });
+                      },
+                      child: Column(
+                        children: [
+                          Container(
+                            width: 100,
+                            height: 100,
+                            decoration: BoxDecoration(
+                              image: DecorationImage(
+                                image: AssetImage('assets/images/chatbot.png'),
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                          ),
+                          FutureBuilder(
+                              future: api.postRecomment(
+                                  [weather.outlook], [temperature], [level], [reputation]),
+                              builder: (context, snapshot) {
+                                if (snapshot.hasData) {
+                                  return Visibility(
+                                    visible: check,
+                                    child: Stack(children: [
+                                      Container(
+                                        width: 300,
+                                        decoration: BoxDecoration(
+                                          color: Colors.blueGrey[
+                                          50], // set background color
+                                          borderRadius: BorderRadius.circular(
+                                              5.0), // set border radius
+                                        ),
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Text(
+                                            snapshot.data!.prediction! == "yes" && stadiums.length >0
+                                                ? "Hãy thi đấu với đội bóng này hôm nay đi vì hôm nay trời ${txtOutlook} và nhiệt độ hiện tại sân là ${weather.temperature}°C - độ tin cậy ${(double.parse(snapshot.data!.accuracy!) * 100).toStringAsFixed(2)}% - Có các sân trống sau${stadiums}"
+                                                : "Không nên thi đấu với đội bóng này vì hôm nay trời ${txtOutlook} và nhiệt độ hiện tại sân là ${weather.temperature}°C - độ tin cậy ${(double.parse(snapshot.data!.accuracy!) * 100).toStringAsFixed(2)}%",
+                                            style: TextStyle(
+                                                color: Colors.black,
+                                                fontSize: 17.0),
+                                          ),
+                                        ),
+                                      ),
+                                      Positioned(
+                                        right: -20,
+                                        top: -10,
+                                        child: TextButton(
+                                          onPressed: () {
+                                            setState(() {
+                                              _xPosition = 280.0;
+                                              _yPosition = 80.0;
+                                              check = false;
+                                            });
+                                          },
+                                          child: Icon(
+                                            size: 25,
+                                            Icons.close,
+                                            color: Colors.black,
+                                          ),
+                                        ),
+                                      ),
+                                    ]),
+                                  );
+                                } else {
+                                  return CircularProgressIndicator();
+                                }
+                              })
+                        ],
                       ),
                     ),
                   ),

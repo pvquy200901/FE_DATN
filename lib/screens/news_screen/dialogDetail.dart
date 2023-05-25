@@ -87,7 +87,7 @@ class _DetailDialogState extends State<DetailDialog> {
           TextButton(
             onPressed: () {
 
-              var data = {
+             /* var data = {
                 'starttime': widget.startTime,
                 'endtime': widget.endTime,
                 'm_stadium': widget.nameStadium
@@ -116,7 +116,7 @@ class _DetailDialogState extends State<DetailDialog> {
               });
               Future.delayed(const Duration(seconds: 0)).then((value) async {
                 Get.offAllNamed('/home');
-              });
+              });*/
             },
             child: Text('OK'),
           ),

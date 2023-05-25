@@ -120,9 +120,9 @@ class _TTVPageState extends State<TTVPage> {
                       Row(
                         children: [
                           actionButton(context, Icons.people,
-                              "Tuyển thành viên", Color(0xFFF23E5C),""),
+                              "Tuyển thành viên", Color(0xFFF23E5C),"",""),
                           actionButton(context, Icons.sports_soccer,
-                              "Tìm trận đấu", Color(0xFF58C472),""),
+                              "Tìm trận đấu", Color(0xFF58C472),"",""),
                         ],
                       )
                     ],
@@ -234,7 +234,7 @@ class _TTVPageState extends State<TTVPage> {
 
             Row(
               children: [
-                actionButton(context, Icons.add_task, "Xem đội", Colors.blue, code),
+                actionButton(context, Icons.add_task, "Xem đội", Colors.blue, code,""),
               ],
             )
           ],
