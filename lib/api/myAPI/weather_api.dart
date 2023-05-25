@@ -17,6 +17,7 @@ mixin WeatherApi on BaseApi{
       final temperature = json['main']['temp']?.toDouble() ?? 0.0;
       return WeatherData(outlook: outlook, temperature: temperature);
     } else {
+      print("lôi" + response.statusCode.toString());
       throw Exception('Failed to load weather data');
     }
   }

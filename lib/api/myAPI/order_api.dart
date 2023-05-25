@@ -178,7 +178,7 @@ mixin OrderApi on BaseApi{
           queryParameters: {'time': date}
       );
       if (response.statusCode == 200) {
-        return response.data;
+        return (response.data as List<dynamic>).cast<String>();
       } else {
         appController.errorLog = response.data['mess'];
         return [];

@@ -234,7 +234,7 @@ class _TTVPageState extends State<TTVPage> {
 
             Row(
               children: [
-                actionButton(context, Icons.add_task, "Xem đội", Colors.blue, code,""),
+                actionButton(context, Icons.add_task, "Xem đội", Colors.blue, code,"1"),
               ],
             )
           ],

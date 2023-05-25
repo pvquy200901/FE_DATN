@@ -23,6 +23,7 @@ class InfoTeam extends StatefulWidget {
     double _yPosition = 80.0;
     bool isLoading = false;
     bool check = false;
+    bool check1 = false;
     String outlook = "";
     String temperature = "";
     String level ="";
@@ -37,6 +38,12 @@ class InfoTeam extends StatefulWidget {
 
       setState(() {
         isLoading = true;
+        if(widget.time == "1"){
+          check1 = false;
+        }
+        else{
+          check1 = true;
+        }
       });
       stadiums = await api.getListStadiumTime(widget.time);
       team = await api.getInfoTeam(widget.name);
@@ -423,7 +430,8 @@ class InfoTeam extends StatefulWidget {
                       ),
                     ),
                   ),
-                  widget.time.isNotEmpty ?AnimatedPositioned(
+
+                  (widget.time != "1")?AnimatedPositioned(
                     left: _xPosition,
                     top: _yPosition,
                     duration: Duration(milliseconds: 100),
@@ -508,7 +516,15 @@ class InfoTeam extends StatefulWidget {
                         ],
                       ),
                     ),
-                  ):SizedBox(height: 10,),
+                  ):Positioned(
+                    left: 0,
+                    right: 0,
+                    child: SizedBox(
+
+                    ),
+                  ),
+                  //Positioned(child: SizedBox(height: 10,))
+
                 ],
               ),
             ),
