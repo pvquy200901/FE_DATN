@@ -21,7 +21,7 @@ class createTTD extends StatefulWidget {
 }
 
 class _createTTDState extends State<createTTD> {
-  TimeOfDay selectedTime = TimeOfDay.now();
+  String selectedTime = "";
 
   DateTime _selectedDate = DateTime.now();
   String time = "";
@@ -68,7 +68,7 @@ class _createTTDState extends State<createTTD> {
       padding: const EdgeInsets.symmetric(horizontal: 135, vertical: 16),
       child: ElevatedButton(
         onPressed: () {
-          api.createAction(desTxt.text, '${time} ${selectedTime.format(context)}',"TTD").then((value) {
+          api.createAction(desTxt.text, '${time} ${selectedTime}',"TTD").then((value) {
             if (value) {
               Fluttertoast.showToast(
                   msg: "Đã tạo bài tìm trận đấu thành công",
@@ -121,19 +121,6 @@ class _createTTDState extends State<createTTD> {
   }
 
 
-  void _selectTime(BuildContext context) async {
-    final TimeOfDay? pickedTime = await showTimePicker(
-      context: context,
-      initialTime: selectedTime,
-    );
-
-    if (pickedTime != null && pickedTime != selectedTime) {
-      setState(() {
-        selectedTime = pickedTime;
-
-      });
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -191,16 +178,117 @@ class _createTTDState extends State<createTTD> {
               height: 20,
             ),
             Text("Chọn giờ có thể thi đấu ", style: TextStyle(fontSize: 16),),
-            ElevatedButton(
-              onPressed: () {
-                _selectTime(context);
-              },
-              child: Text('Chọn giờ'),
+
+            Padding(
+              padding: const EdgeInsets.all(25),
+              child: Wrap(
+                direction: Axis.horizontal,
+                spacing: 15,
+                runSpacing: 8.0,
+                children: [
+                ElevatedButton(
+                  onPressed: () {
+                   setState(() {
+                     selectedTime = "07:00";
+                   });
+                  },
+                  child: Text('07:00'),
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    setState(() {
+                      selectedTime = "08:30";
+                    });
+                  },
+                  child: Text('08:30'),
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    setState(() {
+                      selectedTime = "10:00";
+                    });
+                  },
+                  child: Text('10:00'),
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    setState(() {
+                      selectedTime = "11:30";
+                    });
+                  },
+                  child: Text('11:30'),
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    setState(() {
+                      selectedTime = "12:00";
+                    });
+                  },
+                  child: Text('12:00'),
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    setState(() {
+                      selectedTime = "13:30";
+                    });
+                  },
+                  child: Text('13:30'),
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    setState(() {
+                      selectedTime = "15:00";
+                    });
+                  },
+                  child: Text('15:00'),
+                ),
+                  ElevatedButton(
+                  onPressed: () {
+                    setState(() {
+                      selectedTime = "16:30";
+                    });
+                  },
+                  child: Text('16:30'),
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    setState(() {
+                      selectedTime = "18:00";
+                    });
+                  },
+                  child: Text('18:00'),
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    setState(() {
+                      selectedTime = "19:30";
+                    });
+                  },
+                  child: Text('19:30'),
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    setState(() {
+                      selectedTime = "21:00";
+                    });
+                  },
+                  child: Text('21:00'),
+                ),
+                  ElevatedButton(
+                    onPressed: () {
+                      setState(() {
+                        selectedTime = "22:30";
+                      });
+                    },
+                    child: Text('22:30'),
+                  ),
+              ],),
             ),
+
             SizedBox(
               height: 20,
             ),
-            Text('Thời gian đã chọn: ${time} ${selectedTime.format(context)}',style: TextStyle(fontSize: 16)),
+            Text('Thời gian đã chọn: ${time} ${selectedTime}',style: TextStyle(fontSize: 16)),
 
             loginButton('Tạo bài viết'),
           ],

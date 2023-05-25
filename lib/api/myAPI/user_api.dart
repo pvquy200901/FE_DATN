@@ -138,6 +138,25 @@ mixin UserApi on BaseApi {
     }
   }
 
+  Future<UserModel> getInfoUserForCall(String username) async{
+    const url = '/api/admin/getInfoUserForAdmin';
+    try {
+      Response response = await dio.get(url, options: Options(
+        headers: {'Content-Type': 'application/json', 'accept': '*/*','token':appController.token},
+      ),queryParameters: {'username': username});
+      if (response.statusCode == 200) {
+        return UserModel.fromJson(response.data);
+
+      } else {
+        appController.errorLog = response.data['mess'];
+        return UserModel();
+      }
+    } catch (e) {
+
+      saveLog(e);
+      return UserModel();
+    }
+  }
   Future<infoUser> getInfoUserV2() async{
     const url = '/api/User/getInfoUser';
     try {

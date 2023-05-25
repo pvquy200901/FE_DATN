@@ -3,6 +3,8 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:untitled/controller/app_controller.dart';
 import 'package:untitled/screens/home_screen/home_screen.dart';
+import 'package:url_launcher/url_launcher.dart';
+
 
 import '../../../api/api.dart';
 import '../../../model/action_model/action.dart';
@@ -18,6 +20,7 @@ class BodyTeam extends StatefulWidget {
 }
 class BodyTeamState extends State<BodyTeam>{
   infoUser user = infoUser();
+  UserModel m_user = UserModel();
   List<myOrder> orders = [];
   List<mAction> actions = [];
   List<mAction> confirmActions = [];
@@ -280,6 +283,10 @@ class BodyTeamState extends State<BodyTeam>{
                         label: Text('Người nhận',
                             style: TextStyle(
                                 fontWeight: FontWeight.bold))),
+                    DataColumn(
+                        label: Text('Tùy chỉnh',
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold))),
 
                   ], rows: confirmActions.map((e){
                     final DataRow dataRow = DataRow(
@@ -288,6 +295,29 @@ class BodyTeamState extends State<BodyTeam>{
                         DataCell(Text(e.des!)),
                         DataCell(Text(e.team!)),
                         DataCell(Text(e.user!)),
+                        DataCell(Row(
+                          children: [
+                            /*IconButton(
+                              icon: const Icon(Icons.article_outlined),
+                              color: Colors.blueAccent,
+                              onPressed: () {
+
+                              },
+                            ),*/
+                            IconButton(
+                              icon: const Icon(Icons.phone),
+                              color: Colors.blueAccent,
+                              onPressed: () async {
+                                m_user = await api.getInfoUserForCall(e.user!);
+                                if (await canLaunch('tel:${m_user.phone!}')) {
+                                await launch('tel:${m_user.phone!}');
+                                } else {
+                                throw 'Không thể mở ứng dụng điện thoại';
+                                }
+                              },
+                            ),
+                          ],
+                        ))
                       ],
                     );
                     return dataRow;
