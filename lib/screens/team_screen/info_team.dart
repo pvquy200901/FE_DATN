@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:untitled/screens/stadium_screen/preview_image_widget.dart';
 import 'package:untitled/screens/team_screen/avatar_widget.dart';
 
@@ -19,6 +20,7 @@ class InfoTeam extends StatefulWidget {
   _InfoTeamState createState() => _InfoTeamState();
 }
   class _InfoTeamState extends State<InfoTeam> {
+    final format = DateFormat('yyyy-MM-dd HH:mm:ss');
     double _xPosition = 280.0;
     double _yPosition = 80.0;
     bool isLoading = false;
@@ -29,6 +31,8 @@ class InfoTeam extends StatefulWidget {
     String level ="";
     String reputation = "";
     String txtOutlook = "";
+    DateTime timestamp = DateTime.now();
+    int dateTime = 0;
     List<String> stadiums = [];
     Team team = Team();
     WeatherData weather = WeatherData();
@@ -43,6 +47,8 @@ class InfoTeam extends StatefulWidget {
         }
         else{
           check1 = true;
+          timestamp = format.parseStrict(widget.time);
+          dateTime = timestamp.millisecondsSinceEpoch ~/ 1000;
         }
       });
       stadiums = await api.getListStadiumTime(widget.time);

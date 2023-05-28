@@ -349,7 +349,7 @@ class _CommentsState extends State<Comments> {
                     ),
                   ),
                 ),
-                AnimatedPositioned(
+                /*AnimatedPositioned(
                   left: _xPosition,
                   top: _yPosition,
                   duration: Duration(milliseconds: 100),
@@ -434,7 +434,7 @@ class _CommentsState extends State<Comments> {
                       ],
                     ),
                   ),
-                ),
+                ),*/
               ]),
             ),
     );
