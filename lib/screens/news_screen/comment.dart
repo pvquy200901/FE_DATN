@@ -47,7 +47,7 @@ class _CommentsState extends State<Comments> {
     user = await api.getInfoUserV2();
     comments = await api.getListCommentsInNews(widget.code);
     team = await api.getInfoTeamOfUser(news.username);
-    weather = await api.fetchWeatherData(latitude, longitude);
+    /*weather = await api.fetchWeatherData(latitude, longitude);
     if (weather.temperature! >= 27.0) {
       temperature = "hot";
     } else if (weather.temperature! > 20 && weather.temperature! < 27) {
@@ -78,7 +78,7 @@ class _CommentsState extends State<Comments> {
     if (
         weather.outlook!.compareTo("Snow") == 0) {
       txtOutlook = "có Tuyết";
-    }
+    }*/
 
     if (team.reputation! <= 100 && team.reputation! >= 80) {
       reputation = "high";

@@ -20,7 +20,8 @@ class InfoTeam extends StatefulWidget {
   _InfoTeamState createState() => _InfoTeamState();
 }
   class _InfoTeamState extends State<InfoTeam> {
-    final format = DateFormat('yyyy-MM-dd HH:mm:ss');
+    final format = DateFormat('dd-MM-yyyy HH:mm');
+    String dateString = "";
     double _xPosition = 280.0;
     double _yPosition = 80.0;
     bool isLoading = false;
@@ -47,13 +48,15 @@ class InfoTeam extends StatefulWidget {
         }
         else{
           check1 = true;
-          timestamp = format.parseStrict(widget.time);
+          dateString = widget.time;
+          timestamp = format.parseStrict(dateString).add(const Duration(hours: 7)).toUtc();
           dateTime = timestamp.millisecondsSinceEpoch ~/ 1000;
+          print(dateTime);
         }
       });
       stadiums = await api.getListStadiumTime(widget.time);
       team = await api.getInfoTeam(widget.name);
-      weather = await api.fetchWeatherData(latitude, longitude);
+      weather = await api.fetchWeatherData(latitude, longitude,dateTime);
       if (weather.temperature! >= 27.0) {
         temperature = "hot";
       } else if (weather.temperature! > 20 && weather.temperature! < 27) {
@@ -487,8 +490,8 @@ class InfoTeam extends StatefulWidget {
                                           padding: const EdgeInsets.all(8.0),
                                           child: Text(
                                             snapshot.data!.prediction! == "yes" && stadiums.length >0
-                                                ? "Hãy thi đấu với đội bóng này hôm nay đi vì hôm nay trời ${txtOutlook} và nhiệt độ hiện tại sân là ${weather.temperature}°C - độ tin cậy ${(double.parse(snapshot.data!.accuracy!) * 100).toStringAsFixed(2)}% - Có các sân trống sau: ${stadiums}"
-                                                : "Không nên thi đấu với đội bóng này vì hôm nay trời ${txtOutlook} và nhiệt độ hiện tại sân là ${weather.temperature}°C - độ tin cậy ${(double.parse(snapshot.data!.accuracy!) * 100).toStringAsFixed(2)}%",
+                                                ? "Hãy thi đấu với đội bóng này đi vì ${dateString} trời ${txtOutlook} và nhiệt độ tại sân là ${weather.temperature}°C - độ tin cậy ${(double.parse(snapshot.data!.accuracy!) * 100).toStringAsFixed(2)}% - Có các sân trống sau: ${stadiums}"
+                                                : "Không nên thi đấu với đội bóng này vì ${dateString} trời ${txtOutlook} và nhiệt độ tại sân là ${weather.temperature}°C - độ tin cậy ${(double.parse(snapshot.data!.accuracy!) * 100).toStringAsFixed(2)}%",
                                             style: TextStyle(
                                                 color: Colors.black,
                                                 fontSize: 17.0),

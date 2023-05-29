@@ -245,7 +245,7 @@ class _LoginContentState extends State<LoginContent>
           child: TopText(),
         ),
         Padding(
-          padding: const EdgeInsets.only(top: 80),
+          padding: const EdgeInsets.only(top: 55),
           child: Stack(
             children: [
               Column(

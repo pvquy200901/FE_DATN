@@ -221,7 +221,7 @@ class TTDPage extends GetView<NewsController> {
 
             SizedBox(height: 20,),
             Padding(
-              padding: const EdgeInsets.only(left: 250),
+              padding: const EdgeInsets.only(left: 235),
               child: Text(
                 createTime,
                 style: TextStyle(color: Colors.blueAccent, fontSize: 16.0),
@@ -233,7 +233,7 @@ class TTDPage extends GetView<NewsController> {
               children: [
                 actionButton(context, Icons.group, "Xem đội", Colors.blue, team,time),
 
-                actionButton(context, Icons.add_task, "Xác nhận", Colors.blue, code,""),
+                actionButton(context, Icons.add_task, "Xác nhận", Colors.blue, code,"1"),
               ],
             )
           ],

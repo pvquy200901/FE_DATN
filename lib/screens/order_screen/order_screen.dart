@@ -101,9 +101,9 @@ class _OrderStadiumState extends State<OrderStadium> {
                       fontFamily: 'RobotoMono',
                     ),
                   ),
-                  SizedBox(
+                  /*SizedBox(
                     width: 45,
-                  )
+                  )*/
                 ],
               ),
             ),
@@ -146,11 +146,12 @@ class _OrderStadiumState extends State<OrderStadium> {
                       SizedBox(
                         height: 20,
                       ),
-                      _choseTime(),
+                      Center(child: _choseTime(),),
+
                       SizedBox(
                         height: 30,
                       ),
-                      _buttonOrder(),
+                      Center(child: _buttonOrder(),),
 
                     ],
                   ),
@@ -440,7 +441,7 @@ class _OrderStadiumState extends State<OrderStadium> {
     return  Visibility(
       visible: check,
       child: Container(
-        width: 132,
+        width: 150,
         height: 50,
         child: ClipRRect(
           borderRadius: BorderRadius.circular(4),
@@ -457,7 +458,8 @@ class _OrderStadiumState extends State<OrderStadium> {
                 style: TextButton.styleFrom(
                   foregroundColor: _clipRRectColor,
                   padding: const EdgeInsets.all(16.0),
-                  textStyle: const TextStyle(fontSize: 20),
+                  textStyle: const TextStyle(fontSize: 18),
+
                 ),
                 onPressed: () {
                   setState((){

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:get/get.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:untitled/api/api.dart';
 import 'package:untitled/controller/app_controller.dart';
@@ -13,16 +15,13 @@ class InputAccount extends StatefulWidget {
 
   @override
   State<InputAccount> createState() => _InputAccountState();
-
 }
 
 class _InputAccountState extends State<InputAccount> {
-
   final TextEditingController birthdayTxt = TextEditingController();
   final TextEditingController nameTxt = TextEditingController();
   final TextEditingController phoneTxt = TextEditingController();
   final TextEditingController emailTxt = TextEditingController();
-
 
   Widget inputField(String hint, IconData iconData,
       TextEditingController _controller, String checked) {
@@ -42,7 +41,7 @@ class _InputAccountState extends State<InputAccount> {
             obscureText: (hint.compareTo("Mật khẩu") == 0) ? true : false,
             keyboardType: check(checked),
             onTap: () async {
-              if(checked.compareTo("Ngày sinh") == 0){
+              if (checked.compareTo("Ngày sinh") == 0) {
                 DateTime? pickedDate = await showDatePicker(
                     context: context,
                     initialDate: DateTime.now(),
@@ -51,10 +50,9 @@ class _InputAccountState extends State<InputAccount> {
 
                 if (pickedDate != null) {
                   String formattedDate =
-                  DateFormat('MM/dd/yyyy').format(pickedDate);
+                      DateFormat('MM/dd/yyyy').format(pickedDate);
                   setState(() {
-                    birthdayTxt.text =
-                        formattedDate;
+                    birthdayTxt.text = formattedDate;
                   });
                 } else {}
               }
@@ -88,18 +86,29 @@ class _InputAccountState extends State<InputAccount> {
           };
           api.updateUser(data).then((value) {
             if (value) {
-              Navigator.push(context, MaterialPageRoute(builder: (context) {
-                return UserPage();
-              }));
+              Fluttertoast.showToast(
+                  msg: "Đã cập nhật thành công",
+                  toastLength: Toast.LENGTH_SHORT,
+                  gravity: ToastGravity.TOP_RIGHT,
+                  timeInSecForIosWeb: 1,
+                  backgroundColor: Colors.green,
+                  textColor: Colors.white,
+                  fontSize: 16.0);
+              Get.back();
             } else {
-
+              Fluttertoast.showToast(
+                  msg: "Không thể cập nhật",
+                  toastLength: Toast.LENGTH_SHORT,
+                  gravity: ToastGravity.TOP_RIGHT,
+                  timeInSecForIosWeb: 1,
+                  backgroundColor: Colors.redAccent,
+                  textColor: Colors.white,
+                  fontSize: 16.0);
             }
           });
-
-
         },
         style: ElevatedButton.styleFrom(
-          padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 20 ),
+          padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 20),
           shape: const StadiumBorder(),
           primary: kSecondaryColor,
           elevation: 8,
@@ -118,12 +127,11 @@ class _InputAccountState extends State<InputAccount> {
 
   DateTime selectedDate = DateTime.now();
 
-
-  TextInputType check(hint){
-    if((hint.compareTo("Số điện thoại") == 0)){
+  TextInputType check(hint) {
+    if ((hint.compareTo("Số điện thoại") == 0)) {
       return TextInputType.number;
     }
-    if((hint.compareTo("Ngày sinh") == 0)){
+    if ((hint.compareTo("Ngày sinh") == 0)) {
       return TextInputType.none;
     }
     return TextInputType.text;
@@ -131,29 +139,29 @@ class _InputAccountState extends State<InputAccount> {
 
   @override
   void initState() {
-
     super.initState();
   }
-
-
 
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
       future: api.getInfoUserV2(),
-      builder: (context, snapshot){
-        if(snapshot.hasData){
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
           return Column(
             children: [
-              inputField(snapshot.data!.name.toString(), Ionicons.person_outline, nameTxt,""),
-              inputField(snapshot.data!.email.toString(), Ionicons.mail_outline, emailTxt,""),
-              inputField(snapshot.data!.phone.toString(), Ionicons.phone_landscape_outline, phoneTxt,"Số điện thoại"),
-              inputField(snapshot.data!.birthday.toString(), Ionicons.calendar_number_outline, birthdayTxt,"Ngày sinh"),
+              inputField(snapshot.data!.name.toString(),
+                  Ionicons.person_outline, nameTxt, ""),
+              inputField(snapshot.data!.email.toString(), Ionicons.mail_outline,
+                  emailTxt, ""),
+              inputField(snapshot.data!.phone.toString(),
+                  Ionicons.phone_landscape_outline, phoneTxt, "Số điện thoại"),
+              inputField(snapshot.data!.birthday.toString(),
+                  Ionicons.calendar_number_outline, birthdayTxt, "Ngày sinh"),
               loginButton('Cập nhật'),
             ],
           );
-        }
-        else{
+        } else {
           return CircularProgressIndicator();
         }
       },

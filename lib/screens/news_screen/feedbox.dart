@@ -68,15 +68,15 @@ Widget feedBox(BuildContext context,String userName, int point, String date,
           if (contentText != "")
             Text(
               contentText,
-              style: TextStyle(color: Colors.black, fontSize: 16.0),
+              style: TextStyle(color: Colors.black, fontSize: 18.0),
             ),
-
-          Padding(
-            padding: const EdgeInsets.only(left: 230),
-            child: Text(
-              date,
-              style: TextStyle(color: Colors.black, fontSize: 16.0),
-            ),
+          SizedBox(
+            height: 25.0,
+          ),
+          Text(
+            "Ngày đăng: "+date,
+            textAlign: TextAlign.left,
+            style: TextStyle(color: Colors.black, fontSize: 16.0),
           ),
           divider(0.5),
 

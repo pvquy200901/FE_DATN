@@ -65,7 +65,7 @@ class _createTTDState extends State<createTTD> {
 
   Widget loginButton(String title) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 135, vertical: 16),
+      padding: const EdgeInsets.symmetric(horizontal: 135, vertical: 25),
       child: ElevatedButton(
         onPressed: () {
           api.createAction(desTxt.text, '${time} ${selectedTime}',"TTD").then((value) {
@@ -104,7 +104,7 @@ class _createTTDState extends State<createTTD> {
         child: Text(
           title,
           style: const TextStyle(
-            fontSize: 18,
+            fontSize: 16,
             fontWeight: FontWeight.bold,
           ),
         ),

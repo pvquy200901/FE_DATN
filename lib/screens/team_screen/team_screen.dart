@@ -43,7 +43,7 @@ class TeamPage extends GetView<TeamController> {
                       Text(
                         "Danh sách các đội bóng",
                         style: TextStyle(
-                          fontSize: 22,
+                          fontSize: 20,
                           fontWeight: FontWeight.w500,
                           fontFamily: 'RobotoMono',
                         ),

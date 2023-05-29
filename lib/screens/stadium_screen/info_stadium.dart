@@ -92,76 +92,67 @@ class InfoStadium extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
+
+
                               Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
-                                  Column(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                                  Text(
+                                    snapshot.data!.name!,
+                                    style: TextStyle(
+                                      fontSize: 20,
+                                      color: Color.fromARGB(255, 0, 0, 0),
+                                      fontFamily: 'RobotoMono',
+                                    ),
+                                  ),
+                                  Row(
                                     children: [
                                       Text(
-                                        snapshot.data!.name!,
-                                        style: TextStyle(
-                                          fontSize: 20,
-                                          color: Color.fromARGB(255, 0, 0, 0),
-                                          fontFamily: 'RobotoMono',
-                                        ),
+                                        "${snapshot.data!.price!} VND",
+
+                                        // style: AppTextStyle.defaultHeaderOne.copyWith(
+                                        //   fontSize: 24,
+                                        // ),
                                       ),
                                       SizedBox(
-                                        height: 8,
+                                        width: 4,
                                       ),
-                                      Row(
-                                        children: [
-                                          Icon(
-                                            Icons.location_on,
-                                            color: Color.fromARGB(
-                                                255, 28, 159, 226),
-                                            size: 20,
-                                          ),
-                                          SizedBox(
-                                            width: 4,
-                                          ),
-                                          Text(
-                                            snapshot.data!.address!,
-                                            style: TextStyle(
-                                              fontSize: 20,
-                                              color: Color.fromARGB(
-                                                  255, 28, 159, 226),
-                                              fontFamily: 'RobotoMono',
-                                            ),
-                                          ),
-                                        ],
-                                      )
+                                      Text(
+                                        "/1 giờ",
+                                        // style: AppTextStyle.smallText.copyWith(
+                                        //   color: AppColor.secondTextColor,
+                                        //   fontSize: 12,
+                                        // ),
+                                      ),
                                     ],
-                                  ),
-                                  Container(
-                                    // width: 20.w,
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          "${snapshot.data!.price!} VND",
-
-                                          // style: AppTextStyle.defaultHeaderOne.copyWith(
-                                          //   fontSize: 24,
-                                          // ),
-                                        ),
-                                        SizedBox(
-                                          width: 4,
-                                        ),
-                                        Text(
-                                          "/1 giờ",
-                                          // style: AppTextStyle.smallText.copyWith(
-                                          //   color: AppColor.secondTextColor,
-                                          //   fontSize: 12,
-                                          // ),
-                                        ),
-                                      ],
-                                    ),
                                   )
+
+
+                                ],
+                              ),
+                              SizedBox(
+                                height: 8,
+                              ),
+                              Row(
+                                children: [
+                                  Icon(
+                                    Icons.location_on,
+                                    color: Color.fromARGB(
+                                        255, 28, 159, 226),
+                                    size: 20,
+                                  ),
+                                  SizedBox(
+                                    width: 4,
+                                  ),
+                                  Text(
+                                    snapshot.data!.address!,
+                                    style: TextStyle(
+                                      fontSize: 20,
+                                      color: Color.fromARGB(
+                                          255, 28, 159, 226),
+                                      fontFamily: 'RobotoMono',
+                                    ),
+                                  ),
                                 ],
                               ),
                               SizedBox(
@@ -183,6 +174,9 @@ class InfoStadium extends StatelessWidget {
                                     // style: AppTextStyle.defaultHeaderOne,
                                   ),
                                 ],
+                              ),
+                              SizedBox(
+                                height: 8,
                               ),
                               SingleChildScrollView(
                                 scrollDirection: Axis.horizontal,
