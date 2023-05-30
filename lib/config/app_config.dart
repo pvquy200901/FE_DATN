@@ -1,5 +1,5 @@
 class AppConfig{
-  static const IP = '10.0.31.202';
+  static const IP = '10.0.225.213';
   static const APP_NAME  = 'Football Team';
   static const BASE_URL = 'http://${IP}:50000';
   static const BASE_URLV2 = 'http://${IP}:5000';

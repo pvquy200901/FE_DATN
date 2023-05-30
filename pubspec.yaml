@@ -53,6 +53,7 @@ dependencies:
   anim_search_bar: ^2.0.3
   image_cropper: ^3.0.2
   url_launcher: ^6.1.10
+  simple_item_selector: ^0.0.2
   date_picker_timeline:
 
 

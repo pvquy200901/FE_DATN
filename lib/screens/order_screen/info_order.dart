@@ -60,6 +60,7 @@ class _InfoOrderState extends State<InfoOrder> {
     super.initState();
     name = widget.name;
     startTime = widget.startTime;
+    endTime = widget.endTime;
     address = widget.address;
     dateOrder = widget.dateOrder;
     price = widget.price;
@@ -234,7 +235,7 @@ class _InfoOrderState extends State<InfoOrder> {
             splashColor: Colors.white,
             onTap: () {
               showDialog(context: context, builder: (BuildContext context){
-                return PaymentDialog(code: widget.code,startTime: startTime,endTime: endTime,nameStadium: name,price: (price * 1.5).toString(),);
+                return PaymentDialog(code: widget.code,startTime: dateOrder +" "+ startTime,endTime: dateOrder +" "+ endTime,nameStadium: name,price: (price * 1.5).toString(),);
               });
             },
             child: Center(

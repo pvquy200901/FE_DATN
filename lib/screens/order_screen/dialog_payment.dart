@@ -58,13 +58,14 @@ class _PaymentDialogState extends State<PaymentDialog> {
             borderRadius: BorderRadius.circular(12.0),
           ),
           child: Padding(
-            padding: EdgeInsets.all(8.0),
+            padding: EdgeInsets.all(0),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text("Chọn phương thức thanh toán"),
                 Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     TextButton(
                         onPressed: () => {
@@ -73,7 +74,7 @@ class _PaymentDialogState extends State<PaymentDialog> {
                                 check1 = false;
                               })
                             },
-                        child: Text("Thanh toán momo")),
+                        child: Text("Momo")),
                     TextButton(
                         onPressed: () => {
                               setState(() {
@@ -81,7 +82,7 @@ class _PaymentDialogState extends State<PaymentDialog> {
                                 check1 = true;
                               })
                             },
-                        child: Text("Thanh toán banking"))
+                        child: Text("Banking"))
                   ],
                 ),
                 Visibility(
@@ -127,6 +128,13 @@ class _PaymentDialogState extends State<PaymentDialog> {
         actions: [
           TextButton(
             onPressed: () {
+              Get.back();
+
+            },
+            child: Text('Hủy'),
+          ),
+          TextButton(
+            onPressed: () {
 
               var data = {
                 'starttime': widget.startTime,
@@ -161,6 +169,7 @@ class _PaymentDialogState extends State<PaymentDialog> {
             },
             child: Text('OK'),
           ),
+
         ],
       ),
     );
