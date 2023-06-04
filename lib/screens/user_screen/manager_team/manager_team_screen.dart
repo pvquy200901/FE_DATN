@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../../api/api.dart';
 import '../../../utils/constants.dart';
 import 'body_team.dart';
 
@@ -24,7 +25,17 @@ class ManagerTeamPage extends StatelessWidget {
         ),
       ),
 
-      body: BodyTeam(),
+      body: FutureBuilder(
+          future: api.getInfoUserV2(),
+          builder: (context, snapshot){
+            if(snapshot.hasData){
+              return (snapshot.data!.team!.isNotEmpty) ?BodyTeam():Center(child: Text("Bạn chưa có đội bóng",style: TextStyle(fontSize: 20, color: Colors.red),));
+            }
+            else{
+              return CircularProgressIndicator();
+            }
+          })
+
 
     );
   }

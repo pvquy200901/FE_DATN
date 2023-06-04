@@ -1,5 +1,6 @@
 
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:untitled/controller/app_controller.dart';
@@ -80,27 +81,51 @@ class _LoginContentState extends State<LoginContent>
             if(title.compareTo("Đăng nhập") == 0){
               user().then((value) {
                 if (value) {
-                  Future.delayed(const Duration(seconds: 0))
-                      .then(
+                  Get.offAllNamed('/home');
+                  Fluttertoast.showToast(
+                      msg: "Đã đăng nhập",
+                      toastLength: Toast.LENGTH_SHORT,
+                      gravity: ToastGravity.TOP_RIGHT,
+                      timeInSecForIosWeb: 1,
+                      backgroundColor: Colors.green,
+                      textColor: Colors.white,
+                      fontSize: 16.0);
+                }
+                else {
+                  Fluttertoast.showToast(
+                      msg: "Sai tên đăng nhập hoặc mật khẩu",
+                      toastLength: Toast.LENGTH_SHORT,
+                      gravity: ToastGravity.TOP_RIGHT,
+                      timeInSecForIosWeb: 1,
+                      backgroundColor: Colors.redAccent,
+                      textColor: Colors.white,
+                      fontSize: 16.0);
+                }
 
-                          (value) => Get.offAllNamed('/home'));
-                }
-                else{
-                  print("Login thất bại");
-                }
               });
             }
 
             if(title.compareTo("Đăng kí") == 0){
               register().then((value) {
                 if (value) {
-                  Future.delayed(const Duration(seconds: 0))
-                      .then(
-                          (value) => Get.offAll(() => const LoginScreen()));
-
+                  Fluttertoast.showToast(
+                      msg: "Đã đăng kí thành công, vui lòng đăng nhập",
+                      toastLength: Toast.LENGTH_SHORT,
+                      gravity: ToastGravity.TOP_RIGHT,
+                      timeInSecForIosWeb: 1,
+                      backgroundColor: Colors.green,
+                      textColor: Colors.white,
+                      fontSize: 16.0);
                 }
-                else{
-                  print("Chưa được");
+                else {
+                  Fluttertoast.showToast(
+                      msg: "Không thể đăng kí tài khoản",
+                      toastLength: Toast.LENGTH_SHORT,
+                      gravity: ToastGravity.TOP_RIGHT,
+                      timeInSecForIosWeb: 1,
+                      backgroundColor: Colors.redAccent,
+                      textColor: Colors.white,
+                      fontSize: 16.0);
                 }
               });
             }

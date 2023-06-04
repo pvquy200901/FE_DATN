@@ -191,90 +191,100 @@ class _GroupChatPageState extends State<GroupChatPage> {
           ),
 
         ),
-        body: Container(
-          child: Column(
-            children: [
-              Expanded(
-                child: Container(
-                  margin: const EdgeInsets.symmetric(
-                    vertical: 5,
-                    horizontal: 10,
-                  ),
-                  child: ShowMessages(
-                    m_team: info.team!,
-                    m_user: info.name!,
-                  ),
-                ),
-              ),
-              Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisSize: MainAxisSize.max,
-                  children: [
-                    Container(
-                      margin: EdgeInsets.only(bottom: 20, left: 20),
-                      width: MediaQuery.of(context).size.width - 100,
-                      height: 60,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(30),
-                        color: Color(0xffF3F3F3),
-                        boxShadow: const [
-                          BoxShadow(
-                            color: Color(0xffDBDBDB),
-                            blurRadius: 15,
-                            spreadRadius: 1.5,
+        body: FutureBuilder(
+            future: api.getInfoUserV2(),
+            builder: (context, snapshot){
+              if(snapshot.hasData){
+                return (snapshot.data!.team!.isNotEmpty) ?Container(
+                  child: Column(
+                    children: [
+                      Expanded(
+                        child: Container(
+                          margin: const EdgeInsets.symmetric(
+                            vertical: 5,
+                            horizontal: 10,
                           ),
-                        ],
+                          child: ShowMessages(
+                            m_team: info.team!,
+                            m_user: info.name!,
+                          ),
+                        ),
                       ),
+                      Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisSize: MainAxisSize.max,
+                          children: [
+                            Container(
+                              margin: EdgeInsets.only(bottom: 20, left: 20),
+                              width: MediaQuery.of(context).size.width - 100,
+                              height: 60,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(30),
+                                color: Color(0xffF3F3F3),
+                                boxShadow: const [
+                                  BoxShadow(
+                                    color: Color(0xffDBDBDB),
+                                    blurRadius: 15,
+                                    spreadRadius: 1.5,
+                                  ),
+                                ],
+                              ),
 
-                      child: TextFormField(
-                        //textInputAction: TextInputAction.continueAction,
-                        controller: msgcontroller,
-                        decoration: InputDecoration(
-                          hintText: 'Soạn tin nhắn',
-                          hintStyle: GoogleFonts.inter(
-                            fontSize: 16,
-                            color: Colors.black,
-                          ),
-                          border: InputBorder.none,
-                          contentPadding: const EdgeInsets.only(
-                            top: 19,
-                            left: 20,
-                          ),
-                        ),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(
-                        bottom: 10,
-                        right: 0,
-                        left: 10,
-                      ),
-                      child: FloatingActionButton(
-                        elevation: 15,
-                        onPressed: () {},
-                        child: ElevatedButton(
-                            onPressed: () {
-                              sendmessage();
-                            },
-                            style: ElevatedButton.styleFrom(
-                              foregroundColor: Color(0xffFFFFFF),
-                              backgroundColor: Color(0xff2865DC),
-                              shape: CircleBorder(),
-                              disabledForegroundColor:
-                              Color(0xff2865DC).withOpacity(0.38),
-                              disabledBackgroundColor:
-                              Color(0xff2865DC).withOpacity(0.12),
-                              padding: EdgeInsets.all(10),
+                              child: TextFormField(
+                                //textInputAction: TextInputAction.continueAction,
+                                controller: msgcontroller,
+                                decoration: InputDecoration(
+                                  hintText: 'Soạn tin nhắn',
+                                  hintStyle: GoogleFonts.inter(
+                                    fontSize: 16,
+                                    color: Colors.black,
+                                  ),
+                                  border: InputBorder.none,
+                                  contentPadding: const EdgeInsets.only(
+                                    top: 19,
+                                    left: 20,
+                                  ),
+                                ),
+                              ),
                             ),
-                            child: Icon(Icons.send)
-                        ),
-                      ),
-                    ),
-                  ]),
-            ],
-          ),
-        ),
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                bottom: 10,
+                                right: 0,
+                                left: 10,
+                              ),
+                              child: FloatingActionButton(
+                                elevation: 15,
+                                onPressed: () {},
+                                child: ElevatedButton(
+                                    onPressed: () {
+                                      sendmessage();
+                                    },
+                                    style: ElevatedButton.styleFrom(
+                                      foregroundColor: Color(0xffFFFFFF),
+                                      backgroundColor: Color(0xff2865DC),
+                                      shape: CircleBorder(),
+                                      disabledForegroundColor:
+                                      Color(0xff2865DC).withOpacity(0.38),
+                                      disabledBackgroundColor:
+                                      Color(0xff2865DC).withOpacity(0.12),
+                                      padding: EdgeInsets.all(10),
+                                    ),
+                                    child: Icon(Icons.send)
+                                ),
+                              ),
+                            ),
+                          ]),
+                    ],
+                  ),
+                ):Center(child: Text("Bạn chưa có đội bóng",style: TextStyle(fontSize: 20, color: Colors.red),));
+              }
+              else{
+                return CircularProgressIndicator();
+              }
+            })
+        ,
       ),
     );
   }

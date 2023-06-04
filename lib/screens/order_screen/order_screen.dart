@@ -1,4 +1,4 @@
-import 'package:date_picker_timeline/date_picker_widget.dart';
+/*import 'package:date_picker_timeline/date_picker_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
@@ -484,10 +484,9 @@ class _OrderStadiumState extends State<OrderStadium> {
     );
 
   }
-}
+}*/
 
 
-/*
 
 
 import 'package:date_picker_timeline/date_picker_widget.dart';
@@ -542,7 +541,7 @@ class _OrderStadiumState extends State<OrderStadium> {
     setState(() {
       isLoading = false;
     });
-mWidget.add(itemTime("07:00", "08:30", true));
+    mWidget.add(itemTime("07:00", "08:30", true));
     mWidget.add(itemTime("08:30", "10:00", true));
     mWidget.add(itemTime("10:00", "11:30", true));
     mWidget.add(itemTime("12:00", "13:30", true));
@@ -630,7 +629,7 @@ mWidget.add(itemTime("07:00", "08:30", true));
                         borderRadius: BorderRadius.circular(8),
                         color: Colors.white,
                       ),
-                      child: Center(
+                      child: const Center(
                         child: Icon(
                           size: 18,
                           Icons.keyboard_arrow_left_rounded,
@@ -641,7 +640,7 @@ mWidget.add(itemTime("07:00", "08:30", true));
                   ),
                   Text(
                     infoStadium.name!,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 25,
                       color: Color.fromARGB(255, 255, 255, 255),
                       fontFamily: 'RobotoMono',
@@ -715,7 +714,7 @@ mWidget.add(itemTime("07:00", "08:30", true));
         ),
       ),
     );
-return FutureBuilder(
+      return FutureBuilder(
       future: api.getListOrderUser(DateFormat('dd/MM/yyyy').format(_selectedDate).toString(),name),
       builder: (context, snapshot) {
         if(snapshot.hasData){
@@ -1299,205 +1298,6 @@ return FutureBuilder(
                 }
               },
             ),
-FutureBuilder(
-              future:
-              api.getListOrderUser(DateFormat('dd/MM/yyyy').format(_selectedDate).toString(),name),
-              builder: (context, snapshot) {
-                if (snapshot.hasData) {
-                  for (int i = 0;
-                  i < snapshot.data!.length;
-                  i++) {
-                    if (snapshot.data![i].time ==
-                        "07:00") {
-                      return itemTime("07:00","08:30",false);
-                    }
-                  }
-                  return itemTime("07:00","08:30",true);
-                } else {
-                  return CircularProgressIndicator();
-                }
-              },
-            ),
-
-            FutureBuilder(
-              future:
-              api.getListOrderUser(DateFormat('dd/MM/yyyy').format(_selectedDate).toString(),name),
-              builder: (context, snapshot) {
-                if (snapshot.hasData) {
-                  for (int i = 0;
-                  i < snapshot.data!.length;
-                  i++) {
-                    if (snapshot.data![i].time ==
-                        "08:30") {
-                      return itemTime("08:30","10:00",false);
-                    }
-                  }
-                  return itemTime("08:30","10:00",true);
-                } else {
-                  return CircularProgressIndicator();
-                }
-              },
-            ),
-
-            FutureBuilder(
-              future:
-              api.getListOrderUser(DateFormat('dd/MM/yyyy').format(_selectedDate).toString(),name),
-              builder: (context, snapshot) {
-                if (snapshot.hasData) {
-                  for (int i = 0;
-                  i < snapshot.data!.length;
-                  i++) {
-                    if (snapshot.data![i].time ==
-                        "10:00") {
-                      return itemTime("10:00","11:30",false);
-                    }
-                  }
-                  return itemTime("10:00","11:30",true);
-                } else {
-                  return CircularProgressIndicator();
-                }
-              },
-            ),
-
-            FutureBuilder(
-              future:
-              api.getListOrderUser(DateFormat('dd/MM/yyyy').format(_selectedDate).toString(),name),
-              builder: (context, snapshot) {
-                if (snapshot.hasData) {
-                  for (int i = 0;
-                  i < snapshot.data!.length;
-                  i++) {
-                    if (snapshot.data![i].time ==
-                        "12:00") {
-                      return itemTime("12:00","13:30",false);
-                    }
-                  }
-                  return itemTime("12:00","13:30",true);
-                } else {
-                  return CircularProgressIndicator();
-                }
-              },
-            ),
-
-            FutureBuilder(
-              future:
-              api.getListOrderUser(DateFormat('dd/MM/yyyy').format(_selectedDate).toString(),name),
-              builder: (context, snapshot) {
-                if (snapshot.hasData) {
-                  for (int i = 0;
-                  i < snapshot.data!.length;
-                  i++) {
-                    if (snapshot.data![i].time ==
-                        "13:30") {
-                      return itemTime("13:30","15:00",false);
-                    }
-                  }
-                  return itemTime("13:30","15:00",true);
-                } else {
-                  return CircularProgressIndicator();
-                }
-              },
-            ),
-
-            FutureBuilder(
-              future:
-              api.getListOrderUser(DateFormat('dd/MM/yyyy').format(_selectedDate).toString(),name),
-              builder: (context, snapshot) {
-                if (snapshot.hasData) {
-                  for (int i = 0;
-                  i < snapshot.data!.length;
-                  i++) {
-                    if (snapshot.data![i].time ==
-                        "15:00") {
-                      return itemTime("15:00","16:30",false);
-                    }
-                  }
-                  return itemTime("15:00","16:30",true);
-                } else {
-                  return CircularProgressIndicator();
-                }
-              },
-            ),
-            FutureBuilder(
-              future:
-              api.getListOrderUser(DateFormat('dd/MM/yyyy').format(_selectedDate).toString(),name),
-              builder: (context, snapshot) {
-                if (snapshot.hasData) {
-                  for (int i = 0;
-                  i < snapshot.data!.length;
-                  i++) {
-                    if (snapshot.data![i].time ==
-                        "16:30") {
-                      return itemTime("16:30","18:00",false);
-                    }
-                  }
-                  return itemTime("16:30","18:00",true);
-                } else {
-                  return CircularProgressIndicator();
-                }
-              },
-            ),
-
-            FutureBuilder(
-              future:
-              api.getListOrderUser(DateFormat('dd/MM/yyyy').format(_selectedDate).toString(),name),
-              builder: (context, snapshot) {
-                if (snapshot.hasData) {
-                  for (int i = 0;
-                  i < snapshot.data!.length;
-                  i++) {
-                    if (snapshot.data![i].time ==
-                        "18:00") {
-                      return itemTime("18:00","19:30",false);
-                    }
-                  }
-                  return itemTime("18:00","19:30",true);
-                } else {
-                  return CircularProgressIndicator();
-                }
-              },
-            ),
-
-            FutureBuilder(
-              future:
-              api.getListOrderUser(DateFormat('dd/MM/yyyy').format(_selectedDate).toString(),name),
-              builder: (context, snapshot) {
-                if (snapshot.hasData) {
-                  for (int i = 0;
-                  i < snapshot.data!.length;
-                  i++) {
-                    if (snapshot.data![i].time ==
-                        "19:30") {
-                      return itemTime("19:30","21:00",false);
-                    }
-                  }
-                  return itemTime("19:30","21:00",true);
-                } else {
-                  return CircularProgressIndicator();
-                }
-              },
-            ),
-
-            FutureBuilder(
-              future:
-              api.getListOrderUser(DateFormat('dd/MM/yyyy').format(_selectedDate).toString(),name),
-              builder: (context, snapshot) {
-                if (snapshot.hasData) {
-                  for (int i = 0;
-                  i < snapshot.data!.length;
-                  i++) {
-                    if (snapshot.data![i].time ==
-                        "21:00") {
-                      return itemTime("21:00","22:30",false);
-                    }
-                  }
-                  return itemTime("21:00","22:30",true);
-                } else {
-                  return CircularProgressIndicator();
-                }
-              },
-            ),
-
           ],
         ),
       ),
@@ -1521,4 +1321,3 @@ FutureBuilder(
     );
   }
 }
-*/
