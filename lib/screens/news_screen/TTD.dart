@@ -1,27 +1,52 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:untitled/api/api.dart';
-import 'package:untitled/screens/news_screen/postNews.dart';
 import 'package:untitled/screens/news_screen/postTTD.dart';
 
 import '../../config/app_config.dart';
-import '../../dashboard/dashboard_controller.dart';
+import '../../model/action_model/action.dart';
 import '../../utils/constants.dart';
-import '../home_screen/home_screen.dart';
-import '../stadium_screen/stadium_screen.dart';
-import '../team_screen/team_screen.dart';
-import '../user_screen/user_screen.dart';
 import 'actionBtn.dart';
 import 'driver.dart';
-import 'feedbox.dart';
-import 'news_controller.dart';
-import 'news_screen.dart';
 
-class TTDPage extends GetView<NewsController> {
+
+class TTDPage extends StatefulWidget {
+  const TTDPage({Key? key}) : super(key: key);
+
+  @override
+  State<TTDPage> createState() => _TTDPageState();
+
+}
+class _TTDPageState extends State<TTDPage> {
   bool check = true;
   int index = 2;
+  final TextEditingController code = TextEditingController();
+  String text = "";
 
+  List<mAction> actions = [];
+
+  bool isLoading = false;
+  loadingData() async {
+    setState(() {
+      isLoading = true;
+    });
+    if(text.compareTo("") == 0){
+      actions = await api.getListAction("TTD");
+    }
+    else{
+      actions = await api.searchingAction(text);
+    }
+
+    setState(() {
+      isLoading = false;
+    });
+  }
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    loadingData();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -122,7 +147,7 @@ class TTDPage extends GetView<NewsController> {
                       SizedBox(
                         height: 5.0,
                       ),
-                      Divider(
+                      /*Divider(
                         color: mainGrey,
                         thickness: 0.5,
                       ),
@@ -134,7 +159,28 @@ class TTDPage extends GetView<NewsController> {
                           actionButton(context, Icons.sports_soccer,
                               "Tìm trận đấu", Color(0xFF58C472), "",""),
                         ],
-                      )
+                      ),*/
+                      Divider(
+                        color: mainGrey,
+                        thickness: 0.5,
+                      ),
+                      TextFormField(
+                        controller: code,
+                        decoration: InputDecoration(
+                            labelText: "Tìm kiếm theo ngày tháng năm (dd-MM-yyyy),tên sân, tên đội",
+                            hintText: "Tất cả",
+                            suffixIcon: IconButton(
+                              icon: Icon(Icons.search),
+                              onPressed: () {
+                                setState(() {
+                                  text = code.text;
+                                  loadingData();
+                                });
+                              },
+                            ),
+                            border: OutlineInputBorder(
+                                borderRadius: BorderRadius.all(Radius.circular(25.0)))),
+                      ),
                     ],
                   ),
                 ),
@@ -142,32 +188,14 @@ class TTDPage extends GetView<NewsController> {
               SizedBox(
                 height: 10.0,
               ),
-              FutureBuilder(
-                  future: api.getListAction("TTD"),
-                  builder: (context, snapshot){
-                    if(snapshot.hasData){
-                      return Column(children: [
-                        for (int i = 0; i < snapshot.data!.length; i++)
-                          Padding(
-                              padding: const EdgeInsets.only(bottom: 10),
-                              child: feedBox(context, snapshot.data![i].user!, snapshot.data![i].des!, snapshot.data![i].time!, snapshot.data![i].createTime!, snapshot.data![i].code!, snapshot.data![i].team!)
-                          )
-                      ]);
-                    }
-                    else{
-                      return Container(
+              Column(children: [
+                for (int i = 0; i < actions.length; i++)
+                  Padding(
+                      padding: const EdgeInsets.only(bottom: 10),
+                      child: feedBox(context, actions[i].user!, actions[i].des!, actions[i].time!, actions[i].createTime!, actions[i].code!, actions[i].team!,actions[i].stadium!)
+                  )
+              ]),
 
-                        width: 100,
-                        height: 100,
-                        child: Center(
-                          child: CircularProgressIndicator(
-                            backgroundColor: Colors.white,
-                          ),
-                        ),
-                      );
-                    }
-
-                  })
             ],
           ),
         ),
@@ -176,7 +204,7 @@ class TTDPage extends GetView<NewsController> {
     );
   }
   Widget feedBox(BuildContext context,String userName, String des, String time,
-      String createTime,String code, String team) {
+      String createTime,String code, String team, String stadium) {
     return Container(
       margin: EdgeInsets.only(bottom: 10.0),
       width: double.infinity,
@@ -215,6 +243,11 @@ class TTDPage extends GetView<NewsController> {
             ),
             SizedBox(height: 10,),
             Text(
+              "Tại sân bóng:" + stadium,
+              style: TextStyle(color: Colors.black, fontSize: 16.0),
+            ),
+            SizedBox(height: 10,),
+            Text(
               "Thời gian có thể đá:" + time,
               style: TextStyle(color: Colors.black, fontSize: 16.0),
             ),
@@ -241,4 +274,5 @@ class TTDPage extends GetView<NewsController> {
       ),
     );
   }
+
 }

@@ -65,12 +65,31 @@ mixin ActionApi on BaseApi{
     }
   }
 
-  Future<bool> createAction(des, time, type) async {
+  Future<List<mAction>> searchingAction(String code) async{
+    const url = '/api/Action/searchingAction';
+    try {
+      Response response = await dio.get(url, options: Options(
+        headers: {'Content-Type': 'application/json', 'accept': '*/*','token':appController.token},
+      ),queryParameters: {'code': code});
+      if (response.statusCode == 200) {
+        return (response.data as List).map((e) => mAction.fromJson(e)).toList();
+      } else {
+        appController.errorLog = response.data['mess'];
+        return [];
+      }
+    } catch (e) {
+      print("Loi ${e.toString()}");
+      saveLog(e);
+      return [];
+    }
+  }
+
+  Future<bool> createAction(des, time, type, stadium) async {
     const url = '/api/Action/createAction';
     try {
       Response response = await dio.post(url, options: Options(
         headers: {'Content-Type': 'application/json', 'accept': '*/*', 'token' : appController.token},
-      ),queryParameters: {'des':des,'time':time,'type':type });
+      ),queryParameters: {'des':des,'time':time,'type':type,'stadium': stadium });
       print("ĐÃ TẠO");
       return true;
     } catch (e) {

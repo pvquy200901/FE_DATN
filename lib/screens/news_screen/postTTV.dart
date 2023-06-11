@@ -66,7 +66,7 @@ class _createTTVState extends State<createTTV> {
       padding: const EdgeInsets.symmetric(horizontal: 135, vertical: 16),
       child: ElevatedButton(
         onPressed: () {
-          api.createAction(desTxt.text, time,"TTV").then((value) {
+          api.createAction(desTxt.text, time,"TTV","0").then((value) {
             if (value) {
               Fluttertoast.showToast(
                   msg: "Đã tạo bài tuyển thành viên thành công",

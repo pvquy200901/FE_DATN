@@ -9,6 +9,8 @@ import '../../../utils/constants.dart';
 import 'package:intl/intl.dart';
 
 
+import '../../model/order_model/list_model.dart';
+import '../../model/stadium_model/stadium_model.dart';
 import '../user_screen/user_screen.dart';
 import 'news_screen.dart';
 
@@ -22,11 +24,18 @@ class createTTD extends StatefulWidget {
 
 class _createTTDState extends State<createTTD> {
   String selectedTime = "";
+  String _dropDownValue ="";
+  String name = "";
+  List<itemOrder> listOrder = [];
+  bool isLoading = false;
 
   DateTime _selectedDate = DateTime.now();
   String time = "";
   String lastTime = "";
   final TextEditingController desTxt = TextEditingController();
+  List<Stadium> stadiums = [];
+  List<String> m_stadiums = [];
+
 
 
   Widget inputField(String hint, IconData iconData,
@@ -63,12 +72,24 @@ class _createTTDState extends State<createTTD> {
     );
   }
 
+  void dropDown(String? selectedValue){
+    if(selectedValue is String){
+      setState(() {
+        _dropDownValue = selectedValue;
+        loadData();
+      });
+    }
+  }
+
+
+
+
   Widget loginButton(String title) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 135, vertical: 25),
       child: ElevatedButton(
         onPressed: () {
-          api.createAction(desTxt.text, '${time} ${selectedTime}',"TTD").then((value) {
+          api.createAction(desTxt.text, '${DateFormat('dd-MM-yyyy').format(_selectedDate)} ${selectedTime}',"TTD", _dropDownValue).then((value) {
             if (value) {
               Fluttertoast.showToast(
                   msg: "Đã tạo bài tìm trận đấu thành công",
@@ -114,13 +135,38 @@ class _createTTDState extends State<createTTD> {
 
   DateTime selectedDate = DateTime.now();
 
-  @override
-  void initState() {
 
-    super.initState();
+
+loadData2() async {
+
+  stadiums = await api.getListStadiumForCustomer();
+  for(int i = 0; i < stadiums.length ; i ++){
+    m_stadiums.add(stadiums[i].name!);
   }
 
+  setState(() {
+    _dropDownValue = m_stadiums.first;
+  });
+}
+  loadData() async {
+    setState(() {
+      isLoading = true;
+    });
+    listOrder = await api.getListOrderUser(
+        DateFormat('dd/MM/yyyy').format(_selectedDate).toString(), _dropDownValue);
 
+    setState(() {
+      isLoading = false;
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+
+    loadData2();
+    loadData();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -152,6 +198,32 @@ class _createTTDState extends State<createTTD> {
             SizedBox(
               height: 20,
             ),
+
+            Text("Chọn sân:", style: TextStyle(fontSize: 16),),
+            Padding(
+              padding: const EdgeInsets.only(left: 35, right: 35),
+              child: DropdownButton<String>(
+                value: _dropDownValue,
+                isExpanded: true,
+                icon: const Icon(Icons.arrow_downward),
+                elevation: 16,
+                style: const TextStyle(color: Colors.deepPurple),
+                underline: Container(
+                  height: 2,
+                  color: Colors.deepPurpleAccent,
+                ),
+                onChanged: dropDown,
+                items: m_stadiums.map<DropdownMenuItem<String>>((String value) {
+                  return DropdownMenuItem<String>(
+                    value: value,
+                    child: Text(value),
+                  );
+                }).toList(),
+              ),
+            ),
+            SizedBox(
+              height: 20,
+            ),
             Text("Ngày có thể thi đấu ", style: TextStyle(fontSize: 16),),
             SizedBox(
               height: 20,
@@ -162,13 +234,14 @@ class _createTTDState extends State<createTTD> {
                 DateTime.now(),
                 height: 100,
                 width: 80,
-                initialSelectedDate: DateTime.now(),
+                initialSelectedDate: DateTime.now().subtract(Duration(days: 1)),
                 selectionColor: Color.fromARGB(
                     255, 28, 159, 226),
                 onDateChange: (date){
                   _selectedDate = date;
                   setState(() {
                     time = DateFormat('dd-MM-yyyy').format(_selectedDate);
+                    loadData();
                   });
                   //print(time);
                 },
@@ -179,22 +252,24 @@ class _createTTDState extends State<createTTD> {
             ),
             Text("Chọn giờ có thể thi đấu ", style: TextStyle(fontSize: 16),),
 
-            Padding(
-              padding: const EdgeInsets.all(25),
-              child: Wrap(
-                direction: Axis.horizontal,
-                spacing: 15,
-                runSpacing: 8.0,
-                children: [
+            Wrap(
+              direction: Axis.vertical,
+              children:(listOrder.isEmpty)?[
                 ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    fixedSize: Size(MediaQuery.of(context).size.width - 100, 40),
+                  ),
                   onPressed: () {
-                   setState(() {
-                     selectedTime = "07:00";
-                   });
+                    setState(() {
+                      selectedTime = "07:00";
+                    });
                   },
                   child: Text('07:00'),
                 ),
                 ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    fixedSize: Size(MediaQuery.of(context).size.width - 100, 40),
+                  ),
                   onPressed: () {
                     setState(() {
                       selectedTime = "08:30";
@@ -203,6 +278,9 @@ class _createTTDState extends State<createTTD> {
                   child: Text('08:30'),
                 ),
                 ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    fixedSize: Size(MediaQuery.of(context).size.width - 100, 40),
+                  ),
                   onPressed: () {
                     setState(() {
                       selectedTime = "10:00";
@@ -211,14 +289,9 @@ class _createTTDState extends State<createTTD> {
                   child: Text('10:00'),
                 ),
                 ElevatedButton(
-                  onPressed: () {
-                    setState(() {
-                      selectedTime = "11:30";
-                    });
-                  },
-                  child: Text('11:30'),
-                ),
-                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    fixedSize: Size(MediaQuery.of(context).size.width - 100, 40),
+                  ),
                   onPressed: () {
                     setState(() {
                       selectedTime = "12:00";
@@ -227,6 +300,9 @@ class _createTTDState extends State<createTTD> {
                   child: Text('12:00'),
                 ),
                 ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    fixedSize: Size(MediaQuery.of(context).size.width - 100, 40),
+                  ),
                   onPressed: () {
                     setState(() {
                       selectedTime = "13:30";
@@ -235,6 +311,9 @@ class _createTTDState extends State<createTTD> {
                   child: Text('13:30'),
                 ),
                 ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    fixedSize: Size(MediaQuery.of(context).size.width - 100, 40),
+                  ),
                   onPressed: () {
                     setState(() {
                       selectedTime = "15:00";
@@ -242,7 +321,10 @@ class _createTTDState extends State<createTTD> {
                   },
                   child: Text('15:00'),
                 ),
-                  ElevatedButton(
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    fixedSize: Size(MediaQuery.of(context).size.width - 100, 40),
+                  ),
                   onPressed: () {
                     setState(() {
                       selectedTime = "16:30";
@@ -251,6 +333,9 @@ class _createTTDState extends State<createTTD> {
                   child: Text('16:30'),
                 ),
                 ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    fixedSize: Size(MediaQuery.of(context).size.width - 100, 40),
+                  ),
                   onPressed: () {
                     setState(() {
                       selectedTime = "18:00";
@@ -259,6 +344,9 @@ class _createTTDState extends State<createTTD> {
                   child: Text('18:00'),
                 ),
                 ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    fixedSize: Size(MediaQuery.of(context).size.width - 100, 40),
+                  ),
                   onPressed: () {
                     setState(() {
                       selectedTime = "19:30";
@@ -267,6 +355,9 @@ class _createTTDState extends State<createTTD> {
                   child: Text('19:30'),
                 ),
                 ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    fixedSize: Size(MediaQuery.of(context).size.width - 100, 40),
+                  ),
                   onPressed: () {
                     setState(() {
                       selectedTime = "21:00";
@@ -274,23 +365,187 @@ class _createTTDState extends State<createTTD> {
                   },
                   child: Text('21:00'),
                 ),
+              ]: [
+                for(int i = 0 ; i < listOrder.length; i++)
                   ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      fixedSize: Size(MediaQuery.of(context).size.width - 100, 40),
+                    ),
                     onPressed: () {
                       setState(() {
-                        selectedTime = "22:30";
+                        if(listOrder[i].time!.compareTo("07:00") == 0){
+                          selectedTime = "";
+                        }
+                        else{
+                          selectedTime = "07:00";
+                        }
                       });
                     },
-                    child: Text('22:30'),
+                    child: (listOrder[i].time!.compareTo("07:00") == 0)?Text('Không thể chọn'):Text('07:00'),
                   ),
+                for(int i = 0 ; i < listOrder.length; i++)
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      fixedSize: Size(MediaQuery.of(context).size.width - 100, 40),
+                    ),
+                    onPressed: () {
+                      setState(() {
+                        if(listOrder[i].time!.compareTo("08:30") == 0){
+                          selectedTime = "";
+                        }
+                        else{
+                          selectedTime = "08:30";
+                        }
+                      });
+                    },
+                    child: (listOrder[i].time!.compareTo("08:30") == 0)?Text('Không thể chọn'):Text('08:30'),
+                  ),
+                for(int i = 0 ; i < listOrder.length; i++)
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      fixedSize: Size(MediaQuery.of(context).size.width - 100, 40),
+                    ),
+                    onPressed: () {
+                      setState(() {
+                        if(listOrder[i].time!.compareTo("10:00") == 0){
+                          selectedTime = "";
+                        }
+                        else{
+                          selectedTime = "10:00";
+                        }
+                      });
+                    },
+                    child: (listOrder[i].time!.compareTo("10:00") == 0)?Text('Không thể chọn'):Text('10:00'),
+                  ),
+
+                for(int i = 0 ; i < listOrder.length; i++)
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      fixedSize: Size(MediaQuery.of(context).size.width - 100, 40),
+                    ),
+                    onPressed: () {
+                      setState(() {
+                        if(listOrder[i].time!.compareTo("12:00") == 0){
+                          selectedTime = "";
+                        }
+                        else{
+                          selectedTime = "12:00";
+                        }
+                      });
+                    },
+                    child: (listOrder[i].time!.compareTo("12:00") == 0)?Text('Không thể chọn'):Text('12:00'),
+                  ),
+                for(int i = 0 ; i < listOrder.length; i++)
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      fixedSize: Size(MediaQuery.of(context).size.width - 100, 40),
+                    ),
+                    onPressed: () {
+                      setState(() {
+                        if(listOrder[i].time!.compareTo("13:30") == 0){
+                          selectedTime = "";
+                        }
+                        else{
+                          selectedTime = "13:30";
+                        }
+                      });
+                    },
+                    child: (listOrder[i].time!.compareTo("13:30") == 0)?Text('Không thể chọn'):Text('13:30'),
+                  ),
+                for(int i = 0 ; i < listOrder.length; i++)
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      fixedSize: Size(MediaQuery.of(context).size.width - 100, 40),
+                    ),
+                    onPressed: () {
+                      setState(() {
+                        if(listOrder[i].time!.compareTo("15:00") == 0){
+                          selectedTime = "";
+                        }
+                        else{
+                          selectedTime = "15:00";
+                        }
+                      });
+                    },
+                    child: (listOrder[i].time!.compareTo("15:00") == 0)?Text('Không thể chọn'):Text('15:00'),
+                  ),
+                for(int i = 0 ; i < listOrder.length; i++)
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      fixedSize: Size(MediaQuery.of(context).size.width - 100, 40),
+                    ),
+                    onPressed: () {
+                      setState(() {
+                        if(listOrder[i].time!.compareTo("16:30") == 0){
+                          selectedTime = "";
+                        }
+                        else{
+                          selectedTime = "16:30";
+                        }
+                      });
+                    },
+                    child: (listOrder[i].time!.compareTo("16:30") == 0)?Text('Không thể chọn'):Text('16:30'),
+                  ),
+                for(int i = 0 ; i < listOrder.length; i++)
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      fixedSize: Size(MediaQuery.of(context).size.width - 100, 40),
+                    ),
+                    onPressed: () {
+                      setState(() {
+                        if(listOrder[i].time!.compareTo("18:00") == 0){
+                          selectedTime = "";
+                        }
+                        else{
+                          selectedTime = "18:00";
+                        }
+                      });
+                    },
+                    child: (listOrder[i].time!.compareTo("18:00") == 0)?Text('Không thể chọn'):Text('18:00'),
+                  ),
+                for(int i = 0 ; i < listOrder.length; i++)
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      fixedSize: Size(MediaQuery.of(context).size.width - 100, 40),
+                    ),
+                    onPressed: () {
+                      setState(() {
+                        if(listOrder[i].time!.compareTo("19:30") == 0){
+                          selectedTime = "";
+                        }
+                        else{
+                          selectedTime = "19:30";
+                        }
+                      });
+                    },
+                    child: (listOrder[i].time!.compareTo("19:30") == 0)?Text('Không thể chọn'):Text('19:30'),
+                  ),
+                for(int i = 0 ; i < listOrder.length; i++)
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      fixedSize: Size(MediaQuery.of(context).size.width - 100, 40),
+                    ),
+                    onPressed: () {
+                      setState(() {
+                        if(listOrder[i].time!.compareTo("21:00") == 0){
+                          selectedTime = "";
+                        }
+                        else{
+                          selectedTime = "21:00";
+                        }
+                      });
+                    },
+                    child: (listOrder[i].time!.compareTo("21:00") == 0)?Text('Không thể chọn'):Text('21:00'),
+                  ),
+
               ],),
-            ),
 
             SizedBox(
               height: 20,
             ),
             Text('Thời gian đã chọn: ${time} ${selectedTime}',style: TextStyle(fontSize: 16)),
 
-            loginButton('Tạo bài viết'),
+            loginButton('Tạo yêu cầu'),
           ],
         ),
       ),

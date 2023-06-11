@@ -7,6 +7,7 @@ class mAction {
   String? state;
   String? user;
   String? team;
+  String? stadium;
 
   mAction(
       {this.code,
@@ -15,8 +16,9 @@ class mAction {
         this.createTime,
         this.type,
         this.state,
+        this.user,
         this.team,
-        this.user});
+        this.stadium});
 
   mAction.fromJson(Map<String, dynamic> json) {
     code = json['code'];
@@ -27,6 +29,7 @@ class mAction {
     state = json['state'];
     user = json['user'];
     team = json['team'];
+    stadium = json['stadium'];
   }
 
   Map<String, dynamic> toJson() {
@@ -39,6 +42,7 @@ class mAction {
     data['state'] = this.state;
     data['user'] = this.user;
     data['team'] = this.team;
+    data['stadium'] = this.stadium;
     return data;
   }
 }
