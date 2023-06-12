@@ -13,19 +13,18 @@ import '../../utils/constants.dart';
 import 'actionBtn.dart';
 import 'driver.dart';
 
-
 class TTDPage extends StatefulWidget {
   const TTDPage({Key? key}) : super(key: key);
 
   @override
   State<TTDPage> createState() => _TTDPageState();
-
 }
+
 class _TTDPageState extends State<TTDPage> {
   bool check = true;
   bool check1 = false;
   String temperature = "";
-  String level ="";
+  String level = "";
   String reputation = "";
   final format = DateFormat('dd-MM-yyyy HH:mm');
   DateTime timestamp = DateTime.now();
@@ -51,20 +50,20 @@ class _TTDPageState extends State<TTDPage> {
     stadiums = [];
     setState(() {
       isLoading = true;
-
     });
-    if(text.compareTo("") == 0){
+    if (text.compareTo("") == 0) {
       actions = await api.getListAction("TTD");
-    }
-    else{
+    } else {
       actions = await api.searchingAction(text);
     }
 
-
-    for(int i = 0 ; i< actions.length;i++){
-      timestamp = format.parseStrict(actions[i].time!).add(const Duration(hours: 7)).toUtc();
+    for (int i = 0; i < actions.length; i++) {
+      timestamp = format
+          .parseStrict(actions[i].time!)
+          .add(const Duration(hours: 7))
+          .toUtc();
       dateTime = timestamp.millisecondsSinceEpoch ~/ 1000;
-      weather = await api.fetchWeatherData(latitude, longitude,dateTime);
+      weather = await api.fetchWeatherData(latitude, longitude, dateTime);
 
       if (weather.temperature! >= 27.0) {
         temperature = "hot";
@@ -73,7 +72,7 @@ class _TTDPageState extends State<TTDPage> {
       } else {
         temperature = "cool";
       }
-     /* if (weather.outlook!.compareTo("Clouds") == 0 ||
+      /* if (weather.outlook!.compareTo("Clouds") == 0 ||
           weather.outlook!.compareTo("Mist") == 0) {
 
         txtOutlook = "Nhiều mây";
@@ -100,8 +99,7 @@ class _TTDPageState extends State<TTDPage> {
       team = await api.getInfoTeam(actions[i].team);
       if (team.reputation! <= 100 && team.reputation! >= 80) {
         reputation = "high";
-      }
-      else if (team.reputation! < 80 && team.reputation! >= 50) {
+      } else if (team.reputation! < 80 && team.reputation! >= 50) {
         reputation = "normal";
       } else {
         reputation = "low";
@@ -113,10 +111,9 @@ class _TTDPageState extends State<TTDPage> {
         level = "normal";
       }
 
-      m_recomment = await  api.postRecomment(
+      m_recomment = await api.postRecomment(
           [weather.outlook], [temperature], [level], [reputation]);
-      if(m_recomment.prediction!.compareTo("yes") == 0){
-
+      if (m_recomment.prediction!.compareTo("yes") == 0) {
         recomments.add(actions[i]);
       }
     }
@@ -124,12 +121,14 @@ class _TTDPageState extends State<TTDPage> {
       isLoading = false;
     });
   }
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     loadingData();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -178,59 +177,56 @@ class _TTDPageState extends State<TTDPage> {
                             horizontal: 8.0, vertical: 10.0),
                         child: Column(
                           children: [
-                            Row(
-                                children: [
-                                  FutureBuilder(
-                                      future: api.getInfoUserV2(),
-                                      builder: (context, snapshot) {
-                                        if (snapshot.hasData) {
-                                          return CircleAvatar(
-                                              radius: 25.0,
-                                              backgroundImage: NetworkImage(
-                                                  snapshot.data!.avatar!.isEmpty
-                                                      ? "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQrT9QfTWesZk1IklGxsaH7hioyMTC7oLyTYg&usqp=CAU"
-                                                      : "http://${AppConfig
-                                                      .IP}:50000/api/File/image/${snapshot
-                                                      .data!.avatar!}")
-                                          );
-                                        }
-                                        else {
-                                          return CircularProgressIndicator();
-                                        }
-                                      }),
-                                  const SizedBox(
-                                    width: 10.0,
+                            Row(children: [
+                              FutureBuilder(
+                                  future: api.getInfoUserV2(),
+                                  builder: (context, snapshot) {
+                                    if (snapshot.hasData) {
+                                      return CircleAvatar(
+                                          radius: 25.0,
+                                          backgroundImage: NetworkImage(snapshot
+                                                  .data!.avatar!.isEmpty
+                                              ? "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQrT9QfTWesZk1IklGxsaH7hioyMTC7oLyTYg&usqp=CAU"
+                                              : "http://${AppConfig.IP}:50000/api/File/image/${snapshot.data!.avatar!}"));
+                                    } else {
+                                      return CircularProgressIndicator();
+                                    }
+                                  }),
+                              const SizedBox(
+                                width: 10.0,
+                              ),
+                              Expanded(
+                                  child: TextButton(
+                                style: ButtonStyle(
+                                  backgroundColor:
+                                      MaterialStateProperty.all<Color>(
+                                          Colors.blue),
+                                  minimumSize:
+                                      MaterialStateProperty.all(Size(150, 50)),
+                                  shape: MaterialStateProperty.all<
+                                      RoundedRectangleBorder>(
+                                    RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(30),
+                                      side:
+                                          BorderSide(color: Colors.transparent),
+                                    ),
                                   ),
-                                  Expanded(
-                                      child: TextButton(
-                                        style: ButtonStyle(
-                                          backgroundColor: MaterialStateProperty.all<
-                                              Color>(Colors.blue),
-                                          minimumSize: MaterialStateProperty.all(
-                                              Size(150, 50)),
-                                          shape: MaterialStateProperty.all<
-                                              RoundedRectangleBorder>(
-                                            RoundedRectangleBorder(
-                                              borderRadius: BorderRadius.circular(30),
-                                              side: BorderSide(
-                                                  color: Colors.transparent),
-                                            ),
-                                          ),
-
-                                        ),
-                                        onPressed: () {
-                                          Navigator.push(context,
-                                              MaterialPageRoute(builder: (context) {
-                                                return new createTTD();
-                                              }));
-                                        },
-                                        child: Text('Tạo yêu cầu tìm trận đấu',
-                                          textAlign: TextAlign.left, style: TextStyle(
-                                            color: Colors.white,
-                                          ),),
-                                      )
+                                ),
+                                onPressed: () {
+                                  Navigator.push(context,
+                                      MaterialPageRoute(builder: (context) {
+                                    return new createTTD();
+                                  }));
+                                },
+                                child: Text(
+                                  'Tạo yêu cầu tìm trận đấu',
+                                  textAlign: TextAlign.left,
+                                  style: TextStyle(
+                                    color: Colors.white,
                                   ),
-                                ]),
+                                ),
+                              )),
+                            ]),
                             SizedBox(
                               height: 5.0,
                             ),
@@ -254,7 +250,8 @@ class _TTDPageState extends State<TTDPage> {
                             TextFormField(
                               controller: code,
                               decoration: InputDecoration(
-                                  labelText: "Tìm kiếm theo ngày tháng năm (dd-MM-yyyy),tên sân, tên đội",
+                                  labelText:
+                                      "Tìm kiếm theo ngày tháng năm (dd-MM-yyyy),tên sân, tên đội",
                                   hintText: "Tất cả",
                                   suffixIcon: IconButton(
                                     icon: Icon(Icons.search),
@@ -266,7 +263,8 @@ class _TTDPageState extends State<TTDPage> {
                                     },
                                   ),
                                   border: OutlineInputBorder(
-                                      borderRadius: BorderRadius.all(Radius.circular(25.0)))),
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(25.0)))),
                             ),
                           ],
                         ),
@@ -279,10 +277,16 @@ class _TTDPageState extends State<TTDPage> {
                       for (int i = 0; i < actions.length; i++)
                         Padding(
                             padding: const EdgeInsets.only(bottom: 10),
-                            child: feedBox(context, actions[i].user!, actions[i].des!, actions[i].time!, actions[i].createTime!, actions[i].code!, actions[i].team!,actions[i].stadium!)
-                        ),
+                            child: feedBox(
+                                context,
+                                actions[i].user!,
+                                actions[i].des!,
+                                actions[i].time!,
+                                actions[i].createTime!,
+                                actions[i].code!,
+                                actions[i].team!,
+                                actions[i].stadium!)),
                     ]),
-
                   ],
                 ),
               ),
@@ -325,26 +329,34 @@ class _TTDPageState extends State<TTDPage> {
                         width: 300,
                         height: 400,
                         decoration: BoxDecoration(
-                          color: Colors.blueGrey[
-                          50], // set background color
-                          borderRadius: BorderRadius.circular(
-                              5.0), // set border radius
+                          color: Colors.blueGrey[50], // set background color
+                          borderRadius:
+                              BorderRadius.circular(5.0), // set border radius
                         ),
                         child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: SingleChildScrollView(
-                            scrollDirection: Axis.vertical,
-                            child: Column(
-                              children: [
-                                Text("Danh sách các đội nên đá", style: TextStyle(fontSize: 18),),
-                                SizedBox(height: 20,),
-
-                                for(int i = 0; i< recomments.length; i++)
-                                  recommentBox(context, recomments[i].user!,recomments[i].time!,recomments[i].code!,recomments[i].team!,recomments[i].stadium!),
-                              ],
-                            ),
-                          )
-                        ),
+                            padding: const EdgeInsets.all(8.0),
+                            child: SingleChildScrollView(
+                              scrollDirection: Axis.vertical,
+                              child: Column(
+                                children: [
+                                  Text(
+                                    "Danh sách các đội nên đá",
+                                    style: TextStyle(fontSize: 18),
+                                  ),
+                                  SizedBox(
+                                    height: 20,
+                                  ),
+                                  for (int i = 0; i < recomments.length; i++)
+                                    recommentBox(
+                                        context,
+                                        recomments[i].user!,
+                                        recomments[i].time!,
+                                        recomments[i].code!,
+                                        recomments[i].team!,
+                                        recomments[i].stadium!),
+                                ],
+                              ),
+                            )),
                       ),
                       Positioned(
                         right: -20,
@@ -356,7 +368,6 @@ class _TTDPageState extends State<TTDPage> {
                               _yPosition = 80.0;
                               check1 = false;
                             });
-
                           },
                           child: Icon(
                             size: 25,
@@ -373,12 +384,11 @@ class _TTDPageState extends State<TTDPage> {
           )
         ],
       ),
-
-
     );
   }
-  Widget feedBox(BuildContext context,String userName, String des, String time,
-      String createTime,String code, String team, String stadium) {
+
+  Widget feedBox(BuildContext context, String userName, String des, String time,
+      String createTime, String code, String team, String stadium) {
     return Container(
       margin: EdgeInsets.only(bottom: 10.0),
       width: double.infinity,
@@ -404,29 +414,32 @@ class _TTDPageState extends State<TTDPage> {
                   fontSize: 22.0,
                   fontWeight: FontWeight.w600,
                 ),
-
-
-
               ),
             ),
-            SizedBox(height: 10,),
-
+            SizedBox(
+              height: 10,
+            ),
             Text(
               des,
               style: TextStyle(color: Colors.black, fontSize: 20),
             ),
-            SizedBox(height: 10,),
+            SizedBox(
+              height: 10,
+            ),
             Text(
               "Tại sân bóng:" + stadium,
               style: TextStyle(color: Colors.black, fontSize: 16.0),
             ),
-            SizedBox(height: 10,),
+            SizedBox(
+              height: 10,
+            ),
             Text(
               "Thời gian có thể đá:" + time,
               style: TextStyle(color: Colors.black, fontSize: 16.0),
             ),
-
-            SizedBox(height: 20,),
+            SizedBox(
+              height: 20,
+            ),
             Padding(
               padding: const EdgeInsets.only(left: 235),
               child: Text(
@@ -435,12 +448,12 @@ class _TTDPageState extends State<TTDPage> {
               ),
             ),
             divider(0.5),
-
             Row(
               children: [
-                actionButton(context, Icons.group, "Xem đội", Colors.blue, team,time),
-
-                actionButton(context, Icons.add_task, "Xác nhận", Colors.blue, code,"1"),
+                actionButton(
+                    context, Icons.group, "Xem đội", Colors.blue, team, time),
+                actionButton(context, Icons.add_task, "Xác nhận", Colors.blue,
+                    code, "1"),
               ],
             )
           ],
@@ -449,7 +462,8 @@ class _TTDPageState extends State<TTDPage> {
     );
   }
 
-  Widget recommentBox(BuildContext context,String userName, String time,String code, String team, String stadium) {
+  Widget recommentBox(BuildContext context, String userName, String time,
+      String code, String team, String stadium) {
     return Container(
       margin: EdgeInsets.only(bottom: 10.0),
       width: double.infinity,
@@ -477,36 +491,38 @@ class _TTDPageState extends State<TTDPage> {
                 ),
               ),
             ),
-            SizedBox(height: 10,),
-
+            SizedBox(
+              height: 10,
+            ),
             Text(
               team,
               style: TextStyle(color: Colors.black, fontSize: 20),
             ),
-            SizedBox(height: 10,),
+            SizedBox(
+              height: 10,
+            ),
             Text(
               "Tại sân bóng:" + stadium,
               style: TextStyle(color: Colors.black, fontSize: 16.0),
             ),
-            SizedBox(height: 10,),
+            SizedBox(
+              height: 10,
+            ),
             Text(
               "Thời gian có thể đá:" + time,
               style: TextStyle(color: Colors.black, fontSize: 16.0),
             ),
-
-            SizedBox(height: 20,),
+            SizedBox(
+              height: 20,
+            ),
             Padding(
               padding: const EdgeInsets.only(left: 200),
-              child: TextButton(
-                onPressed: () {  }, child: Text(
-                "Xem đội"
-              ),
-              ),
+              child:  actionButton(
+                  context, Icons.group, "Xem đội", Colors.blue, team, time),
             ),
           ],
         ),
       ),
     );
   }
-
 }

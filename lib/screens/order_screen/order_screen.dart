@@ -486,9 +486,6 @@ class _OrderStadiumState extends State<OrderStadium> {
   }
 }*/
 
-
-
-
 import 'package:date_picker_timeline/date_picker_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -535,7 +532,7 @@ class _OrderStadiumState extends State<OrderStadium> {
       isLoading = true;
     });
     infoStadium = await api.getInfoStadium(name);
- listOrder = await api.getListOrderUser(
+    listOrder = await api.getListOrderUser(
         DateFormat('dd/MM/yyyy').format(_selectedDate).toString(), name);
 
     setState(() {
@@ -551,40 +548,29 @@ class _OrderStadiumState extends State<OrderStadium> {
     mWidget.add(itemTime("18:00", "19:30", true));
     mWidget.add(itemTime("19:30", "21:00", true));
     mWidget.add(itemTime("21:00", "22:30", true));
-    for(int i =0 ; i< listOrder.length; i++){
-      if(listOrder[i].time!.compareTo("07:00") == 0){
+    for (int i = 0; i < listOrder.length; i++) {
+      if (listOrder[i].time!.compareTo("07:00") == 0) {
         mWidget.removeAt(0);
-      }
-      else if(listOrder[i].time!.compareTo("08:30") == 0){
+      } else if (listOrder[i].time!.compareTo("08:30") == 0) {
         mWidget.removeAt(1);
-      }
-      else if(listOrder[i].time!.compareTo("10:00") == 0){
+      } else if (listOrder[i].time!.compareTo("10:00") == 0) {
         mWidget.removeAt(2);
-      }
-      else if(listOrder[i].time!.compareTo("12:00") == 0){
+      } else if (listOrder[i].time!.compareTo("12:00") == 0) {
         mWidget.removeAt(3);
-      }
-      else if(listOrder[i].time!.compareTo("13:30") == 0){
+      } else if (listOrder[i].time!.compareTo("13:30") == 0) {
         mWidget.removeAt(4);
-      }
-      else if(listOrder[i].time!.compareTo("15:00") == 0){
+      } else if (listOrder[i].time!.compareTo("15:00") == 0) {
         mWidget.removeAt(5);
-      }
-      else if(listOrder[i].time!.compareTo("16:30") == 0){
+      } else if (listOrder[i].time!.compareTo("16:30") == 0) {
         mWidget.removeAt(6);
-      }
-      else if(listOrder[i].time!.compareTo("18:00") == 0){
+      } else if (listOrder[i].time!.compareTo("18:00") == 0) {
         mWidget.removeAt(7);
-      }
-      else if(listOrder[i].time!.compareTo("19:30") == 0){
+      } else if (listOrder[i].time!.compareTo("19:30") == 0) {
         mWidget.removeAt(8);
-      }
-      else if(listOrder[i].time!.compareTo("21:00") == 0){
+      } else if (listOrder[i].time!.compareTo("21:00") == 0) {
         mWidget.removeAt(9);
       }
     }
-
-
   }
 
   @override
@@ -594,178 +580,6 @@ class _OrderStadiumState extends State<OrderStadium> {
         body: isLoading
             ? CircularProgressIndicator()
             : Stack(
-          children: [
-            Positioned(
-              left: 0,
-              right: 0,
-              child: Container(
-                width: double.maxFinite,
-                height: 380,
-                decoration: BoxDecoration(
-                  image: DecorationImage(
-                    image: NetworkImage(infoStadium.images!.isEmpty
-                        ? "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/18/97/5a/2d/discovering-the-state.jpg?w=1200&h=-1&s=1"
-                        : "http://${AppConfig.IP}:50000/api/File/image/${infoStadium.images![0]}"),
-                    fit: BoxFit.cover,
-                  ),
-                ),
-              ),
-            ),
-            Positioned(
-              right: 25,
-              top: 44,
-              left: 25,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  TextButton(
-                    onPressed: () {
-                      Get.back();
-                    },
-                    child: Container(
-                      height: 40,
-                      width: 36,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(8),
-                        color: Colors.white,
-                      ),
-                      child: const Center(
-                        child: Icon(
-                          size: 18,
-                          Icons.keyboard_arrow_left_rounded,
-                          color: Colors.black,
-                        ),
-                      ),
-                    ),
-                  ),
-                  Text(
-                    infoStadium.name!,
-                    style: const TextStyle(
-                      fontSize: 25,
-                      color: Color.fromARGB(255, 255, 255, 255),
-                      fontFamily: 'RobotoMono',
-                    ),
-                  ),
-                  SizedBox(
-                    width: 45,
-                  )
-                ],
-              ),
-            ),
-            Positioned(
-              left: 0,
-              right: 0,
-              top: 380 - 110,
-              bottom: 0,
-              // bottom: 100,
-              child: SingleChildScrollView(
-                scrollDirection: Axis.vertical,
-                child: Container(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Text(
-                        "Chọn ngày",
-                        style: TextStyle(
-                          fontSize: 25,
-                          color: Color.fromARGB(255, 0, 0, 0),
-                          fontFamily: 'RobotoMono',
-                        ),
-                      ),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      _choseDate(),
-                      SizedBox(
-                        height: 50,
-                      ),
-                      Text(
-                        "Chọn khung giờ",
-                        style: TextStyle(
-                          fontSize: 25,
-                          color: Color.fromARGB(255, 0, 0, 0),
-                          fontFamily: 'RobotoMono',
-                        ),
-                      ),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      Center(
-                        child: _choseTime(),
-                      ),
-                      SizedBox(
-                        height: 30,
-                      ),
-                      Center(
-                        child: _buttonOrder(),
-                      ),
-                    ],
-                  ),
-                  padding: EdgeInsets.only(left: 25, right: 25, top: 37),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(26),
-                    color: Colors.white,
-                  ),
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-      return FutureBuilder(
-      future: api.getListOrderUser(DateFormat('dd/MM/yyyy').format(_selectedDate).toString(),name),
-      builder: (context, snapshot) {
-        if(snapshot.hasData){
-          mWidget = [];
-          mWidget.add(itemTime("07:00", "08:30", true));
-          mWidget.add(itemTime("08:30", "10:00", true));
-          mWidget.add(itemTime("10:00", "11:30", true));
-          mWidget.add(itemTime("12:00", "13:30", true));
-          mWidget.add(itemTime("13:30", "15:00", true));
-          mWidget.add(itemTime("15:00", "16:30", true));
-          mWidget.add(itemTime("16:30", "18:00", true));
-          mWidget.add(itemTime("18:00", "19:30", true));
-          mWidget.add(itemTime("19:30", "21:00", true));
-          mWidget.add(itemTime("21:00", "22:30", true));
-          for(int i =0 ; i< snapshot.data!.length; i++){
-            if(snapshot.data![i].time!.compareTo("07:00") == 0){
-              mWidget.removeAt(0);
-            }
-            else if(snapshot.data![i].time!.compareTo("08:30") == 0){
-              mWidget.removeAt(1);
-            }
-            else if(snapshot.data![i].time!.compareTo("10:00") == 0){
-              mWidget.removeAt(2);
-            }
-            else if(snapshot.data![i].time!.compareTo("12:00") == 0){
-              mWidget.removeAt(3);
-            }
-            else if(snapshot.data![i].time!.compareTo("13:30") == 0){
-              mWidget.removeAt(4);
-            }
-            else if(snapshot.data![i].time!.compareTo("15:00") == 0){
-              mWidget.removeAt(5);
-            }
-            else if(snapshot.data![i].time!.compareTo("16:30") == 0){
-              mWidget.removeAt(6);
-            }
-            else if(snapshot.data![i].time!.compareTo("18:00") == 0){
-              mWidget.removeAt(7);
-            }
-            else if(snapshot.data![i].time!.compareTo("19:30") == 0){
-              mWidget.removeAt(8);
-            }
-            else {
-              mWidget.removeAt(9);
-            }
-          }
-          return SafeArea(
-            child: Scaffold(
-              body: isLoading
-                  ? CircularProgressIndicator()
-                  : Stack(
                 children: [
                   Positioned(
                     left: 0,
@@ -801,7 +615,7 @@ class _OrderStadiumState extends State<OrderStadium> {
                               borderRadius: BorderRadius.circular(8),
                               color: Colors.white,
                             ),
-                            child: Center(
+                            child: const Center(
                               child: Icon(
                                 size: 18,
                                 Icons.keyboard_arrow_left_rounded,
@@ -812,7 +626,7 @@ class _OrderStadiumState extends State<OrderStadium> {
                         ),
                         Text(
                           infoStadium.name!,
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontSize: 25,
                             color: Color.fromARGB(255, 255, 255, 255),
                             fontFamily: 'RobotoMono',
@@ -884,15 +698,178 @@ class _OrderStadiumState extends State<OrderStadium> {
                   ),
                 ],
               ),
-            ),
-          );
-        }
-        else{
-          return CircularProgressIndicator();
-        }
-      }
+      ),
     );
-
+    return FutureBuilder(
+        future: api.getListOrderUser(
+            DateFormat('dd/MM/yyyy').format(_selectedDate).toString(), name),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            mWidget = [];
+            mWidget.add(itemTime("07:00", "08:30", true));
+            mWidget.add(itemTime("08:30", "10:00", true));
+            mWidget.add(itemTime("10:00", "11:30", true));
+            mWidget.add(itemTime("12:00", "13:30", true));
+            mWidget.add(itemTime("13:30", "15:00", true));
+            mWidget.add(itemTime("15:00", "16:30", true));
+            mWidget.add(itemTime("16:30", "18:00", true));
+            mWidget.add(itemTime("18:00", "19:30", true));
+            mWidget.add(itemTime("19:30", "21:00", true));
+            mWidget.add(itemTime("21:00", "22:30", true));
+            for (int i = 0; i < snapshot.data!.length; i++) {
+              if (snapshot.data![i].time!.compareTo("07:00") == 0) {
+                mWidget.removeAt(0);
+              } else if (snapshot.data![i].time!.compareTo("08:30") == 0) {
+                mWidget.removeAt(1);
+              } else if (snapshot.data![i].time!.compareTo("10:00") == 0) {
+                mWidget.removeAt(2);
+              } else if (snapshot.data![i].time!.compareTo("12:00") == 0) {
+                mWidget.removeAt(3);
+              } else if (snapshot.data![i].time!.compareTo("13:30") == 0) {
+                mWidget.removeAt(4);
+              } else if (snapshot.data![i].time!.compareTo("15:00") == 0) {
+                mWidget.removeAt(5);
+              } else if (snapshot.data![i].time!.compareTo("16:30") == 0) {
+                mWidget.removeAt(6);
+              } else if (snapshot.data![i].time!.compareTo("18:00") == 0) {
+                mWidget.removeAt(7);
+              } else if (snapshot.data![i].time!.compareTo("19:30") == 0) {
+                mWidget.removeAt(8);
+              } else {
+                mWidget.removeAt(9);
+              }
+            }
+            return SafeArea(
+              child: Scaffold(
+                body: isLoading
+                    ? CircularProgressIndicator()
+                    : Stack(
+                        children: [
+                          Positioned(
+                            left: 0,
+                            right: 0,
+                            child: Container(
+                              width: double.maxFinite,
+                              height: 380,
+                              decoration: BoxDecoration(
+                                image: DecorationImage(
+                                  image: NetworkImage(infoStadium
+                                          .images!.isEmpty
+                                      ? "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/18/97/5a/2d/discovering-the-state.jpg?w=1200&h=-1&s=1"
+                                      : "http://${AppConfig.IP}:50000/api/File/image/${infoStadium.images![0]}"),
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                            ),
+                          ),
+                          Positioned(
+                            right: 25,
+                            top: 44,
+                            left: 25,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                TextButton(
+                                  onPressed: () {
+                                    Get.back();
+                                  },
+                                  child: Container(
+                                    height: 40,
+                                    width: 36,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(8),
+                                      color: Colors.white,
+                                    ),
+                                    child: Center(
+                                      child: Icon(
+                                        size: 18,
+                                        Icons.keyboard_arrow_left_rounded,
+                                        color: Colors.black,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                Text(
+                                  infoStadium.name!,
+                                  style: TextStyle(
+                                    fontSize: 25,
+                                    color: Color.fromARGB(255, 255, 255, 255),
+                                    fontFamily: 'RobotoMono',
+                                  ),
+                                ),
+                                SizedBox(
+                                  width: 45,
+                                )
+                              ],
+                            ),
+                          ),
+                          Positioned(
+                            left: 0,
+                            right: 0,
+                            top: 380 - 110,
+                            bottom: 0,
+                            // bottom: 100,
+                            child: SingleChildScrollView(
+                              scrollDirection: Axis.vertical,
+                              child: Container(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      "Chọn ngày",
+                                      style: TextStyle(
+                                        fontSize: 25,
+                                        color: Color.fromARGB(255, 0, 0, 0),
+                                        fontFamily: 'RobotoMono',
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      height: 20,
+                                    ),
+                                    _choseDate(),
+                                    SizedBox(
+                                      height: 50,
+                                    ),
+                                    Text(
+                                      "Chọn khung giờ",
+                                      style: TextStyle(
+                                        fontSize: 25,
+                                        color: Color.fromARGB(255, 0, 0, 0),
+                                        fontFamily: 'RobotoMono',
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      height: 20,
+                                    ),
+                                    Center(
+                                      child: _choseTime(),
+                                    ),
+                                    SizedBox(
+                                      height: 30,
+                                    ),
+                                    Center(
+                                      child: _buttonOrder(),
+                                    ),
+                                  ],
+                                ),
+                                padding: EdgeInsets.only(
+                                    left: 25, right: 25, top: 37),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(26),
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+              ),
+            );
+          } else {
+            return CircularProgressIndicator();
+          }
+        });
   }
 
   _choseDate() {
@@ -907,7 +884,6 @@ class _OrderStadiumState extends State<OrderStadium> {
           _selectedDate = date;
           setState(() {
             checkHour = false;
-
           });
           print(DateFormat('dd/MM/yyyy').format(_selectedDate));
         },
@@ -980,198 +956,178 @@ class _OrderStadiumState extends State<OrderStadium> {
               itemPadding: const EdgeInsets.all(15.0),
               itemBorderRadius: const BorderRadius.all(Radius.circular(5.0)),
               itemsCount: 10, //mWidget.length, // should be <= items.length
-              items:  //mWidget,
-              [
-                  FutureBuilder(
-                  future:
-                  api.getListOrderUser(DateFormat('dd/MM/yyyy').format(_selectedDate).toString(),name),
+              items: //mWidget,
+                  [
+                FutureBuilder(
+                  future: api.getListOrderUser(
+                      DateFormat('dd/MM/yyyy').format(_selectedDate).toString(),
+                      name),
                   builder: (context, snapshot) {
                     if (snapshot.hasData) {
-                      for (int i = 0;
-                      i < snapshot.data!.length;
-                      i++) {
-                        if (snapshot.data![i].time ==
-                            "07:00") {
-                          return itemTime("07:00","08:30",false);
+                      for (int i = 0; i < snapshot.data!.length; i++) {
+                        if (snapshot.data![i].time == "07:00") {
+                          return itemTime("07:00", "08:30", false);
                         }
                       }
-                      return itemTime("07:00","08:30",true);
+                      return itemTime("07:00", "08:30", true);
                     } else {
                       return CircularProgressIndicator();
                     }
                   },
                 ),
-                  FutureBuilder(
-                    future:
-                    api.getListOrderUser(DateFormat('dd/MM/yyyy').format(_selectedDate).toString(),name),
-                    builder: (context, snapshot) {
-                      if (snapshot.hasData) {
-                        for (int i = 0;
-                        i < snapshot.data!.length;
-                        i++) {
-                          if (snapshot.data![i].time ==
-                              "08:30") {
-                            return itemTime("08:30","10:00",false);
-                          }
+                FutureBuilder(
+                  future: api.getListOrderUser(
+                      DateFormat('dd/MM/yyyy').format(_selectedDate).toString(),
+                      name),
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      for (int i = 0; i < snapshot.data!.length; i++) {
+                        if (snapshot.data![i].time == "08:30") {
+                          return itemTime("08:30", "10:00", false);
                         }
-                        return itemTime("08:30","10:00",true);
-                      } else {
-                        return CircularProgressIndicator();
                       }
-                    },
-                  ),
-                  FutureBuilder(
-                    future:
-                    api.getListOrderUser(DateFormat('dd/MM/yyyy').format(_selectedDate).toString(),name),
-                    builder: (context, snapshot) {
-                      if (snapshot.hasData) {
-                        for (int i = 0;
-                        i < snapshot.data!.length;
-                        i++) {
-                          if (snapshot.data![i].time ==
-                              "10:00") {
-                            return itemTime("10:00","11:30",false);
-                          }
+                      return itemTime("08:30", "10:00", true);
+                    } else {
+                      return CircularProgressIndicator();
+                    }
+                  },
+                ),
+                FutureBuilder(
+                  future: api.getListOrderUser(
+                      DateFormat('dd/MM/yyyy').format(_selectedDate).toString(),
+                      name),
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      for (int i = 0; i < snapshot.data!.length; i++) {
+                        if (snapshot.data![i].time == "10:00") {
+                          return itemTime("10:00", "11:30", false);
                         }
-                        return itemTime("10:00","11:30",true);
-                      } else {
-                        return CircularProgressIndicator();
                       }
-                    },
-                  ),
-                  FutureBuilder(
-                    future:
-                    api.getListOrderUser(DateFormat('dd/MM/yyyy').format(_selectedDate).toString(),name),
-                    builder: (context, snapshot) {
-                      if (snapshot.hasData) {
-                        for (int i = 0;
-                        i < snapshot.data!.length;
-                        i++) {
-                          if (snapshot.data![i].time ==
-                              "12:00") {
-                            return itemTime("12:00","13:30",false);
-                          }
+                      return itemTime("10:00", "11:30", true);
+                    } else {
+                      return CircularProgressIndicator();
+                    }
+                  },
+                ),
+                FutureBuilder(
+                  future: api.getListOrderUser(
+                      DateFormat('dd/MM/yyyy').format(_selectedDate).toString(),
+                      name),
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      for (int i = 0; i < snapshot.data!.length; i++) {
+                        if (snapshot.data![i].time == "12:00") {
+                          return itemTime("12:00", "13:30", false);
                         }
-                        return itemTime("12:00","13:30",true);
-                      } else {
-                        return CircularProgressIndicator();
                       }
-                    },
-                  ),
-                  FutureBuilder(
-                    future:
-                    api.getListOrderUser(DateFormat('dd/MM/yyyy').format(_selectedDate).toString(),name),
-                    builder: (context, snapshot) {
-                      if (snapshot.hasData) {
-                        for (int i = 0;
-                        i < snapshot.data!.length;
-                        i++) {
-                          if (snapshot.data![i].time ==
-                              "13:30") {
-                            return itemTime("13:30","15:00",false);
-                          }
+                      return itemTime("12:00", "13:30", true);
+                    } else {
+                      return CircularProgressIndicator();
+                    }
+                  },
+                ),
+                FutureBuilder(
+                  future: api.getListOrderUser(
+                      DateFormat('dd/MM/yyyy').format(_selectedDate).toString(),
+                      name),
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      for (int i = 0; i < snapshot.data!.length; i++) {
+                        if (snapshot.data![i].time == "13:30") {
+                          return itemTime("13:30", "15:00", false);
                         }
-                        return itemTime("13:30","15:00",true);
-                      } else {
-                        return CircularProgressIndicator();
                       }
-                    },
-                  ),
-                  FutureBuilder(
-                    future:
-                    api.getListOrderUser(DateFormat('dd/MM/yyyy').format(_selectedDate).toString(),name),
-                    builder: (context, snapshot) {
-                      if (snapshot.hasData) {
-                        for (int i = 0;
-                        i < snapshot.data!.length;
-                        i++) {
-                          if (snapshot.data![i].time ==
-                              "15:00") {
-                            return itemTime("15:00","16:30",false);
-                          }
+                      return itemTime("13:30", "15:00", true);
+                    } else {
+                      return CircularProgressIndicator();
+                    }
+                  },
+                ),
+                FutureBuilder(
+                  future: api.getListOrderUser(
+                      DateFormat('dd/MM/yyyy').format(_selectedDate).toString(),
+                      name),
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      for (int i = 0; i < snapshot.data!.length; i++) {
+                        if (snapshot.data![i].time == "15:00") {
+                          return itemTime("15:00", "16:30", false);
                         }
-                        return itemTime("15:00","16:30",true);
-                      } else {
-                        return CircularProgressIndicator();
                       }
-                    },
-                  ),
-                  FutureBuilder(
-                    future:
-                    api.getListOrderUser(DateFormat('dd/MM/yyyy').format(_selectedDate).toString(),name),
-                    builder: (context, snapshot) {
-                      if (snapshot.hasData) {
-                        for (int i = 0;
-                        i < snapshot.data!.length;
-                        i++) {
-                          if (snapshot.data![i].time ==
-                              "16:30") {
-                            return itemTime("16:30","18:00",false);
-                          }
+                      return itemTime("15:00", "16:30", true);
+                    } else {
+                      return CircularProgressIndicator();
+                    }
+                  },
+                ),
+                FutureBuilder(
+                  future: api.getListOrderUser(
+                      DateFormat('dd/MM/yyyy').format(_selectedDate).toString(),
+                      name),
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      for (int i = 0; i < snapshot.data!.length; i++) {
+                        if (snapshot.data![i].time == "16:30") {
+                          return itemTime("16:30", "18:00", false);
                         }
-                        return itemTime("16:30","18:00",true);
-                      } else {
-                        return CircularProgressIndicator();
                       }
-                    },
-                  ),
-                  FutureBuilder(
-                    future:
-                    api.getListOrderUser(DateFormat('dd/MM/yyyy').format(_selectedDate).toString(),name),
-                    builder: (context, snapshot) {
-                      if (snapshot.hasData) {
-                        for (int i = 0;
-                        i < snapshot.data!.length;
-                        i++) {
-                          if (snapshot.data![i].time ==
-                              "18:00") {
-                            return itemTime("18:00","19:30",false);
-                          }
+                      return itemTime("16:30", "18:00", true);
+                    } else {
+                      return CircularProgressIndicator();
+                    }
+                  },
+                ),
+                FutureBuilder(
+                  future: api.getListOrderUser(
+                      DateFormat('dd/MM/yyyy').format(_selectedDate).toString(),
+                      name),
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      for (int i = 0; i < snapshot.data!.length; i++) {
+                        if (snapshot.data![i].time == "18:00") {
+                          return itemTime("18:00", "19:30", false);
                         }
-                        return itemTime("18:00","19:30",true);
-                      } else {
-                        return CircularProgressIndicator();
                       }
-                    },
-                  ),
-                  FutureBuilder(
-                    future:
-                    api.getListOrderUser(DateFormat('dd/MM/yyyy').format(_selectedDate).toString(),name),
-                    builder: (context, snapshot) {
-                      if (snapshot.hasData) {
-                        for (int i = 0;
-                        i < snapshot.data!.length;
-                        i++) {
-                          if (snapshot.data![i].time ==
-                              "19:30") {
-                            return itemTime("19:30","21:00",false);
-                          }
+                      return itemTime("18:00", "19:30", true);
+                    } else {
+                      return CircularProgressIndicator();
+                    }
+                  },
+                ),
+                FutureBuilder(
+                  future: api.getListOrderUser(
+                      DateFormat('dd/MM/yyyy').format(_selectedDate).toString(),
+                      name),
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      for (int i = 0; i < snapshot.data!.length; i++) {
+                        if (snapshot.data![i].time == "19:30") {
+                          return itemTime("19:30", "21:00", false);
                         }
-                        return itemTime("19:30","21:00",true);
-                      } else {
-                        return CircularProgressIndicator();
                       }
-                    },
-                  ),
-                  FutureBuilder(
-                    future:
-                    api.getListOrderUser(DateFormat('dd/MM/yyyy').format(_selectedDate).toString(),name),
-                    builder: (context, snapshot) {
-                      if (snapshot.hasData) {
-                        for (int i = 0;
-                        i < snapshot.data!.length;
-                        i++) {
-                          if (snapshot.data![i].time ==
-                              "21:00") {
-                            return itemTime("21:00","22:30",false);
-                          }
+                      return itemTime("19:30", "21:00", true);
+                    } else {
+                      return CircularProgressIndicator();
+                    }
+                  },
+                ),
+                FutureBuilder(
+                  future: api.getListOrderUser(
+                      DateFormat('dd/MM/yyyy').format(_selectedDate).toString(),
+                      name),
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      for (int i = 0; i < snapshot.data!.length; i++) {
+                        if (snapshot.data![i].time == "21:00") {
+                          return itemTime("21:00", "22:30", false);
                         }
-                        return itemTime("21:00","22:30",true);
-                      } else {
-                        return CircularProgressIndicator();
                       }
-                    },
-                  ),
+                      return itemTime("21:00", "22:30", true);
+                    } else {
+                      return CircularProgressIndicator();
+                    }
+                  },
+                ),
               ], // any arbitrary widget list
               onSelected: (index) {
                 if (index == 0) {
@@ -1179,7 +1135,6 @@ class _OrderStadiumState extends State<OrderStadium> {
                     timeStart = "07:00";
                     timeEnd = "08:30";
                     checkHour = true;
-
                   });
                   String code = _selectedDate.day.toString() +
                       _selectedDate.month.toString() +
