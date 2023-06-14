@@ -8,14 +8,13 @@ import '../../api/api.dart';
 import '../../config/app_config.dart';
 import '../../model/team_model/team_model.dart';
 import '../../model/weather_model/weather_model.dart';
-import '../order_screen/dialog_payment.dart';
 import '../user_screen/manager_team/manager_team_screen.dart';
 import 'dialog_report.dart';
 
 class InfoTeam extends StatefulWidget {
   final String name;
   final String time;
-  InfoTeam({Key? key, required this.name, required this.time})
+  const InfoTeam({Key? key, required this.name, required this.time})
       : super(key: key);
   @override
   _InfoTeamState createState() => _InfoTeamState();
@@ -54,7 +53,7 @@ class _InfoTeamState extends State<InfoTeam> {
             .add(const Duration(hours: 7))
             .toUtc();
         dateTime = timestamp.millisecondsSinceEpoch ~/ 1000;
-        print(dateTime);
+        //print(dateTime);
       }
     });
     stadiums = await api.getListStadiumTime(widget.time);
@@ -158,7 +157,7 @@ class _InfoTeamState extends State<InfoTeam> {
                                 borderRadius: BorderRadius.circular(8),
                                 color: Colors.white,
                               ),
-                              child: Center(
+                              child: const Center(
                                 child: Icon(
                                   size: 18,
                                   Icons.keyboard_arrow_left_rounded,
@@ -169,7 +168,7 @@ class _InfoTeamState extends State<InfoTeam> {
                           ),
                           Text(
                             snapshot.data!.name!,
-                            style: TextStyle(
+                            style: const TextStyle(
                               fontSize: 25,
                               color: Color.fromARGB(255, 255, 255, 255),
                               fontFamily: 'RobotoMono',
@@ -185,7 +184,7 @@ class _InfoTeamState extends State<InfoTeam> {
                                           );
                                         })
                                   },
-                              icon: Icon(
+                              icon: const Icon(
                                 Icons.warning_amber_outlined,
                                 color: Colors.redAccent,
                                 size: 30,
@@ -202,6 +201,12 @@ class _InfoTeamState extends State<InfoTeam> {
                       child: SingleChildScrollView(
                         scrollDirection: Axis.vertical,
                         child: Container(
+                          padding:
+                          const EdgeInsets.only(left: 25, right: 25, top: 37),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(26),
+                            color: Colors.white,
+                          ),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             mainAxisAlignment: MainAxisAlignment.start,
@@ -217,29 +222,29 @@ class _InfoTeamState extends State<InfoTeam> {
                                     children: [
                                       Text(
                                         snapshot.data!.name!,
-                                        style: TextStyle(
+                                        style: const TextStyle(
                                           fontSize: 20,
                                           color: Color.fromARGB(255, 0, 0, 0),
                                           fontFamily: 'RobotoMono',
                                         ),
                                       ),
-                                      SizedBox(
+                                      const SizedBox(
                                         height: 8,
                                       ),
                                       Row(
                                         children: [
-                                          Icon(
+                                          const Icon(
                                             Icons.location_on,
                                             color: Color.fromARGB(
                                                 255, 28, 159, 226),
                                             size: 20,
                                           ),
-                                          SizedBox(
+                                          const SizedBox(
                                             width: 4,
                                           ),
                                           Text(
                                             snapshot.data!.address!,
-                                            style: TextStyle(
+                                            style: const TextStyle(
                                               fontSize: 18,
                                               color: Color.fromARGB(
                                                   255, 28, 159, 226),
@@ -250,34 +255,31 @@ class _InfoTeamState extends State<InfoTeam> {
                                       )
                                     ],
                                   ),
-                                  Container(
-                                    // width: 20.w,
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          snapshot.data!.quality.toString(),
-                                        ),
-                                        SizedBox(
-                                          width: 4,
-                                        ),
-                                        Text(
-                                          " người",
-                                          // style: AppTextStyle.smallText.copyWith(
-                                          //   color: AppColor.secondTextColor,
-                                          //   fontSize: 12,
-                                          // ),
-                                        ),
-                                      ],
-                                    ),
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        snapshot.data!.quality.toString(),
+                                      ),
+                                      const SizedBox(
+                                        width: 4,
+                                      ),
+                                      const Text(
+                                        " người",
+                                        // style: AppTextStyle.smallText.copyWith(
+                                        //   color: AppColor.secondTextColor,
+                                        //   fontSize: 12,
+                                        // ),
+                                      ),
+                                    ],
                                   )
                                 ],
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 height: 18,
                               ),
-                              Text(
+                              const Text(
                                 "Miêu tả",
                                 style: TextStyle(
                                     fontSize: 20, fontWeight: FontWeight.bold),
@@ -285,7 +287,7 @@ class _InfoTeamState extends State<InfoTeam> {
                               Text(
                                 snapshot.data!.des!,
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 height: 20,
                               ),
                               Row(
@@ -294,24 +296,24 @@ class _InfoTeamState extends State<InfoTeam> {
                                 children: [
                                   Text(
                                     "Độ uy tín: ${snapshot.data!.reputation}",
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                         fontSize: 20,
                                         fontWeight: FontWeight.bold),
                                   ),
                                   Text(
                                     "Trình độ: ${snapshot.data!.level}",
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                         fontSize: 20,
                                         fontWeight: FontWeight.bold),
                                   ),
                                 ],
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 height: 22,
                               ),
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
+                                children: const [
                                   Text(
                                     "Ảnh",
                                     // style: AppTextStyle.defaultHeaderOne,
@@ -337,16 +339,16 @@ class _InfoTeamState extends State<InfoTeam> {
                                   ],
                                 ),
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 height: 20,
                               ),
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  SizedBox(
+                                children: const [
+                                   SizedBox(
                                     height: 20,
                                   ),
-                                  Text(
+                                   Text(
                                     "Thành viên đội",
                                     // style: AppTextStyle.defaultHeaderOne,
                                   ),
@@ -376,10 +378,10 @@ class _InfoTeamState extends State<InfoTeam> {
                                         ],
                                       );
                                     } else {
-                                      return CircularProgressIndicator();
+                                      return const CircularProgressIndicator();
                                     }
                                   }),
-                              SizedBox(
+                              const SizedBox(
                                 height: 100,
                               ),
                               FutureBuilder(
@@ -395,7 +397,7 @@ class _InfoTeamState extends State<InfoTeam> {
                                           height: 48,
                                           width: 325,
                                           decoration: BoxDecoration(
-                                            color: Color.fromARGB(
+                                            color: const Color.fromARGB(
                                                 255, 28, 159, 226),
                                             borderRadius:
                                                 BorderRadius.circular(8),
@@ -412,7 +414,7 @@ class _InfoTeamState extends State<InfoTeam> {
                                                           AlertDialog(
                                                     title: const Text(
                                                         'Xác nhận tham gia vào đội'),
-                                                    content: Text(
+                                                    content: const Text(
                                                         'Bạn có muốn tham gia vào đội'),
                                                     actions: <Widget>[
                                                       TextButton(
@@ -461,7 +463,7 @@ class _InfoTeamState extends State<InfoTeam> {
                                                   ),
                                                 );
                                               },
-                                              child: Center(
+                                              child: const Center(
                                                 child: Text(
                                                   "Tham gia",
                                                   style: TextStyle(
@@ -477,15 +479,9 @@ class _InfoTeamState extends State<InfoTeam> {
                                         ),
                                       );
                                     }
-                                    return CircularProgressIndicator();
+                                    return const CircularProgressIndicator();
                                   })
                             ],
-                          ),
-                          padding:
-                              EdgeInsets.only(left: 25, right: 25, top: 37),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(26),
-                            color: Colors.white,
                           ),
                         ),
                       ),
@@ -495,7 +491,7 @@ class _InfoTeamState extends State<InfoTeam> {
                         ? AnimatedPositioned(
                             left: _xPosition,
                             top: _yPosition,
-                            duration: Duration(milliseconds: 100),
+                            duration: const Duration(milliseconds: 100),
                             child: GestureDetector(
                               onTap: () {
                                 setState(() {
@@ -515,7 +511,7 @@ class _InfoTeamState extends State<InfoTeam> {
                                   Container(
                                     width: 100,
                                     height: 100,
-                                    decoration: BoxDecoration(
+                                    decoration: const BoxDecoration(
                                       image: DecorationImage(
                                         image: AssetImage(
                                             'assets/images/chatbot.png'),
@@ -549,10 +545,10 @@ class _InfoTeamState extends State<InfoTeam> {
                                                   child: Text(
                                                     snapshot.data!.prediction! ==
                                                                 "yes" &&
-                                                            stadiums.length > 0
-                                                        ? "Hãy thi đấu với đội bóng này đi vì ${dateString} trời ${txtOutlook} và nhiệt độ tại sân là ${weather.temperature}°C - độ tin cậy ${(double.parse(snapshot.data!.accuracy!) * 100).toStringAsFixed(2)}% - Có các sân trống sau: ${stadiums}"
-                                                        : "Không nên thi đấu với đội bóng này vì ${dateString} trời ${txtOutlook} và nhiệt độ tại sân là ${weather.temperature}°C - độ tin cậy ${(double.parse(snapshot.data!.accuracy!) * 100).toStringAsFixed(2)}%",
-                                                    style: TextStyle(
+                                                            stadiums.isNotEmpty
+                                                        ? "Hãy thi đấu với đội bóng này đi vì $dateString trời $txtOutlook và nhiệt độ tại sân là ${weather.temperature}°C - độ tin cậy ${(double.parse(snapshot.data!.accuracy!) * 100).toStringAsFixed(2)}% - Có các sân trống sau: $stadiums"
+                                                        : "Không nên thi đấu với đội bóng này vì $dateString trời $txtOutlook và nhiệt độ tại sân là ${weather.temperature}°C - độ tin cậy ${(double.parse(snapshot.data!.accuracy!) * 100).toStringAsFixed(2)}%",
+                                                    style: const TextStyle(
                                                         color: Colors.black,
                                                         fontSize: 17.0),
                                                   ),
@@ -569,7 +565,7 @@ class _InfoTeamState extends State<InfoTeam> {
                                                       check = false;
                                                     });
                                                   },
-                                                  child: Icon(
+                                                  child: const Icon(
                                                     size: 25,
                                                     Icons.close,
                                                     color: Colors.black,
@@ -579,14 +575,14 @@ class _InfoTeamState extends State<InfoTeam> {
                                             ]),
                                           );
                                         } else {
-                                          return CircularProgressIndicator();
+                                          return const CircularProgressIndicator();
                                         }
                                       })
                                 ],
                               ),
                             ),
                           )
-                        : Positioned(
+                        : const Positioned(
                             left: 0,
                             right: 0,
                             child: SizedBox(),
@@ -597,7 +593,7 @@ class _InfoTeamState extends State<InfoTeam> {
               ),
             );
           } else {
-            return CircularProgressIndicator();
+            return const CircularProgressIndicator();
           }
         });
   }

@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:untitled/api/api.dart';
@@ -47,7 +46,7 @@ class _TTDPageState extends State<TTDPage> {
 
   bool isLoading = false;
   loadingData() async {
-    stadiums = [];
+    recomments = [];
     setState(() {
       isLoading = true;
     });
@@ -134,7 +133,7 @@ class _TTDPageState extends State<TTDPage> {
     return Scaffold(
       backgroundColor: mainGrey,
       appBar: AppBar(
-        iconTheme: IconThemeData(
+        iconTheme: const IconThemeData(
           color: Colors.black87,
         ),
         elevation: 0.0,
@@ -146,7 +145,7 @@ class _TTDPageState extends State<TTDPage> {
           ),
         ),
         actions: [
-          Container(
+          SizedBox(
             width: 100,
             height: 70,
             child: Image.asset("assets/images/LOGO_QDN.png"),
@@ -162,7 +161,7 @@ class _TTDPageState extends State<TTDPage> {
             bottom: 0,
             child: SingleChildScrollView(
               child: Padding(
-                padding: EdgeInsets.all(8.0),
+                padding: const EdgeInsets.all(8.0),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -189,7 +188,7 @@ class _TTDPageState extends State<TTDPage> {
                                               ? "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQrT9QfTWesZk1IklGxsaH7hioyMTC7oLyTYg&usqp=CAU"
                                               : "http://${AppConfig.IP}:50000/api/File/image/${snapshot.data!.avatar!}"));
                                     } else {
-                                      return CircularProgressIndicator();
+                                      return const CircularProgressIndicator();
                                     }
                                   }),
                               const SizedBox(
@@ -202,23 +201,23 @@ class _TTDPageState extends State<TTDPage> {
                                       MaterialStateProperty.all<Color>(
                                           Colors.blue),
                                   minimumSize:
-                                      MaterialStateProperty.all(Size(150, 50)),
+                                      MaterialStateProperty.all(const Size(150, 50)),
                                   shape: MaterialStateProperty.all<
                                       RoundedRectangleBorder>(
                                     RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(30),
                                       side:
-                                          BorderSide(color: Colors.transparent),
+                                      const BorderSide(color: Colors.transparent),
                                     ),
                                   ),
                                 ),
                                 onPressed: () {
                                   Navigator.push(context,
                                       MaterialPageRoute(builder: (context) {
-                                    return new createTTD();
+                                    return const createTTD();
                                   }));
                                 },
-                                child: Text(
+                                child: const Text(
                                   'Tạo yêu cầu tìm trận đấu',
                                   textAlign: TextAlign.left,
                                   style: TextStyle(
@@ -227,7 +226,7 @@ class _TTDPageState extends State<TTDPage> {
                                 ),
                               )),
                             ]),
-                            SizedBox(
+                            const SizedBox(
                               height: 5.0,
                             ),
                             /*Divider(
@@ -254,7 +253,7 @@ class _TTDPageState extends State<TTDPage> {
                                       "Tìm kiếm theo ngày tháng năm (dd-MM-yyyy),tên sân, tên đội",
                                   hintText: "Tất cả",
                                   suffixIcon: IconButton(
-                                    icon: Icon(Icons.search),
+                                    icon: const Icon(Icons.search),
                                     onPressed: () {
                                       setState(() {
                                         text = code.text;
@@ -262,7 +261,7 @@ class _TTDPageState extends State<TTDPage> {
                                       });
                                     },
                                   ),
-                                  border: OutlineInputBorder(
+                                  border: const OutlineInputBorder(
                                       borderRadius: BorderRadius.all(
                                           Radius.circular(25.0)))),
                             ),
@@ -270,7 +269,7 @@ class _TTDPageState extends State<TTDPage> {
                         ),
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 10.0,
                     ),
                     Column(children: [
@@ -295,7 +294,7 @@ class _TTDPageState extends State<TTDPage> {
           AnimatedPositioned(
             left: _xPosition,
             top: _yPosition,
-            duration: Duration(milliseconds: 100),
+            duration: const Duration(milliseconds: 100),
             child: GestureDetector(
               onTap: () {
                 setState(() {
@@ -315,7 +314,7 @@ class _TTDPageState extends State<TTDPage> {
                   Container(
                     width: 100,
                     height: 100,
-                    decoration: BoxDecoration(
+                    decoration: const BoxDecoration(
                       image: DecorationImage(
                         image: AssetImage('assets/images/chatbot.png'),
                         fit: BoxFit.cover,
@@ -331,7 +330,7 @@ class _TTDPageState extends State<TTDPage> {
                         decoration: BoxDecoration(
                           color: Colors.blueGrey[50], // set background color
                           borderRadius:
-                              BorderRadius.circular(5.0), // set border radius
+                          BorderRadius.circular(5.0), // set border radius
                         ),
                         child: Padding(
                             padding: const EdgeInsets.all(8.0),
@@ -339,11 +338,11 @@ class _TTDPageState extends State<TTDPage> {
                               scrollDirection: Axis.vertical,
                               child: Column(
                                 children: [
-                                  Text(
+                                  const Text(
                                     "Danh sách các đội nên đá",
                                     style: TextStyle(fontSize: 18),
                                   ),
-                                  SizedBox(
+                                  const SizedBox(
                                     height: 20,
                                   ),
                                   for (int i = 0; i < recomments.length; i++)
@@ -369,7 +368,7 @@ class _TTDPageState extends State<TTDPage> {
                               check1 = false;
                             });
                           },
-                          child: Icon(
+                          child: const Icon(
                             size: 25,
                             Icons.close,
                             color: Colors.black,
@@ -390,7 +389,7 @@ class _TTDPageState extends State<TTDPage> {
   Widget feedBox(BuildContext context, String userName, String des, String time,
       String createTime, String code, String team, String stadium) {
     return Container(
-      margin: EdgeInsets.only(bottom: 10.0),
+      margin: const EdgeInsets.only(bottom: 10.0),
       width: double.infinity,
       decoration: BoxDecoration(
         /*border: Border(bottom: BorderSide(
@@ -401,7 +400,7 @@ class _TTDPageState extends State<TTDPage> {
         color: kBackgroundColor,
       ),
       child: Padding(
-        padding: EdgeInsets.all(8.0),
+        padding: const EdgeInsets.all(8.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -416,35 +415,35 @@ class _TTDPageState extends State<TTDPage> {
                 ),
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 10,
             ),
             Text(
               des,
-              style: TextStyle(color: Colors.black, fontSize: 20),
+              style: const TextStyle(color: Colors.black, fontSize: 20),
             ),
-            SizedBox(
+            const SizedBox(
               height: 10,
             ),
             Text(
-              "Tại sân bóng:" + stadium,
-              style: TextStyle(color: Colors.black, fontSize: 16.0),
+              "Tại sân bóng:$stadium",
+              style: const TextStyle(color: Colors.black, fontSize: 16.0),
             ),
-            SizedBox(
+            const SizedBox(
               height: 10,
             ),
             Text(
-              "Thời gian có thể đá:" + time,
-              style: TextStyle(color: Colors.black, fontSize: 16.0),
+              "Thời gian có thể đá:$time",
+              style: const TextStyle(color: Colors.black, fontSize: 16.0),
             ),
-            SizedBox(
+            const SizedBox(
               height: 20,
             ),
             Padding(
               padding: const EdgeInsets.only(left: 235),
               child: Text(
                 createTime,
-                style: TextStyle(color: Colors.blueAccent, fontSize: 16.0),
+                style: const TextStyle(color: Colors.blueAccent, fontSize: 16.0),
               ),
             ),
             divider(0.5),
@@ -465,9 +464,9 @@ class _TTDPageState extends State<TTDPage> {
   Widget recommentBox(BuildContext context, String userName, String time,
       String code, String team, String stadium) {
     return Container(
-      margin: EdgeInsets.only(bottom: 10.0),
+      margin: const EdgeInsets.only(bottom: 10.0),
       width: double.infinity,
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         /*border: Border(bottom: BorderSide(
         color: Colors.black,
         width: 1
@@ -476,7 +475,7 @@ class _TTDPageState extends State<TTDPage> {
         color: kBackgroundColor,
       ),
       child: Padding(
-        padding: EdgeInsets.all(8.0),
+        padding: const EdgeInsets.all(8.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -491,32 +490,32 @@ class _TTDPageState extends State<TTDPage> {
                 ),
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 10,
             ),
             Text(
               team,
-              style: TextStyle(color: Colors.black, fontSize: 20),
+              style: const TextStyle(color: Colors.black, fontSize: 20),
             ),
-            SizedBox(
+            const SizedBox(
               height: 10,
             ),
             Text(
-              "Tại sân bóng:" + stadium,
-              style: TextStyle(color: Colors.black, fontSize: 16.0),
+              "Tại sân bóng:$stadium",
+              style: const TextStyle(color: Colors.black, fontSize: 16.0),
             ),
-            SizedBox(
+            const SizedBox(
               height: 10,
             ),
             Text(
-              "Thời gian có thể đá:" + time,
-              style: TextStyle(color: Colors.black, fontSize: 16.0),
+              "Thời gian có thể đá:$time",
+              style: const TextStyle(color: Colors.black, fontSize: 16.0),
             ),
-            SizedBox(
+            const SizedBox(
               height: 20,
             ),
             Padding(
-              padding: const EdgeInsets.only(left: 200),
+              padding: const EdgeInsets.only(left: 150),
               child:  actionButton(
                   context, Icons.group, "Xem đội", Colors.blue, team, time),
             ),
